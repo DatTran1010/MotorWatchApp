@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, Text, Image} from 'react-native';
-import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
+import React, { useState } from "react";
+import { StyleSheet, View, Text, Image } from "react-native";
+import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import {
   Drawer,
   TouchableRipple,
@@ -8,43 +8,44 @@ import {
   Avatar,
   Title,
   Caption,
-} from 'react-native-paper';
+} from "react-native-paper";
 
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Ionicons from "react-native-vector-icons/Ionicons";
 
-import colors from '../../Common/colors';
+import colors from "../../Common/colors";
 
-const DrawerContent = props => {
+const DrawerContent = (props) => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const hanldeDarkTheme = () => {
     setIsDarkTheme(!isDarkTheme);
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       {/* <DrawerContentScrollView {...props}>
             </DrawerContentScrollView> */}
 
       <DrawerContentScrollView {...props}>
         {/* <DrawerItemList {...props} /> */}
         <Image
-          source={require('../../../assets/Logo.png')}
-          style={{width: '100%', height: 100}}
+          source={require("../../../assets/Logo.png")}
+          style={{ width: "100%", height: 100 }}
         />
         <View style={styles.drawerContent}>
           <View style={styles.userInfoSelection}>
             <View
               style={{
-                flexDirection: 'row',
+                flexDirection: "row",
                 marginTop: 15,
-              }}>
+              }}
+            >
               <Avatar.Image
                 source={{
-                  uri: 'https://farm5.static.flickr.com/4029/35667852906_6ffb006961.jpg',
+                  uri: "https://farm5.static.flickr.com/4029/35667852906_6ffb006961.jpg",
                 }}
                 size={50}
               />
-              <View style={{marginLeft: 5}}>
+              <View style={{ marginLeft: 5 }}>
                 <Title style={styles.title}>Tấn Đạt</Title>
                 <Caption style={styles.caption}>@vietsoft</Caption>
               </View>
@@ -58,12 +59,12 @@ const DrawerContent = props => {
                 name="home-outline"
                 size={25}
                 color={colors.primary}
-                style={{marginRight: -10}}
+                style={{ marginRight: -10 }}
               />
             )}
-            label="My Ecomaint"
+            label="My MotorWatch"
             onPress={() => {
-              props.navigation.navigate('Home');
+              props.navigation.navigate("Home");
             }}
           />
           <DrawerItem
@@ -72,7 +73,7 @@ const DrawerContent = props => {
                 name="move-outline"
                 size={25}
                 color={colors.primary}
-                style={{marginRight: -10}}
+                style={{ marginRight: -10 }}
               />
             )}
             label="Di chyển thiết bị"
@@ -83,7 +84,7 @@ const DrawerContent = props => {
                 name="receipt-outline"
                 size={25}
                 color={colors.primary}
-                style={{marginRight: -10}}
+                style={{ marginRight: -10 }}
               />
             )}
             label="Nghiệm thu phiếu bảo trì"
@@ -94,7 +95,7 @@ const DrawerContent = props => {
                 name="timer-outline"
                 size={25}
                 color={colors.primary}
-                style={{marginRight: -10}}
+                style={{ marginRight: -10 }}
               />
             )}
             label="Lịch sử phiếu bảo trì"
@@ -105,7 +106,7 @@ const DrawerContent = props => {
                 name="git-pull-request-outline"
                 size={25}
                 color={colors.primary}
-                style={{marginRight: -10}}
+                style={{ marginRight: -10 }}
               />
             )}
             label="Theo dõi yêu cầu bảo trì"
@@ -116,7 +117,7 @@ const DrawerContent = props => {
                 name="construct-outline"
                 size={25}
                 color={colors.primary}
-                style={{marginRight: -10}}
+                style={{ marginRight: -10 }}
               />
             )}
             label="Dashboard"
@@ -129,8 +130,9 @@ const DrawerContent = props => {
                 style={{
                   fontSize: 14,
                   color: colors.textColor,
-                  fontWeight: 'bold',
-                }}>
+                  fontWeight: "bold",
+                }}
+              >
                 Dark Theme
               </Text>
               <Switch color={colors.primary} value={isDarkTheme} />
@@ -145,12 +147,12 @@ const DrawerContent = props => {
               name="exit-outline"
               size={25}
               color={colors.primary}
-              style={{marginRight: 15}}
+              style={{ marginRight: 15 }}
             />
           )}
           label="Sing Out"
           onPress={() => {
-            props.navigation.navigate('Login');
+            props.navigation.navigate("Login");
           }}
         />
       </Drawer.Section>
@@ -171,7 +173,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 14,
     marginTop: 3,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   caption: {
     fontSize: 14,
@@ -179,32 +181,32 @@ const styles = StyleSheet.create({
   },
   row: {
     marginTop: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   selection: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginRight: 15,
   },
   paragraph: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginRight: 3,
   },
   drawerSelection: {
     marginBottom: 15,
-    borderTopColor: '#f4f4f4',
+    borderTopColor: "#f4f4f4",
     borderTopWidth: 1,
   },
   bottomDrawerSelection: {
     marginBottom: 15,
-    borderTopColor: '#f4f4f4',
+    borderTopColor: "#f4f4f4",
     borderTopWidth: 1,
   },
   preference: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingVertical: 12,
     paddingHorizontal: 16,
   },
