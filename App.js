@@ -13,72 +13,90 @@ import ConTextProvider from "./src/ConText/MainContext";
 import ModalUser from "./src/Common/ModalUser";
 import Overlay from "./src/Common/Overlay";
 import store from "./src/Redux/store";
+import DetailsConsumtion from "./src/UI/Home/TieuHao/DetailsConsumtion";
+import DetailsEngineState from "./src/UI/Home/EngineState/DetailsEngineState";
+import DetailsOEE from "./src/UI/Home/OEE/DetailsOEE";
 
 export default function App() {
-    const Stack = createStackNavigator();
-    const Drawer = createDrawerNavigator();
+  const Stack = createStackNavigator();
+  const Drawer = createDrawerNavigator();
 
-    //Draw chung cho tất cả
-    const DrawerNavigator = () => {
-        return (
-            <Drawer.Navigator drawerContent={(props) => DrawerContent(props)}>
-                <Stack.Screen
-                    name="Home"
-                    component={StackNavigator}
-                    options={{
-                        title: "Home",
-                        headerShown: false,
-                        drawerIcon: true,
-                    }}
-                />
-            </Drawer.Navigator>
-        );
-    };
-
-    function StackNavigator() {
-        return (
-            <Stack.Navigator defaultScreenOptions={Home}>
-                <Stack.Screen
-                    name="Home"
-                    component={Home}
-                    options={{ headerShown: true, title: "My Ecomaint" }}
-                />
-            </Stack.Navigator>
-        );
-    }
+  //Draw chung cho tất cả
+  const DrawerNavigator = () => {
     return (
-        <Provider store={store}>
-            <ConTextProvider>
-                <View
-                    style={{
-                        flex: 1,
-                    }}
-                    // onStartShouldSetResponder={() => {
-                    //     Keyboard.dismiss();
-                    // }}
-                >
-                    <NavigationContainer>
-                        <Stack.Navigator defaultScreenOptions={Home}>
-                            <Stack.Screen
-                                name="Login"
-                                component={Login}
-                                options={{
-                                    headerShown: false,
-                                    title: "Login",
-                                }}
-                            />
-                            <Stack.Screen
-                                name="Home"
-                                component={DrawerNavigator}
-                                options={{ headerShown: false }}
-                            />
-                        </Stack.Navigator>
-                    </NavigationContainer>
-                    <ModalUser />
-                    <Overlay />
-                    <Toast />
-                </View>
-            </ConTextProvider>
-        </Provider>
+      <Drawer.Navigator drawerContent={(props) => DrawerContent(props)}>
+        <Stack.Screen
+          name="Home"
+          component={StackNavigator}
+          options={{
+            title: "Home",
+            headerShown: false,
+            drawerIcon: true,
+          }}
+        />
+      </Drawer.Navigator>
     );
+  };
+
+  function StackNavigator() {
+    return (
+      <Stack.Navigator defaultScreenOptions={Home}>
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{ headerShown: true, title: "My Ecomaint" }}
+        />
+      </Stack.Navigator>
+    );
+  }
+  return (
+    <Provider store={store}>
+      <ConTextProvider>
+        <View
+          style={{
+            flex: 1,
+          }}
+          // onStartShouldSetResponder={() => {
+          //     Keyboard.dismiss();
+          // }}
+        >
+          <NavigationContainer>
+            <Stack.Navigator defaultScreenOptions={Home}>
+              <Stack.Screen
+                name="Login"
+                component={Login}
+                options={{
+                  headerShown: false,
+                  title: "Login",
+                }}
+              />
+              <Stack.Screen
+                name="Home"
+                component={DrawerNavigator}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="DetailsConsumtion"
+                component={DetailsConsumtion}
+                options={{ headerShown: true }}
+              />
+              <Stack.Screen
+                name="DetailsEngineState"
+                component={DetailsEngineState}
+                options={{ headerShown: true }}
+              />
+              <Stack.Screen
+                name="DetailsOEE"
+                component={DetailsOEE}
+                options={{ headerShown: true }}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+          <ModalUser />
+          <Overlay />
+          <Toast />
+        </View>
+      </ConTextProvider>
+    </Provider>
+  );
 }

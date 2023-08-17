@@ -9,7 +9,6 @@ import React, { useMemo, useRef, useCallback } from "react";
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetModalProvider,
-  BottomSheetFlatList,
 } from "@gorhom/bottom-sheet";
 
 import colors from "../../Common/colors";
@@ -26,45 +25,35 @@ const MyMotorWatch = ({ navigation }) => {
   const bottomSheetRef = useRef(BottomSheet);
 
   // variables
-  const snapPoints = useMemo(() => ["7%", "50%", "75%"], []);
+  const snapPoints = useMemo(() => ["10%", "50%", "75%"], []);
 
   // callbacks
   const handleSheetChanges = useCallback((index) => {
-    // console.log("handleSheetChanges", index);
+    console.log("handleSheetChanges", index);
   }, []);
 
-  const CustomHandleComponent = () => {
-    return (
-      <TouchableOpacity
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-          height: 40,
-        }}
-        activeOpacity={0.7}
-        onPress={() => {
-          bottomSheetRef.current.snapToIndex(2);
-        }}
-      >
-        <View
-          style={{
-            backgroundColor: colors.blackArbg,
-            width: 30,
-            height: 5,
-            borderRadius: 5,
-          }}
-        ></View>
-      </TouchableOpacity>
-    );
-  };
+  // const CustomHandleComponent = () => {
+  //   return (
+  //     <TouchableOpacity
+  //       style={{
+  //         backgroundColor: "blue",
+  //         alignItems: "center",
+  //         justifyContent: "center",
+  //         height: 40,
+  //       }}
+  //     >
+  //       <Text style={{ color: "white" }}>Drag Here</Text>
+  //     </TouchableOpacity>
+  //   );
+  // };
 
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
         <ScrollView style={styles.container}>
           <Consumption navigation={navigation} />
-          <EngineState navigation={navigation} />
-          <OEEMain navigation={navigation} />
+          <EngineState />
+          <OEEMain />
         </ScrollView>
         <BottomSheetModalProvider>
           <BottomSheet
@@ -73,12 +62,11 @@ const MyMotorWatch = ({ navigation }) => {
             snapPoints={snapPoints}
             onChange={handleSheetChanges}
             backdropComponent={BottomSheetBackdrop}
-            handleComponent={CustomHandleComponent}
+            // handleComponent={CustomHandleComponent}
             // enablePanDownToClose={true}
             onClose={() => {
               bottomSheetRef.current.snapToIndex(0);
             }}
-            enableContentPanningGesture={false}
           >
             <View
               style={{

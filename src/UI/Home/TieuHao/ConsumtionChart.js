@@ -1,13 +1,14 @@
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import React, { useState, memo } from "react";
 import {
-    VictoryChart,
-    VictoryBar,
-    VictoryTheme,
-    VictoryLegend,
-    VictoryGroup,
-    VictoryContainer,
-    VictoryAxis,
+  VictoryChart,
+  VictoryBar,
+  VictoryTheme,
+  VictoryLegend,
+  VictoryGroup,
+  VictoryContainer,
+  VictoryAxis,
+  VictoryZoomContainer,
 } from "victory-native";
 
 import { Svg } from "react-native-svg";
@@ -15,72 +16,90 @@ import colors from "../../../Common/colors";
 import { windowHeight, windowWidth } from "../../../Common/dimentions";
 
 const ConsumtionChart = ({ data }) => {
-    console.log("rerender-Chart");
+  const [focusedBar, setFocusedBar] = useState(null);
+  return (
+    <View style={{ flex: 1 }}>
+      <VictoryChart
+        theme={VictoryTheme.material}
+        domainPadding={20}
+        width={windowWidth + 10} // Tùy chỉnh chiều rộng của biểu đồ
+        height={windowHeight / 2} // Tùy chỉnh chiều cao của biểu đồ
+        // containerComponent={
+        //   <VictoryZoomContainer
+        //     responsive={false}
+        //     allowZoom={false}
+        //     zoomDomain={{ x: [0, 7] }}
+        //     allowPan
+        //     zoomDimension="x"
+        //   />
+        // }
+        style={{
+          parent: { ...styles.shadowContainer },
+        }}
+      >
+        <VictoryAxis></VictoryAxis>
+        <VictoryAxis
+          dependentAxis
+          label={"Kwh"}
+          style={{
+            axisLabel: {
+              padding: 30,
+            },
+          }}
+        ></VictoryAxis>
+        <VictoryGroup
+          offset={15}
+          style={{
+            data: { stroke: "rgba(0,0,0,0.5)", strokeWidth: 1 },
+          }}
+        >
+          <VictoryBar
+            data={data}
+            x="date"
+            y="tonG_TH"
+            animate={{ duration: 2000, easing: "bounce" }}
+            style={{
+              data: {
+                width: 20,
+                fill: data[0].colorTONG_TH,
+              },
+            }}
 
-    const labels = data.map((item) => item.date);
-    const maleData = data.map((item) => ({ x: item.date, y: item.male }));
-    const femaleData = data.map((item) => ({ x: item.date, y: item.female }));
+            //   labels={({ datum }) => `${datum.y}`}
+          />
+          <VictoryBar
+            data={data}
+            x="date"
+            y="tonG_CX"
+            animate={{ duration: 2000, easing: "bounce" }}
+            style={{
+              data: {
+                width: 20,
+                fill: data[0].colorTONG_CX,
+              },
+            }}
+            events={[
+              {
+                target: "data",
+                eventHandlers: {
+                  onPress: () => {
+                    alert(123);
+                  },
+                },
+              },
+            ]}
 
-    const [focusedBar, setFocusedBar] = useState(null);
-
-    return (
-        <View style={{ flex: 1 }}>
-            <VictoryChart
-                theme={VictoryTheme.material}
-                domainPadding={20}
-                width={windowWidth + 10} // Tùy chỉnh chiều rộng của biểu đồ
-                height={windowHeight / 2} // Tùy chỉnh chiều cao của biểu đồ
-                containerComponent={<Svg />}
-            >
-                <VictoryAxis></VictoryAxis>
-                <VictoryAxis
-                    dependentAxis
-                    label={"Kwh"}
-                    style={{
-                        axisLabel: {
-                            padding: 30,
-                        },
-                    }}
-                ></VictoryAxis>
-                <VictoryGroup offset={20}>
-                    <VictoryBar
-                        animate
-                        data={maleData}
-                        style={{
-                            data: {
-                                width: 20,
-                                fill: "blue",
-                            },
-                        }}
-
-                        //   labels={({ datum }) => `${datum.y}`}
-                    />
-                    <VictoryBar
-                        animate
-                        data={femaleData}
-                        style={{
-                            data: {
-                                width: 20,
-                                fill: colors.primary,
-                            },
-                        }}
-                        events={[
-                            {
-                                target: "data",
-                                eventHandlers: {
-                                    onPress: () => {
-                                        alert(123);
-                                    },
-                                },
-                            },
-                        ]}
-
-                        //   labels={({ datum }) => `${datum.y}`}
-                    />
-                </VictoryGroup>
-            </VictoryChart>
-        </View>
-    );
+            //   labels={({ datum }) => `${datum.y}`}
+          />
+        </VictoryGroup>
+      </VictoryChart>
+    </View>
+  );
 };
 
-export default memo(ConsumtionChart);
+// export default memo(ConsumtionChart);
+export default ConsumtionChart;
+
+const styles = StyleSheet.create({
+  shadowContainer: {},
+});

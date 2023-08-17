@@ -1,9 +1,9 @@
-import {View, Text, StyleSheet} from 'react-native';
-import React, {useState} from 'react';
-import {Dropdown} from 'react-native-element-dropdown';
+import { View, Text, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { Dropdown, MultiSelect } from "react-native-element-dropdown";
 
-import colors from '../Common/colors';
-import {windowHeight} from '../Common/dimentions';
+import colors from "../Common/colors";
+import { windowHeight } from "../Common/dimentions";
 
 const DropDown = ({
   data,
@@ -11,15 +11,16 @@ const DropDown = ({
   labelField,
   handleValue,
   valueField,
+  multiselected = false,
   ...props
 }) => {
   const [focus, setFocus] = useState(false);
-  const [value, setValue] = useState('-1');
+  const [value, setValue] = useState("-1");
 
   const renderLabel = () => {
-    if (value != '' || focus) {
+    if (value != "" || focus) {
       return (
-        <Text style={[styles.label, focus && {color: colors.primary}]}>
+        <Text style={[styles.label, focus && { color: colors.primary }]}>
           {placeholder}
         </Text>
       );
@@ -27,63 +28,78 @@ const DropDown = ({
     return null;
   };
 
+  const renderItem = (item, index) => {
+    return (
+      <View style={styles.item}>
+        <Text
+          style={[
+            styles.textItem,
+            { color: item[valueField] % 2 === 1 ? "red" : "blue" },
+          ]}
+        >
+          {item[labelField]}
+        </Text>
+      </View>
+    );
+  };
+
+  const [selected, setSelected] = useState([]);
+
   return (
-    // <View style={{ flex: 1 }}>
-    //     {renderLabel()}
-    //     <Dropdown
-    //         style={[
-    //             styles.dropdownStyle,
-    //             {
-    //                 borderColor: focus ? colors.primary : colors.border,
-    //                 borderWidth: 1,
-    //                 backgroundColor: colors.white,
-    //             },
-    //         ]}
-    //         data={data}
-    //         placeholderStyle={styles.placeholderDropDown}
-    //         selectedTextStyle={styles.selectedDropDown}
-    //         inputSearchStyle={styles.inputSearchStyle}
-    //         iconStyle={styles.iconDropDownStyle}
-    //         search
-    //         maxHeight={300}
-    //         labelField={labelField}
-    //         valueField={valueField}
-    //         placeholder={placeholder}
-    //         searchPlaceholder="Search..."
-    //         value={"-1"}
-    //         onFocus={() => {
-    //             setFocus(true);
-    //         }}
-    //         onBlur={() => {
-    //             setFocus(false);
-    //         }}
-    //         onChange={() => {}}
-    //     />
-    // </View>
     <View style={styles.container}>
       {renderLabel()}
-      <Dropdown
-        style={[
-          styles.dropdown,
-          {borderColor: focus ? colors.primary : colors.border},
-        ]}
-        placeholderStyle={styles.placeholderStyle}
-        selectedTextStyle={styles.selectedTextStyle}
-        inputSearchStyle={styles.inputSearchStyle}
-        iconStyle={styles.iconStyle}
-        data={data}
-        search
-        maxHeight={300}
-        labelField={labelField}
-        valueField={valueField}
-        placeholder={!focus && placeholder}
-        searchPlaceholder="Search..."
-        value={value}
-        onFocus={() => setFocus(true)}
-        onBlur={() => setFocus(false)}
-        onChange={item => handleValue(item)}
-        {...props}
-      />
+      {!multiselected ? (
+        <Dropdown
+          style={[
+            styles.dropdown,
+            { borderColor: focus ? colors.primary : colors.border },
+          ]}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          iconStyle={styles.iconStyle}
+          data={data}
+          search
+          maxHeight={300}
+          labelField={labelField}
+          valueField={valueField}
+          placeholder={!focus && placeholder}
+          searchPlaceholder="Search..."
+          value={value}
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
+          onChange={(item, index) => handleValue(item)}
+          renderItem={renderItem}
+          {...props}
+        />
+      ) : (
+        <MultiSelect
+          style={[
+            styles.dropdown,
+            { borderColor: focus ? colors.primary : colors.border },
+          ]}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          iconStyle={styles.iconStyle}
+          data={data}
+          search
+          maxHeight={300}
+          labelField={labelField}
+          valueField={valueField}
+          placeholder={""}
+          searchPlaceholder="Search..."
+          value={selected}
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
+          onChange={(item) => {
+            setSelected(item);
+          }}
+          renderItem={renderItem}
+          selectedStyle={{ borderRadius: 12 }}
+          {...props}
+        />
+      )}
     </View>
   );
 };
@@ -124,8 +140,8 @@ const styles = StyleSheet.create({
     height: windowHeight / 18,
     borderRadius: 5,
     borderWidth: 1,
-    shadowColor: 'gray',
-    shadowOffset: {width: 0, height: 2},
+    shadowColor: "gray",
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.85,
     elevation: 5,
@@ -135,18 +151,16 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   label: {
-    position: 'absolute',
+    position: "absolute",
     backgroundColor: colors.backgroundColor,
     left: 10,
     top: -8,
     zIndex: 999,
     paddingHorizontal: 8,
     fontSize: 14,
-    color: colors.black,
   },
   placeholderStyle: {
     fontSize: 16,
-    color: colors.black,
   },
   selectedTextStyle: {
     fontSize: 16,
@@ -157,6 +171,16 @@ const styles = StyleSheet.create({
   },
   inputSearchStyle: {
     height: 40,
+    fontSize: 16,
+  },
+  item: {
+    padding: 17,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  textItem: {
+    flex: 1,
     fontSize: 16,
   },
 });

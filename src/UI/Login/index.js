@@ -107,8 +107,8 @@ const Login = ({ navigation }) => {
           <View style={styles.textLoginView}>
             <Image
               style={{
-                width: windowWidth,
-                height: windowHeight / 4,
+                width: windowWidth / 1.3,
+                height: windowHeight / 8,
               }}
               source={require("../../../assets/LogoMotorWatch.jpg")}
             />

@@ -1,40 +1,27 @@
 import {
   View,
   Text,
-  ScrollView,
   StyleSheet,
   TouchableOpacity,
-  Platform,
-  Animated,
   LayoutAnimation,
 } from "react-native";
-import React, { useEffect, useRef, useState, useCallback } from "react";
-import {
-  VictoryChart,
-  VictoryBar,
-  VictoryTheme,
-  VictoryLegend,
-  VictoryGroup,
-  VictoryContainer,
-} from "victory-native";
-import { Svg } from "react-native-svg";
-import { Calendar } from "react-native-calendars";
-import moment from "moment";
+import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
+import moment from "moment";
 
 import colors from "../../../Common/colors";
 import { windowHeight, windowWidth } from "../../../Common/dimentions";
 import IconButton from "../../../components/IconButton";
-import ConsumtionChart from "./ConsumtionChart";
+import OEEChart from "./OEEChart";
 import CalendarComponent from "../../../components/CalendarComponent";
 import callApi from "../../../ConText/api";
-const Consumption = ({ navigation }) => {
+
+const OEEMain = ({ navigation }) => {
+  const dispatch = useDispatch();
+
   //#region  State
 
   const [data, setData] = useState([{}]);
-
-  const dispatch = useDispatch();
-
   const [showCalendar, setShowCalendar] = useState(false);
   const [dateToFrom, setDateToFrom] = useState({
     startDate: moment(new Date()).format("YYYY-MM-DD"),
@@ -42,28 +29,8 @@ const Consumption = ({ navigation }) => {
   });
 
   //#endregion
-  //#region  callAPI
 
-  const getData = async () => {
-    const endpoint = "/api/motorwatch/bieudo1";
-    const method = "GET";
-    const params = {
-      dTngay: dateToFrom.startDate,
-      dDngay: dateToFrom.endDate,
-    };
-
-    const response = await callApi(
-      dispatch,
-      endpoint,
-      method,
-      null,
-      "",
-      params
-    );
-    setData(response.data);
-  };
-  //#endregion
-
+  //#region  xử lý handle Calendar
   const handleShowCaledar = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
@@ -80,11 +47,37 @@ const Consumption = ({ navigation }) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setShowCalendar(false);
   };
+  //#endregion
+
+  //#region  get data
+
+  const getData = async () => {
+    const endpoint = "/api/motorwatch/bieudo3";
+    const method = "GET";
+    const params = {
+      dTngay: dateToFrom.startDate,
+      dDngay: dateToFrom.endDate,
+    };
+
+    const response = await callApi(
+      dispatch,
+      endpoint,
+      method,
+      null,
+      "",
+      params
+    );
+    setData(response.data);
+  };
 
   useEffect(() => {
     getData();
   }, [dateToFrom]);
 
+  const handleDetails = () => {
+    navigation.navigate("DetailsOEE");
+  };
+  //#endregion
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <View
@@ -103,14 +96,12 @@ const Consumption = ({ navigation }) => {
         }}
       >
         <View style={styles.titleChart}>
-          <Text style={styles.textTitle}>Tiêu hao năng lượng</Text>
+          <Text style={styles.textTitle}>Chỉ số OEE</Text>
           <IconButton
             size={30}
             nameicon="document-text-outline"
             border={false}
-            onPress={() => {
-              navigation.navigate("DetailsConsumtion");
-            }}
+            onPress={handleDetails}
           />
         </View>
         <View style={styles.fillControl}>
@@ -128,8 +119,10 @@ const Consumption = ({ navigation }) => {
             />
           )}
         </View>
-        {data && data.some((item) => Object.keys(item).length > 0) && (
-          <ConsumtionChart data={data} />
+        {data && data.some((item) => Object.keys(item).length > 0) ? (
+          <OEEChart data={data} />
+        ) : (
+          <></>
         )}
 
         {data && data.some((item) => Object.keys(item).length > 0) && (
@@ -138,24 +131,30 @@ const Consumption = ({ navigation }) => {
               <View
                 style={[
                   styles.iconLegend,
-                  {
-                    backgroundColor: data[0].colorTONG_TH,
-                  },
+                  { backgroundColor: data[0].colorDAT },
                 ]}
               ></View>
-              <Text style={styles.textLegend}>Tổng tiêu hao điện năng</Text>
+              <Text style={styles.textLegend}>OEE đạt</Text>
             </View>
 
             <View style={styles.legendContent}>
               <View
                 style={[
                   styles.iconLegend,
-                  {
-                    backgroundColor: data[0].colorTONG_CX,
-                  },
+                  { backgroundColor: data[0].colorKHONG_DAT },
                 ]}
               ></View>
-              <Text style={styles.textLegend}>Tổng công xuất</Text>
+              <Text style={styles.textLegend}>OEE chưa đạt</Text>
+            </View>
+
+            <View style={styles.legendContent}>
+              <View
+                style={[
+                  styles.iconLegend,
+                  { backgroundColor: data[0].colorKHONG_HD },
+                ]}
+              ></View>
+              <Text style={styles.textLegend}>Không hoạt động</Text>
             </View>
           </View>
         )}
@@ -164,7 +163,7 @@ const Consumption = ({ navigation }) => {
   );
 };
 
-export default Consumption;
+export default OEEMain;
 
 const styles = StyleSheet.create({
   container: {
@@ -183,6 +182,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+  textLegend: {
+    color: colors.black,
+    fontSize: 12,
+    fontWeight: "400",
+    marginHorizontal: 5,
+  },
   iconLegend: {
     width: 20,
     height: 20,
@@ -191,12 +196,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 1,
     elevation: 5,
-  },
-  textLegend: {
-    color: colors.black,
-    fontSize: 12,
-    fontWeight: "400",
-    marginHorizontal: 5,
   },
 
   titleChart: {
