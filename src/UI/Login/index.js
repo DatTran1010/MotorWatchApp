@@ -36,44 +36,51 @@ const Login = ({ navigation }) => {
   const { token, setToken } = useContext(MainConText);
   const [checkSavePassword, setCheckSavePassword] = useState(0);
 
+  const [tokenDevies, setTokenDevies] = useState("");
+
   const handleCheckedSavePassword = () => {
     setCheckSavePassword(!checkSavePassword);
   };
 
   const dispatch = useDispatch();
 
+  const getTokenDevices = async () => {
+    const newTokenDevies = await getToken();
+    setTokenDevies(newTokenDevies);
+  };
+
   const handleLogin = async () => {
-    // const endpoint = "/api/account/login";
-    // const method = "POST";
-    // const data = {
-    //     employeeCode: "0003",
-    //     password: "123456",
-    //     token: "string",
-    // };
-    // const response = await callApi(dispatch, endpoint, method, data);
-    // try {
-    //     if (response && response.data.statusCode == 200) {
-    //         setToken(response.data.responseData.token);
-    //         navigation.navigate("Home");
-    //         Toast.show({
-    //             type: "success",
-    //             text1: "Thông báo",
-    //             text2: "Đăng nhập thành công",
-    //         });
-    //     } else {
-    //         Toast.show({
-    //             type: "success",
-    //             text1: "Thông báo",
-    //             text2: "Đăng nhập không thành công",
-    //         });
-    //     }
-    // } catch {
-    //     Toast.show({
-    //         type: "error",
-    //         text1: "Thông báo",
-    //         text2: "Đăng nhập không thành công",
-    //     });
-    // }
+    const endpoint = "/api/account/login";
+    const method = "POST";
+    const data = {
+      employeeCode: "admin",
+      password: "123",
+      token: tokenDevies,
+    };
+    const response = await callApi(dispatch, endpoint, method, data);
+    try {
+      if (response && response.data.statusCode == 200) {
+        setToken(response.data.responseData.token);
+        navigation.navigate("Home");
+        Toast.show({
+          type: "success",
+          text1: "Thông báo",
+          text2: "Đăng nhập thành công",
+        });
+      } else {
+        Toast.show({
+          type: "success",
+          text1: "Thông báo",
+          text2: "Đăng nhập không thành công",
+        });
+      }
+    } catch {
+      Toast.show({
+        type: "error",
+        text1: "Thông báo",
+        text2: "Đăng nhập không thành công",
+      });
+    }
 
     navigation.navigate("Home");
   };
@@ -89,7 +96,7 @@ const Login = ({ navigation }) => {
   useEffect(() => {
     requestUserPermission();
     notificationListenr();
-    getToken();
+    getTokenDevices();
   }, []);
 
   return (

@@ -1,4 +1,4 @@
-import messaging from '@react-native-firebase/messaging';
+import messaging from "@react-native-firebase/messaging";
 
 export async function requestUserPermission() {
   const authStatus = await messaging().requestPermission();
@@ -7,28 +7,28 @@ export async function requestUserPermission() {
     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
   if (enabled) {
-    console.log('Authorization status:', authStatus);
+    console.log("Authorization status:", authStatus);
   }
 }
 
 export const notificationListenr = () => {
   // Assume a message-notification contains a "type" property in the data payload of the screen to open
 
-  messaging().onNotificationOpenedApp(remoteMessage => {
+  messaging().onNotificationOpenedApp((remoteMessage) => {
     console.log(
-      'Notification caused app to open from background state:',
-      remoteMessage.notification,
+      "Notification caused app to open from background state:",
+      remoteMessage.notification
     );
   });
 
   // Check whether an initial notification is available
   messaging()
     .getInitialNotification()
-    .then(remoteMessage => {
+    .then((remoteMessage) => {
       if (remoteMessage) {
         console.log(
-          'Notification caused app to open from quit state:',
-          remoteMessage.notification,
+          "Notification caused app to open from quit state:",
+          remoteMessage.notification
         );
       }
     });
@@ -37,7 +37,8 @@ export const notificationListenr = () => {
 export const getToken = async () => {
   await messaging().registerDeviceForRemoteMessages();
   const token = await messaging().getToken();
-  console.log('=====================================');
-  console.log(token);
-  console.log('=====================================');
+  // console.log("=====================================");
+  // console.log(token);
+  // console.log("=====================================");
+  return token;
 };
