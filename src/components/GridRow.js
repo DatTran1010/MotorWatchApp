@@ -9,8 +9,9 @@ import React from "react";
 import { windowHeight } from "../Common/dimentions";
 import colors from "../Common/colors";
 
-const GridRow = ({ data, index, columnRemove }) => {
+const GridRow = ({ data, index, columnRemove = "" }) => {
   //xóa cột nào đó trên lưới (trong data ví dụ cột id)
+
   const filteredColumns = Object.keys(data).filter((key) => !columnRemove[key]);
 
   // console.log(filteredColumns);

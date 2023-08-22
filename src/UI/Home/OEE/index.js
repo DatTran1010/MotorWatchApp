@@ -16,7 +16,7 @@ import OEEChart from "./OEEChart";
 import CalendarComponent from "../../../components/CalendarComponent";
 import callApi from "../../../ConText/api";
 
-const OEEMain = ({ navigation }) => {
+const OEEMain = ({ navigation, selectedID_DC }) => {
   const dispatch = useDispatch();
 
   //#region  State
@@ -57,6 +57,7 @@ const OEEMain = ({ navigation }) => {
     const params = {
       dTngay: dateToFrom.startDate,
       dDngay: dateToFrom.endDate,
+      sdk: selectedID_DC,
     };
 
     const response = await callApi(
@@ -72,10 +73,13 @@ const OEEMain = ({ navigation }) => {
 
   useEffect(() => {
     getData();
-  }, [dateToFrom]);
+  }, [dateToFrom, selectedID_DC]);
 
   const handleDetails = () => {
-    navigation.navigate("DetailsOEE");
+    navigation.navigate("DetailsOEE", {
+      name: "DetailsOEE",
+      listID_DC: selectedID_DC,
+    });
   };
   //#endregion
   return (

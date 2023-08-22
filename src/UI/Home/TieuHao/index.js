@@ -1,34 +1,21 @@
 import {
   View,
   Text,
-  ScrollView,
   StyleSheet,
   TouchableOpacity,
-  Platform,
-  Animated,
   LayoutAnimation,
 } from "react-native";
-import React, { useEffect, useRef, useState, useCallback } from "react";
-import {
-  VictoryChart,
-  VictoryBar,
-  VictoryTheme,
-  VictoryLegend,
-  VictoryGroup,
-  VictoryContainer,
-} from "victory-native";
-import { Svg } from "react-native-svg";
-import { Calendar } from "react-native-calendars";
+import React, { useEffect, useRef, useState, useCallback, memo } from "react";
+
 import moment from "moment";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import colors from "../../../Common/colors";
-import { windowHeight, windowWidth } from "../../../Common/dimentions";
 import IconButton from "../../../components/IconButton";
 import ConsumtionChart from "./ConsumtionChart";
 import CalendarComponent from "../../../components/CalendarComponent";
 import callApi from "../../../ConText/api";
-const Consumption = ({ navigation }) => {
+const Consumption = ({ navigation, selectedID_DC }) => {
   //#region  State
 
   const [data, setData] = useState([{}]);
@@ -50,6 +37,7 @@ const Consumption = ({ navigation }) => {
     const params = {
       dTngay: dateToFrom.startDate,
       dDngay: dateToFrom.endDate,
+      sdk: selectedID_DC,
     };
 
     const response = await callApi(
@@ -60,6 +48,7 @@ const Consumption = ({ navigation }) => {
       "",
       params
     );
+
     setData(response.data);
   };
   //#endregion
@@ -83,7 +72,7 @@ const Consumption = ({ navigation }) => {
 
   useEffect(() => {
     getData();
-  }, [dateToFrom]);
+  }, [dateToFrom, selectedID_DC]);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -164,7 +153,7 @@ const Consumption = ({ navigation }) => {
   );
 };
 
-export default Consumption;
+export default memo(Consumption);
 
 const styles = StyleSheet.create({
   container: {

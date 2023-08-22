@@ -8,20 +8,58 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect, memo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import HeaderApp from "./HeaderApp";
 import TabBottom from "./TabBottom";
+import TreeListNhaMay from "../TreeNhaMay";
+import colors from "../../Common/colors";
+import IconButton from "../../components/IconButton";
+import IconShowTreeList from "../../components/IconShowTreeList";
+import callApi from "../../ConText/api";
+
 const Home = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const getDataTreeNM = async () => {
+    const endpoint = "/api/motorwatch/treeNhaMay";
+    const method = "GET";
+    const params = {
+      UserName: "admin",
+    };
+
+    const response = await callApi(
+      dispatch,
+      endpoint,
+      method,
+      null,
+      "",
+      params
+    );
+
+    if (response.status === 200) {
+      dispatch({ type: "SET_DATA_TREE", payload: response.data });
+    }
+  };
+
+  useEffect(() => {
+    getDataTreeNM();
+  }, []);
+
   const [modalVisible, setModalVisible] = useState(false);
+
+  const isShowTree = useSelector((state) => state.showTree);
+
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: colors.backgroundColor }}>
       <HeaderApp
         navigation={navigation}
         title="My MotorWatch"
         headerLeftVisible={true}
       />
+      <IconShowTreeList />
       <TabBottom navigation={navigation} />
+      {isShowTree && <TreeListNhaMay />}
     </View>
   );
 };

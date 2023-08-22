@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
-import React from "react";
+import React, { memo } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -29,7 +29,7 @@ const TabBottom = ({ navigation }) => {
   };
   return (
     <Tab.Navigator
-      initialRouteName="MyMotorWatch"
+      initialRouteName="Home"
       screenOptions={({ route }) => ({
         tabBarHideOnKeyboard: false,
         tabBarActiveTintColor: colors.primary,
@@ -80,14 +80,14 @@ const TabBottom = ({ navigation }) => {
       ></Tab.Screen>
 
       <Tab.Screen
-        name="MyMotorWatch"
+        name="Home"
         component={MyMotorWatch}
         options={{
           tabBarIcon: ({ focused }) => (
             <Image
               resizeMode="contain"
               style={[styles.homeBottom]}
-              source={require("../../../assets/Logo.png")}
+              source={require("../../../assets/iconLogo.png")}
             />
           ),
         }}
@@ -126,7 +126,7 @@ const TabBottom = ({ navigation }) => {
   );
 };
 
-export default TabBottom;
+export default memo(TabBottom);
 
 const styles = StyleSheet.create({
   homeBottom: {
@@ -134,8 +134,7 @@ const styles = StyleSheet.create({
     height: 60,
     position: "absolute",
     top: -20,
-    left: 5,
     backgroundColor: colors.backgroundColor,
-    borderRadius: 30,
+    borderRadius: 35,
   },
 });

@@ -23,7 +23,7 @@ import { useDispatch } from "react-redux";
 import colors from "../../../Common/colors";
 import { windowHeight, windowWidth } from "../../../Common/dimentions";
 import callApi from "../../../ConText/api";
-const EngineState = ({ navigation }) => {
+const EngineState = ({ navigation, selectedID_DC }) => {
   const dispatch = useDispatch();
 
   const [data, setData] = useState([{}]);
@@ -33,7 +33,9 @@ const EngineState = ({ navigation }) => {
   const getData = async () => {
     const endpoint = "/api/motorwatch/bieudo2";
     const method = "GET";
-    const params = null;
+    const params = {
+      sdk: selectedID_DC,
+    };
 
     const response = await callApi(
       dispatch,
@@ -48,12 +50,12 @@ const EngineState = ({ navigation }) => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [selectedID_DC]);
 
   const handleState = (item) => {
     navigation.navigate("DetailsEngineState", {
       name: "DetailsEngineState",
-      id: 1,
+      listID_DC: selectedID_DC,
     });
   };
   return (

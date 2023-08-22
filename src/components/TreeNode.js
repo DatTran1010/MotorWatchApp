@@ -15,7 +15,7 @@ import {
 import Checkbox from "./Checkbox";
 import IconButton from "./IconButton";
 
-const TreeNode = ({ data }) => {
+const TreeNode = ({ data, onCheckedItem }) => {
   const [expandedNodes, setExpandedNodes] = useState({});
 
   const toggleExpand = useCallback(
@@ -57,7 +57,7 @@ const TreeNode = ({ data }) => {
           {Object.keys(item).map((key) => {
             const value = item[key];
 
-            if (key.startsWith("TEN_")) {
+            if (key.startsWith("teN_")) {
               return (
                 <TouchableOpacity
                   activeOpacity={0.8}
@@ -72,11 +72,16 @@ const TreeNode = ({ data }) => {
                     alignItems: "center",
                     paddingLeft: 10,
                   }}
-                  onPress={() => toggleExpand(index, item)} // Toggle mở rộng
+                  onPress={() => toggleExpand(index)} // Toggle mở rộng
                   key={key}
                 >
                   <View style={{}}>
-                    <Checkbox size={20} label={value} />
+                    <Checkbox
+                      size={20}
+                      label={value}
+                      onPress={() => onCheckedItem(item)}
+                      value={item.check}
+                    />
                   </View>
 
                   {!item.lastNode && (
@@ -103,7 +108,11 @@ const TreeNode = ({ data }) => {
               );
             } else if (Array.isArray(value)) {
               return expandedNodes[index] ? (
-                <TreeNode key={key} data={value} />
+                <TreeNode
+                  key={key}
+                  data={value}
+                  onCheckedItem={onCheckedItem}
+                />
               ) : null;
             }
             return null;

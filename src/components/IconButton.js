@@ -6,7 +6,7 @@ import {
   Animated,
   LayoutAnimation,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import colors from "../Common/colors";
 
