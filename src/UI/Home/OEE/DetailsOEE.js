@@ -26,7 +26,7 @@ const DetailsOEE = ({ navigation }) => {
   );
 
   const [isAscending, setIsAscending] = useState(false);
-
+  const [refeshing, setRefeshing] = useState(false);
   const [data, setData] = useState([{}]);
 
   const dataHeader = [
@@ -103,14 +103,14 @@ const DetailsOEE = ({ navigation }) => {
       params
     );
 
-    if (response.status === 200) {
-      setData(response.data);
-    }
+    console.log("DATA BIỂU ĐỒ 3", response.data);
+    setData(response.data);
+    setRefeshing(false);
   };
 
   useEffect(() => {
     getDataDetails();
-  }, [dateTNgay, selectedTinhTrang, selectedID_DC]);
+  }, [dateTNgay, selectedTinhTrang, selectedID_DC, refeshing]);
 
   // xử lý handle load lại dữ liệu
   const handleNgay = (date) => {
@@ -119,6 +119,10 @@ const DetailsOEE = ({ navigation }) => {
 
   const handleTinhTrang = (item) => {
     setSelectedTinhTrang(item.value);
+  };
+
+  const handleRefeshing = () => {
+    setRefeshing(true);
   };
   //#endregion
 
@@ -156,6 +160,8 @@ const DetailsOEE = ({ navigation }) => {
             dataHeader={dataHeader}
             columnRemove={{ id: true, tt: true }}
             onSortTable={handleSort}
+            refreshing={refeshing}
+            onRefreshShing={handleRefeshing}
           />
         </View>
 

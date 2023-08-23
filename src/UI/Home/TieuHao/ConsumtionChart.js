@@ -4,15 +4,10 @@ import {
   VictoryChart,
   VictoryBar,
   VictoryTheme,
-  VictoryLegend,
   VictoryGroup,
-  VictoryContainer,
   VictoryAxis,
-  VictoryZoomContainer,
 } from "victory-native";
 
-import { Svg } from "react-native-svg";
-import colors from "../../../Common/colors";
 import { windowHeight, windowWidth } from "../../../Common/dimentions";
 
 const ConsumtionChart = ({ data }) => {

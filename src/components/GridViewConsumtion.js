@@ -18,7 +18,8 @@ const GridViewComponent = ({
   dataHeader,
   columnRemove,
   onSortTable,
-  HeaderComponent,
+  refreshing = false,
+  onRefreshShing,
 }) => {
   const HeaderGridView = () => {
     return (
@@ -27,7 +28,6 @@ const GridViewComponent = ({
           flex: 1,
         }}
       >
-        {HeaderComponent && <HeaderComponent />}
         <View
           style={{
             flex: 1,
@@ -61,6 +61,8 @@ const GridViewComponent = ({
   return (
     <Animated.View style={styles.container}>
       <Animated.FlatList
+        refreshing={refreshing}
+        onRefresh={() => onRefreshShing()}
         data={data}
         keyExtractor={(item, index) => index + ""}
         ListHeaderComponent={HeaderGridView}

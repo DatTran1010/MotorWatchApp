@@ -18,6 +18,8 @@ const DetailsConsumtion = ({ navigation }) => {
     moment(new Date()).format("YYYY-MM-DD")
   );
 
+  const [refeshing, setRefeshing] = useState(false);
+
   const dispatch = useDispatch();
 
   const [data, setData] = useState([{}]);
@@ -47,16 +49,23 @@ const DetailsConsumtion = ({ navigation }) => {
     );
 
     setData(response.data);
+    setRefeshing(false);
   };
+
+  useEffect(() => {
+    getData();
+  }, [dateTNgay, selectedID_DC, refeshing]);
+
+  //#region các event xử lý sự kiện load lại data
 
   const handleNgay = (date) => {
     setDateTNgay(moment(date).format("YYYY-MM-DD"));
   };
 
-  useEffect(() => {
-    getData();
-  }, [dateTNgay, selectedID_DC]);
-
+  const handleRefeshing = () => {
+    setRefeshing(true);
+  };
+  //#endregion
   return (
     <ContainerApp
       navigation={navigation}
@@ -88,6 +97,8 @@ const DetailsConsumtion = ({ navigation }) => {
           <GridViewComponent
             data={data}
             dataHeader={dataHeader}
+            onRefreshShing={handleRefeshing}
+            refreshing={refeshing}
             // columnRemove={{ id: true }}
           />
         </View>

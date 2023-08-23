@@ -37,6 +37,8 @@ const Login = ({ navigation }) => {
   const [checkSavePassword, setCheckSavePassword] = useState(0);
 
   const [tokenDevies, setTokenDevies] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassWord] = useState("");
 
   const handleCheckedSavePassword = () => {
     setCheckSavePassword(!checkSavePassword);
@@ -50,14 +52,18 @@ const Login = ({ navigation }) => {
   };
 
   const handleLogin = async () => {
+    console.log(username, password, "token ===== " + tokenDevies);
     const endpoint = "/api/account/login";
     const method = "POST";
     const data = {
-      employeeCode: "admin",
-      password: "123",
+      employeeCode: username,
+      password: password,
       token: tokenDevies,
     };
+
     const response = await callApi(dispatch, endpoint, method, data);
+
+    console.log(response.data);
     try {
       if (response && response.data.statusCode == 200) {
         setToken(response.data.responseData.token);
@@ -69,9 +75,9 @@ const Login = ({ navigation }) => {
         });
       } else {
         Toast.show({
-          type: "success",
+          type: "error",
           text1: "Thông báo",
-          text2: "Đăng nhập không thành công",
+          text2: response.data.message,
         });
       }
     } catch {
@@ -81,8 +87,6 @@ const Login = ({ navigation }) => {
         text2: "Đăng nhập không thành công",
       });
     }
-
-    navigation.navigate("Home");
   };
 
   useEffect(() => {
@@ -127,12 +131,17 @@ const Login = ({ navigation }) => {
                   placeholder={"Email"}
                   keyboardType="email-address"
                   height={heightTextInput}
+                  onChangeText={(value) => {
+                    setUsername(value);
+                  }}
                 />
                 <TextInput
                   placeholder={"Password"}
-                  keyboardType="visible-password"
                   secureTextEntry
                   height={heightTextInput}
+                  onChangeText={(value) => {
+                    setPassWord(value);
+                  }}
                 />
                 <View style={styles.forgotPassword}>
                   <Checkbox
