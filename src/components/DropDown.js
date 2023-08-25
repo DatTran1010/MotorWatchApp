@@ -8,7 +8,7 @@ import { memo } from "react";
 
 const DropDown = ({
   data,
-  value,
+  value = "",
   placeholder,
   labelField,
   handleValue,
@@ -20,7 +20,7 @@ const DropDown = ({
   const [focus, setFocus] = useState(false);
 
   const renderLabel = () => {
-    if (value != "" || focus) {
+    if (value != "") {
       return (
         <Text style={[styles.label, focus && { color: colors.primary }]}>
           {placeholder}
@@ -47,8 +47,8 @@ const DropDown = ({
     );
   };
 
-  const [selectedValue, setSelectedValue] = useState(["-1"]);
-  const [selectedText, setSelectedText] = useState("All");
+  const [selectedValue, setSelectedValue] = useState([]);
+  const [selectedText, setSelectedText] = useState("");
 
   return (
     <View style={styles.container}>

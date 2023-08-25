@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text, Image, Alert } from "react-native";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import {
   Drawer,
@@ -76,7 +76,10 @@ const DrawerContent = (props) => {
                 style={{ marginRight: -10 }}
               />
             )}
-            label="Di chyển thiết bị"
+            label="Đơn giá điện"
+            onPress={() => {
+              props.navigation.navigate("ElictricPrice");
+            }}
           />
           <DrawerItem
             icon={(color, size) => (
@@ -87,7 +90,10 @@ const DrawerContent = (props) => {
                 style={{ marginRight: -10 }}
               />
             )}
-            label="Nghiệm thu phiếu bảo trì"
+            label="Chế độ làm việc"
+            onPress={() => {
+              props.navigation.navigate("WorkingMode");
+            }}
           />
           <DrawerItem
             icon={(color, size) => (
@@ -98,7 +104,10 @@ const DrawerContent = (props) => {
                 style={{ marginRight: -10 }}
               />
             )}
-            label="Lịch sử phiếu bảo trì"
+            label="Kế hoạch làm việc"
+            onPress={() => {
+              props.navigation.navigate("WorkPlan");
+            }}
           />
           <DrawerItem
             icon={(color, size) => (
@@ -110,17 +119,6 @@ const DrawerContent = (props) => {
               />
             )}
             label="Theo dõi yêu cầu bảo trì"
-          />
-          <DrawerItem
-            icon={(color, size) => (
-              <Ionicons
-                name="construct-outline"
-                size={25}
-                color={colors.primary}
-                style={{ marginRight: -10 }}
-              />
-            )}
-            label="Dashboard"
           />
         </Drawer.Section>
         <Drawer.Section>

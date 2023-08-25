@@ -103,19 +103,12 @@ const Consumption = ({ navigation, selectedID_DC }) => {
           />
         </View>
         <View style={styles.fillControl}>
-          <TouchableOpacity onPress={handleShowCaledar}>
-            <Text>
-              Tuần 30 (Ngày {dateToFrom.startDate} - {dateToFrom.endDate})
-            </Text>
-          </TouchableOpacity>
-          {showCalendar && (
-            <CalendarComponent
-              onClickDone={handleDoneDateCalendar}
-              onClickCancel={handlCancelDateCalendar}
-              startDate={dateToFrom.startDate}
-              endDate={dateToFrom.endDate}
-            />
-          )}
+          <CalendarComponent
+            startDate={dateToFrom.startDate}
+            endDate={dateToFrom.endDate}
+            onClickDone={handleDoneDateCalendar}
+            onClickCancel={handlCancelDateCalendar}
+          />
         </View>
         {data && data.some((item) => Object.keys(item).length > 0) && (
           <ConsumtionChart data={data} />
@@ -166,6 +159,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     padding: 10,
+    zIndex: -1,
   },
 
   legendContent: {

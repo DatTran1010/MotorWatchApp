@@ -13,7 +13,7 @@ import { windowHeight, windowWidth } from "../../../Common/dimentions";
 const ConsumtionChart = ({ data }) => {
   const [focusedBar, setFocusedBar] = useState(null);
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, zIndex: -1 }}>
       <VictoryChart
         theme={VictoryTheme.material}
         domainPadding={20}
@@ -96,5 +96,7 @@ const ConsumtionChart = ({ data }) => {
 export default ConsumtionChart;
 
 const styles = StyleSheet.create({
-  shadowContainer: {},
+  shadowContainer: {
+    zIndex: -1,
+  },
 });

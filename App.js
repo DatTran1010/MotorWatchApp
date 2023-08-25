@@ -16,6 +16,9 @@ import store from "./src/Redux/store";
 import DetailsConsumtion from "./src/UI/Home/TieuHao/DetailsConsumtion";
 import DetailsEngineState from "./src/UI/Home/EngineState/DetailsEngineState";
 import DetailsOEE from "./src/UI/Home/OEE/DetailsOEE";
+import ElictricPrice from "./src/UI/Work/ElectricPrice";
+import WorkingMode from "./src/UI/Work/WorkingMode/WorkingMode";
+import WorkPlan from "./src/UI/Work/WorkPlan/WorkPlan";
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -31,6 +34,33 @@ export default function App() {
           options={{
             title: "Home",
             headerShown: false,
+            drawerIcon: true,
+          }}
+        />
+        <Stack.Screen
+          name="ElictricPrice"
+          component={ElictricPrice}
+          options={{
+            title: "ElictricPrice",
+            headerShown: true,
+            drawerIcon: true,
+          }}
+        />
+        <Stack.Screen
+          name="WorkingMode"
+          component={WorkingMode}
+          options={{
+            title: "WorkingMode",
+            headerShown: true,
+            drawerIcon: true,
+          }}
+        />
+        <Stack.Screen
+          name="WorkPlan"
+          component={WorkPlan}
+          options={{
+            title: "WorkPlan",
+            headerShown: true,
             drawerIcon: true,
           }}
         />

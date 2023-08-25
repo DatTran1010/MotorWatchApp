@@ -6,10 +6,11 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import colors from "../../Common/colors";
 import { windowHeight, windowWidth } from "../../Common/dimentions";
 import MyMotorWatch from "./MyMotorWatch";
+import ElictricPrice from "../Work/ElectricPrice";
 const TabBottom = ({ navigation }) => {
   const Tab = createBottomTabNavigator();
   const Dashboard = () => {
-    return <View></View>;
+    return <ElictricPrice />;
   };
 
   const Task = () => {
@@ -54,7 +55,7 @@ const TabBottom = ({ navigation }) => {
     >
       <Tab.Screen
         name="Dashbord"
-        component={Dashboard}
+        component={ElictricPrice}
         options={{
           tabBarIcon: ({ focused }) => (
             <Ionicons

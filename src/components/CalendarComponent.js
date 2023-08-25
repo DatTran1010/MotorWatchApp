@@ -1,16 +1,19 @@
-import { View, Text, Animated, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Animated,
+  TouchableOpacity,
+  LayoutAnimation,
+} from "react-native";
 import React, { useState, useEffect, memo } from "react";
 import { Calendar } from "react-native-calendars";
 import colors from "../Common/colors";
 import { windowHeight, windowWidth } from "../Common/dimentions";
 
-const CalendarComponent = ({
-  onClickDone,
-  onClickCancel,
-  startDate,
-  endDate,
-}) => {
+const CalendarComponent = ({ onClickDone, startDate, endDate }) => {
   const [markedDates, setMarkedDates] = useState({});
+
+  const [showCalendar, setShowcalendar] = useState(false);
 
   const [dateFromTo, setDateFromTo] = useState({
     startDate: startDate,
@@ -43,7 +46,7 @@ const CalendarComponent = ({
     }
 
     setMarkedDates(updatedMarkedDates);
-  }, [dateFromTo]);
+  }, [dateFromTo.startDate, dateFromTo.endDate]);
 
   const handleDayCalendar = (day) => {
     if (dateFromTo.endDate === day.dateString) {
@@ -69,54 +72,118 @@ const CalendarComponent = ({
     }
   };
 
+  const handleShowCalendar = () => {
+    LayoutAnimation.configureNext({
+      duration: 500,
+      create: {
+        type: LayoutAnimation.Types.spring,
+        property: LayoutAnimation.Properties.scaleXY,
+        springDamping: 0.7,
+      },
+      update: {
+        type: LayoutAnimation.Types.spring,
+        springDamping: 0.7,
+      },
+      delete: {
+        type: LayoutAnimation.Types.easeOut,
+        property: LayoutAnimation.Properties.opacity,
+      },
+    });
+
+    setDateFromTo({
+      startDate: startDate,
+      endDate: endDate,
+    });
+    setShowcalendar(!showCalendar);
+  };
   return (
     <Animated.View
       style={{
         flex: 1,
       }}
     >
-      <Calendar
+      <TouchableOpacity
         style={{
-          borderRadius: 10,
-          borderColor: colors.primary,
+          marginLeft: 10,
+          paddingHorizontal: 10,
+          justifyContent: "center",
+          height: windowHeight / 18,
+          borderColor: colors.border,
           borderWidth: 1,
-          elevation: 2,
-          margin: 10,
-          paddingBottom: 30,
+          borderRadius: 5,
+          shadowColor: "gray",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.85,
+          elevation: 5,
+          backgroundColor: colors.backgroundColor,
         }}
-        current={dateFromTo.startDate}
-        markedDates={markedDates}
-        markingType={"period"}
-        onDayPress={handleDayCalendar}
-        onDayLongPress={handleDayCalendar}
-      />
-      <View
-        style={{
-          position: "absolute",
-          right: 20,
-          bottom: 10,
-          padding: 5,
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
+        onPress={handleShowCalendar}
       >
-        <TouchableOpacity onPress={() => onClickCancel()}>
-          <Text style={{ fontSize: 16, color: colors.gray }}>Cancel</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => onClickDone(dateFromTo)}>
-          <Text
+        <Text>
+          {dateFromTo.startDate} - {dateFromTo.endDate}
+        </Text>
+      </TouchableOpacity>
+
+      {showCalendar && (
+        <Animated.View
+          style={{
+            zIndex: 999,
+            position: "absolute",
+            left: -windowWidth / 2,
+            right: -10,
+            top: windowHeight / 18,
+          }}
+        >
+          <Calendar
             style={{
-              fontSize: 16,
-              color: colors.black,
-              marginLeft: 10,
+              borderRadius: 10,
+              borderColor: colors.primary,
+              borderWidth: 1,
+              elevation: 2,
+              margin: 10,
+              paddingBottom: 30,
+            }}
+            current={dateFromTo.startDate}
+            markedDates={markedDates}
+            markingType={"period"}
+            onDayPress={handleDayCalendar}
+            onDayLongPress={handleDayCalendar}
+          />
+          <View
+            style={{
+              position: "absolute",
+              right: 20,
+              bottom: 10,
+              padding: 5,
+              flexDirection: "row",
+              justifyContent: "space-between",
             }}
           >
-            Done
-          </Text>
-        </TouchableOpacity>
-      </View>
+            <TouchableOpacity onPress={handleShowCalendar}>
+              <Text style={{ fontSize: 16, color: colors.gray }}>Cancel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                onClickDone(dateFromTo);
+                setShowcalendar(false);
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: colors.black,
+                  marginLeft: 10,
+                }}
+              >
+                Done
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </Animated.View>
+      )}
     </Animated.View>
   );
 };
 
-export default CalendarComponent;
+export default memo(CalendarComponent);

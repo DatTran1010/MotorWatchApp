@@ -1,17 +1,23 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import {
   View,
   StyleSheet,
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
+  Text,
 } from "react-native";
-import { Calendar, LocaleConfig } from "react-native-calendars";
 
 import colors from "../Common/colors";
-import { windowHeight } from "../Common/dimentions";
+import { heightTextInput } from "../Common/dimentions";
 
-const CustomTextInput = ({ placeholder, height, ...props }) => {
+const CustomTextInput = ({
+  placeholder,
+  height = heightTextInput,
+  value = "",
+  onChangeText,
+  ...props
+}) => {
   const [focus, setFocus] = useState(0);
   return (
     <>
@@ -24,6 +30,19 @@ const CustomTextInput = ({ placeholder, height, ...props }) => {
           },
         ]}
       >
+        {value !== "" ? (
+          <Text
+            style={[
+              styles.label,
+              { color: focus ? colors.primary : colors.black },
+            ]}
+          >
+            {placeholder}
+          </Text>
+        ) : (
+          <></>
+        )}
+
         <TextInput
           placeholder={placeholder}
           style={styles.text}
@@ -35,13 +54,15 @@ const CustomTextInput = ({ placeholder, height, ...props }) => {
           onBlur={() => {
             setFocus(0);
           }}
+          onChangeText={(value) => onChangeText(value)}
+          value={value}
         />
       </View>
     </>
   );
 };
 
-export default CustomTextInput;
+export default memo(CustomTextInput);
 
 const styles = StyleSheet.create({
   container: {
@@ -62,6 +83,15 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     paddingHorizontal: 10,
-    color: colors.black,
+    padding: 5,
+  },
+  label: {
+    position: "absolute",
+    backgroundColor: colors.backgroundColor,
+    left: 10,
+    top: -8,
+    zIndex: 999,
+    paddingHorizontal: 8,
+    fontSize: 14,
   },
 });

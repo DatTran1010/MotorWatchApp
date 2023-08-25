@@ -18,6 +18,7 @@ import colors from "../../Common/colors";
 import IconButton from "../../components/IconButton";
 import IconShowTreeList from "../../components/IconShowTreeList";
 import callApi from "../../ConText/api";
+import MyMotorWatch from "./MyMotorWatch";
 
 const Home = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -46,8 +47,6 @@ const Home = ({ navigation }) => {
     getDataTreeNM();
   }, []);
 
-  const [modalVisible, setModalVisible] = useState(false);
-
   const isShowTree = useSelector((state) => state.showTree);
 
   return (
@@ -58,7 +57,8 @@ const Home = ({ navigation }) => {
         headerLeftVisible={true}
       />
       <IconShowTreeList />
-      <TabBottom navigation={navigation} />
+      <MyMotorWatch navigation={navigation} />
+      {/* <TabBottom navigation={navigation} /> */}
       {isShowTree && <TreeListNhaMay />}
     </View>
   );

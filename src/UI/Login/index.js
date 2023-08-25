@@ -130,6 +130,7 @@ const Login = ({ navigation }) => {
                 <TextInput
                   placeholder={"Email"}
                   keyboardType="email-address"
+                  value={username}
                   height={heightTextInput}
                   onChangeText={(value) => {
                     setUsername(value);
@@ -142,6 +143,7 @@ const Login = ({ navigation }) => {
                   onChangeText={(value) => {
                     setPassWord(value);
                   }}
+                  value={password}
                 />
                 <View style={styles.forgotPassword}>
                   <Checkbox
