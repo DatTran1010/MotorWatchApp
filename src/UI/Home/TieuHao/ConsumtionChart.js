@@ -9,6 +9,7 @@ import {
 } from "victory-native";
 
 import { windowHeight, windowWidth } from "../../../Common/dimentions";
+import theme from "../../../Common/theme";
 
 const ConsumtionChart = ({ data }) => {
   const [focusedBar, setFocusedBar] = useState(null);

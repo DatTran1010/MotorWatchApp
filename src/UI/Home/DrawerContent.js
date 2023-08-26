@@ -13,6 +13,7 @@ import {
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 import colors from "../../Common/colors";
+import theme from "../../Common/theme";
 
 const DrawerContent = (props) => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
@@ -63,6 +64,7 @@ const DrawerContent = (props) => {
               />
             )}
             label="My MotorWatch"
+            labelStyle={theme.font}
             onPress={() => {
               props.navigation.navigate("Home");
             }}
@@ -77,6 +79,7 @@ const DrawerContent = (props) => {
               />
             )}
             label="Đơn giá điện"
+            labelStyle={theme.font}
             onPress={() => {
               props.navigation.navigate("ElictricPrice");
             }}
@@ -91,6 +94,7 @@ const DrawerContent = (props) => {
               />
             )}
             label="Chế độ làm việc"
+            labelStyle={theme.font}
             onPress={() => {
               props.navigation.navigate("WorkingMode");
             }}
@@ -105,6 +109,7 @@ const DrawerContent = (props) => {
               />
             )}
             label="Kế hoạch làm việc"
+            labelStyle={theme.font}
             onPress={() => {
               props.navigation.navigate("WorkPlan");
             }}
@@ -119,20 +124,13 @@ const DrawerContent = (props) => {
               />
             )}
             label="Theo dõi yêu cầu bảo trì"
+            labelStyle={theme.font}
           />
         </Drawer.Section>
         <Drawer.Section>
           <TouchableRipple onPress={hanldeDarkTheme}>
             <View style={styles.preference}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  color: colors.textColor,
-                  fontWeight: "bold",
-                }}
-              >
-                Dark Theme
-              </Text>
+              <Text style={theme.font}>Dark Theme</Text>
               <Switch color={colors.primary} value={isDarkTheme} />
             </View>
           </TouchableRipple>
@@ -149,6 +147,7 @@ const DrawerContent = (props) => {
             />
           )}
           label="Sing Out"
+          labelStyle={theme.font}
           onPress={() => {
             props.navigation.navigate("Login");
           }}

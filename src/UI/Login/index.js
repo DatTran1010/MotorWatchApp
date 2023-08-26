@@ -31,6 +31,7 @@ import {
   notificationListenr,
   requestUserPermission,
 } from "../../Common/notification";
+import theme from "../../Common/theme";
 
 const Login = ({ navigation }) => {
   const { token, setToken } = useContext(MainConText);
@@ -152,7 +153,7 @@ const Login = ({ navigation }) => {
                     onPress={handleCheckedSavePassword}
                   />
                   <TouchableOpacity>
-                    <Text style={styles.textForgot}>Quên mật khẩu ?</Text>
+                    <Text style={theme.font}>Quên mật khẩu ?</Text>
                   </TouchableOpacity>
                 </View>
 
@@ -162,9 +163,7 @@ const Login = ({ navigation }) => {
               </View>
             </View>
             <View style={styles.moreLogin}>
-              <Text style={styles.textMoreLogin}>
-                Or Login with social account
-              </Text>
+              <Text style={theme.font}>Or Login with social account</Text>
               <View style={styles.social}>
                 <TouchableOpacity style={styles.iconSoial}>
                   <Ionicons name="logo-google" size={40} color="#de4d41" />
@@ -221,8 +220,9 @@ const styles = StyleSheet.create({
 
   textForgot: {
     fontWeight: "300",
-    fontSize: 16,
+    fontSize: 14,
     color: colors.black,
+    fontFamily: theme.fontFamily,
   },
 
   btnLogin: {
@@ -238,16 +238,12 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontWeight: "400",
     fontSize: 16,
+    fontFamily: theme.fontFamily,
   },
   moreLogin: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-  },
-  textMoreLogin: {
-    fontSize: 16,
-    fontWeight: "300",
-    color: colors.black,
   },
 
   social: {

@@ -1,6 +1,6 @@
 export default {
-  primary: "#f57c00",
-  primarySecond: "#113186",
+  primary: "#123485",
+  primarySecond: "#f57c00",
   primaryArgb: "rgba(245,124,0,0.4)",
   buttoncolor: "#f57c00",
   white: "#FFFFFF",

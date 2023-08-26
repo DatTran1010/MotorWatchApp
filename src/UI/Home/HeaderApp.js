@@ -22,6 +22,7 @@ const HeaderApp = ({
         top: 0,
         left: 0,
       },
+
       title: title,
       headerLeft: () =>
         headerLeftVisible &&
@@ -29,7 +30,7 @@ const HeaderApp = ({
           <Ionicons
             name="arrow-back-outline"
             size={30}
-            color={colors.black}
+            color={colors.white}
             style={{ marginLeft: 15 }}
             onPress={() => navigation.goBack()}
           />
@@ -37,7 +38,7 @@ const HeaderApp = ({
           <Ionicons
             name="reorder-three"
             size={40}
-            color={colors.black}
+            color={colors.white}
             style={{ marginRight: 15 }}
             onPress={() => navigation.openDrawer()}
           />
@@ -53,14 +54,14 @@ const HeaderApp = ({
           <Ionicons
             name="notifications"
             size={30}
-            color={colors.black}
+            color={colors.white}
             style={{ marginRight: 15 }}
             onPress={() => {}}
           />
           <Ionicons
             name="person-circle-outline"
             size={30}
-            color={colors.black}
+            color={colors.white}
             style={{ marginRight: 15 }}
             onPress={handleInfo}
           />

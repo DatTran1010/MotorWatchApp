@@ -15,6 +15,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 import colors from "../Common/colors";
 import { windowHeight } from "../Common/dimentions";
+import theme from "../Common/theme";
 const CalendarCustom = ({
   mode,
   format,
@@ -140,5 +141,6 @@ const styles = StyleSheet.create({
     zIndex: 999,
     paddingHorizontal: 8,
     fontSize: 14,
+    fontFamily: theme.fontFamily,
   },
 });

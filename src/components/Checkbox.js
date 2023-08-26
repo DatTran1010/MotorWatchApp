@@ -3,6 +3,7 @@ import React from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 import colors from "../Common/colors";
+import theme from "../Common/theme";
 
 const Checkbox = ({
   value = false,
@@ -43,6 +44,7 @@ const Checkbox = ({
               fontSize: 14,
               fontWeight: "400",
               color: colors.black,
+              fontFamily: theme.fontFamily,
             }}
           >
             {label}

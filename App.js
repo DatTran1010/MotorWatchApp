@@ -1,4 +1,4 @@
-import { Keyboard, View } from "react-native";
+import { Keyboard, View, Text } from "react-native";
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
@@ -20,119 +20,137 @@ import ElictricPrice from "./src/UI/Work/ElectricPrice";
 import WorkingMode from "./src/UI/Work/WorkingMode/WorkingMode";
 import WorkPlan from "./src/UI/Work/WorkPlan/WorkPlan";
 import WorkRealtime from "./src/UI/Work/WorkRealtime/WorkRealtime";
+import colors from "./src/Common/colors";
+import theme from "./src/Common/theme";
 
 export default function App() {
-    const Stack = createStackNavigator();
-    const Drawer = createDrawerNavigator();
+  const Stack = createStackNavigator();
+  const Drawer = createDrawerNavigator();
 
-    //Draw chung cho tất cả
-    const DrawerNavigator = () => {
-        return (
-            <Drawer.Navigator drawerContent={(props) => DrawerContent(props)}>
-                <Stack.Screen
-                    name="Home"
-                    component={StackNavigator}
-                    options={{
-                        title: "Home",
-                        headerShown: false,
-                        drawerIcon: true,
-                    }}
-                />
-                <Stack.Screen
-                    name="ElictricPrice"
-                    component={ElictricPrice}
-                    options={{
-                        title: "ElictricPrice",
-                        headerShown: true,
-                        drawerIcon: true,
-                    }}
-                />
-                <Stack.Screen
-                    name="WorkingMode"
-                    component={WorkingMode}
-                    options={{
-                        title: "WorkingMode",
-                        headerShown: true,
-                        drawerIcon: true,
-                    }}
-                />
-                <Stack.Screen
-                    name="WorkPlan"
-                    component={WorkPlan}
-                    options={{
-                        title: "WorkPlan",
-                        headerShown: true,
-                        drawerIcon: true,
-                    }}
-                />
-            </Drawer.Navigator>
-        );
-    };
-
-    function StackNavigator() {
-        return (
-            <Stack.Navigator defaultScreenOptions={Home}>
-                <Stack.Screen
-                    name="Home"
-                    component={Home}
-                    options={{ headerShown: true, title: "My Ecomaint" }}
-                />
-            </Stack.Navigator>
-        );
-    }
+  //Draw chung cho tất cả
+  const DrawerNavigator = () => {
     return (
-        <Provider store={store}>
-            <ConTextProvider>
-                <View
-                    style={{
-                        flex: 1,
-                    }}
-                    // onStartShouldSetResponder={() => {
-                    //     Keyboard.dismiss();
-                    // }}
-                >
-                    <NavigationContainer>
-                        <Stack.Navigator defaultScreenOptions={Home}>
-                            {/* <Stack.Screen
-                                name="Login"
-                                component={Login}
-                                options={{
-                                    headerShown: false,
-                                    title: "Login",
-                                }}
-                            />
-                            <Stack.Screen
-                                name="Home"
-                                component={DrawerNavigator}
-                                options={{ headerShown: false }}
-                            />
-                            <Stack.Screen
-                                name="DetailsConsumtion"
-                                component={DetailsConsumtion}
-                                options={{ headerShown: true }}
-                            />
-                            <Stack.Screen
-                                name="DetailsEngineState"
-                                component={DetailsEngineState}
-                                options={{ headerShown: true }}
-                            />
-                            <Stack.Screen
-                                name="DetailsOEE"
-                                component={DetailsOEE}
-                                options={{ headerShown: true }}
-                            /> */}
-                            <Stack.Screen
+      <Drawer.Navigator drawerContent={(props) => DrawerContent(props)}>
+        <Stack.Screen
+          name="Home"
+          component={StackNavigator}
+          options={{
+            headerShown: false,
+            drawerIcon: true,
+            headerTintColor: colors.white,
+            title: "Home",
+          }}
+        />
+        <Stack.Screen
+          name="ElictricPrice"
+          component={ElictricPrice}
+          options={{
+            headerShown: true,
+            drawerIcon: true,
+            headerTintColor: colors.white,
+            headerTitle: () => (
+              <Text style={theme.fontTitle}>ĐƠN GIÁ ĐIỆN</Text>
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="WorkingMode"
+          component={WorkingMode}
+          options={{
+            title: "WorkingMode",
+            headerShown: true,
+            drawerIcon: true,
+            headerTintColor: colors.white,
+            headerTitle: () => (
+              <Text style={theme.fontTitle}>CHẾ ĐỘ LÀM VIỆC</Text>
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="WorkPlan"
+          component={WorkPlan}
+          options={{
+            title: "WorkPlan",
+            headerShown: true,
+            drawerIcon: true,
+            headerTintColor: colors.white,
+            headerTitle: () => (
+              <Text style={theme.fontTitle}>KẾ HOẠCH LÀM VIỆC</Text>
+            ),
+          }}
+        />
+      </Drawer.Navigator>
+    );
+  };
+
+  function StackNavigator() {
+    return (
+      <Stack.Navigator defaultScreenOptions={Home}>
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{
+            headerShown: true,
+            headerTintColor: colors.white,
+            headerTitle: () => <Text style={theme.fontTitle}>My Ecomaint</Text>,
+          }}
+        />
+      </Stack.Navigator>
+    );
+  }
+  return (
+    <Provider store={store}>
+      <ConTextProvider>
+        <View
+          style={{
+            flex: 1,
+          }}
+          // onStartShouldSetResponder={() => {
+          //     Keyboard.dismiss();
+          // }}
+        >
+          <NavigationContainer>
+            <Stack.Navigator defaultScreenOptions={Home}>
+              <Stack.Screen
+                name="Login"
+                component={Login}
+                options={{
+                  headerShown: false,
+                  title: "Login",
+                }}
+              />
+              <Stack.Screen
+                name="Home"
+                component={DrawerNavigator}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="DetailsConsumtion"
+                component={DetailsConsumtion}
+                options={{ headerShown: true, headerTintColor: colors.white }}
+              />
+              <Stack.Screen
+                name="DetailsEngineState"
+                component={DetailsEngineState}
+                options={{ headerShown: true, headerTintColor: colors.white }}
+              />
+              <Stack.Screen
+                name="DetailsOEE"
+                component={DetailsOEE}
+                options={{ headerShown: true, headerTintColor: colors.white }}
+              />
+              {/* <Stack.Screen
                                 name="WorkRealtime"
                                 component={WorkRealtime}
                                 options={{ headerShown: true }}
-                            />
-                        </Stack.Navigator>
-                    </NavigationContainer>
-                    <ModalUser />
-                    <Overlay />
-                    <Toast />
-                </View>
-            </ConTextProvider>
-        </Provider>
-    );
+                            /> */}
+            </Stack.Navigator>
+          </NavigationContainer>
+          <ModalUser />
+          <Overlay />
+          <Toast />
+        </View>
+      </ConTextProvider>
+    </Provider>
+  );
 }

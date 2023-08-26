@@ -10,6 +10,7 @@ import {
 
 import colors from "../Common/colors";
 import { heightTextInput } from "../Common/dimentions";
+import theme from "../Common/theme";
 
 const CustomTextInput = ({
   placeholder,
@@ -84,6 +85,7 @@ const styles = StyleSheet.create({
     height: "100%",
     paddingHorizontal: 10,
     padding: 5,
+    fontFamily: theme.fontFamily,
   },
   label: {
     position: "absolute",
@@ -93,5 +95,6 @@ const styles = StyleSheet.create({
     zIndex: 999,
     paddingHorizontal: 8,
     fontSize: 14,
+    fontFamily: theme.fontFamily,
   },
 });

@@ -29,7 +29,7 @@ const IconButton = ({ label, nameicon, size, border = true, ...props }) => {
         style={[styles.iconStyle, { borderWidth: border ? 0.5 : 0 }]}
         {...props}
       >
-        <Ionicons name={nameicon} size={size} color={colors.primary} />
+        <Ionicons name={nameicon} size={size} color={colors.primarySecond} />
       </TouchableOpacity>
       {showTooltip && (
         <Animated.View style={styles.toltipContainer}>

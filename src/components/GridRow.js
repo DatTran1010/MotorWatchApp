@@ -6,7 +6,7 @@ import {
 } from "react-native";
 import React from "react";
 
-import { windowHeight } from "../Common/dimentions";
+import { windowHeight, windowWidth } from "../Common/dimentions";
 import colors from "../Common/colors";
 
 const GridRow = ({ data, index, columnRemove = "" }) => {
@@ -38,7 +38,7 @@ const GridRow = ({ data, index, columnRemove = "" }) => {
             <TouchableOpacity style={{ flex: 1, justifyContent: "center" }}>
               <Text
                 style={{
-                  fontSize: 16,
+                  fontSize: windowWidth / 28,
                   color:
                     data["color"] !== undefined ? data["color"] : colors.black,
                   flexShrink: 1,
