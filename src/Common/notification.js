@@ -1,5 +1,6 @@
 import messaging from "@react-native-firebase/messaging";
-
+import notifee, { AndroidImportance } from "@notifee/react-native";
+import { Platform } from "react-native";
 export async function requestUserPermission() {
   const authStatus = await messaging().requestPermission();
   const enabled =
@@ -42,3 +43,33 @@ export const getToken = async () => {
   // console.log("=====================================");
   return token;
 };
+
+export async function onDisplayNotification({ title = "", body = "" }) {
+  // Request permissions (required for iOS)
+
+  if (Platform.OS === "ios") {
+    await notifee.requestPermission();
+  }
+
+  // Create a channel (required for Android)
+  const channelId = await notifee.createChannel({
+    id: "default 3",
+    name: "Default Channel 3",
+    sound: "default",
+    importance: AndroidImportance.HIGH,
+  });
+
+  // Display a notification
+  await notifee.displayNotification({
+    title: title,
+    body: body,
+    android: {
+      channelId,
+      // smallIcon: "name-of-a-small-icon", // optional, defaults to 'ic_launcher'.
+      // pressAction is needed if you want the notification to open the app when pressed
+      pressAction: {
+        id: "default",
+      },
+    },
+  });
+}

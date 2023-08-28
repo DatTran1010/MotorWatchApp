@@ -5,9 +5,10 @@ import { Dropdown, MultiSelect } from "react-native-element-dropdown";
 import colors from "../Common/colors";
 import { windowHeight } from "../Common/dimentions";
 import { memo } from "react";
+import theme from "../Common/theme";
 
 const DropDown = ({
-  data,
+  data = [],
   value = "",
   placeholder,
   labelField,
@@ -20,7 +21,7 @@ const DropDown = ({
   const [focus, setFocus] = useState(false);
 
   const renderLabel = () => {
-    if (value != "") {
+    if (value !== "") {
       return (
         <Text style={[styles.label, focus && { color: colors.primary }]}>
           {placeholder}
@@ -37,7 +38,10 @@ const DropDown = ({
           style={[
             styles.textItem,
             {
-              color: item["color"] !== undefined ? item["color"] : colors.black,
+              color:
+                item["color"] !== undefined && item["color"] !== null
+                  ? item["color"]
+                  : colors.black,
             },
           ]}
         >
@@ -146,12 +150,16 @@ const styles = StyleSheet.create({
     zIndex: 999,
     paddingHorizontal: 8,
     fontSize: 14,
+    fontFamily: theme.fontFamily,
+    color: colors.black,
   },
   placeholderStyle: {
-    fontSize: 16,
+    fontSize: 14,
   },
   selectedTextStyle: {
-    fontSize: 16,
+    fontSize: 14,
+    color: colors.black,
+    fontFamily: theme.fontFamily,
   },
   iconStyle: {
     width: 20,
@@ -169,6 +177,7 @@ const styles = StyleSheet.create({
   },
   textItem: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 14,
+    fontFamily: theme.fontFamily,
   },
 });

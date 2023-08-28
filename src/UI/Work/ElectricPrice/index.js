@@ -11,7 +11,7 @@ import {
   LayoutAnimation,
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Toast from "react-native-toast-message";
 import { useFocusEffect } from "@react-navigation/native";
 
@@ -24,6 +24,7 @@ import HeaderApp from "../../Home/HeaderApp";
 
 const ElictricPrice = ({ navigation }) => {
   const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.userInfo);
 
   //#region  sate
 
@@ -39,14 +40,13 @@ const ElictricPrice = ({ navigation }) => {
 
   //#region  load dữ liệu
 
-  console.log("render-lan 1");
   useFocusEffect(
     React.useCallback(() => {
       const getData = async () => {
         const endpoint = "/api/motorwatch/loaddongiadien";
         const method = "GET";
         const params = {
-          Username: "admin",
+          Username: userInfo.USER_NAME,
         };
 
         const response = await callApi(

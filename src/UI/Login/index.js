@@ -29,6 +29,7 @@ import { MainConText } from "../../ConText/MainContext";
 import {
   getToken,
   notificationListenr,
+  onDisplayNotification,
   requestUserPermission,
 } from "../../Common/notification";
 import theme from "../../Common/theme";
@@ -68,6 +69,22 @@ const Login = ({ navigation }) => {
     try {
       if (response && response.data.statusCode == 200) {
         setToken(response.data.responseData.token);
+
+        // save user info
+        const userInfo = {
+          EMAIL: response.data.responseData.email,
+          HO_TEN: response.data.responseData.hO_TEN,
+          MS_CN: response.data.responseData.mS_CONG_NHAN,
+          MS_TO: response.data.responseData.mS_TO,
+          NHOM_USER: response.data.responseData.nhoM_USER,
+          SO_DTDD: response.data.responseData.sO_DTDD,
+          TEN_DV: response.data.responseData.teN_DON_VI,
+          TEN_TO: response.data.responseData.teN_TO,
+          USER_NAME: response.data.responseData.userName,
+          TOKEN: response.data.responseData.token,
+        };
+        dispatch({ type: "SET_USER_INFO", payload: userInfo });
+
         navigation.navigate("Home");
         Toast.show({
           type: "success",
@@ -90,9 +107,16 @@ const Login = ({ navigation }) => {
     }
   };
 
+  //#region  Notification
+
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      Alert.alert("A new FCM message arrived!", JSON.stringify(remoteMessage));
+      // Alert.alert("A new FCM message arrived!", JSON.stringify(remoteMessage));
+
+      onDisplayNotification({
+        title: remoteMessage.notification.title,
+        body: remoteMessage.notification.body,
+      });
     });
 
     return unsubscribe;
@@ -104,6 +128,7 @@ const Login = ({ navigation }) => {
     getTokenDevices();
   }, []);
 
+  //#endregion
   return (
     <KeyboardAwareScrollView
       contentContainerStyle={{ flexGrow: 1 }}

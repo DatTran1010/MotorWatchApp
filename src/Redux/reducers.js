@@ -3,6 +3,21 @@ const initialState = {
   showTree: false,
   dataTreeNM: [{}],
   selectedIDTree: "",
+
+  userInfo: [
+    {
+      EMAIL: "",
+      HO_TEN: "",
+      MS_CN: "",
+      MS_TO: "",
+      NHOM_USER: "",
+      SO_DTDD: "",
+      TEN_DV: "",
+      TEN_TO: "",
+      USER_NAME: "",
+      TOKEN: "",
+    },
+  ],
 };
 
 const reducer = (state = initialState, action) => {
@@ -27,6 +42,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         selectedIDTree: action.payload,
+      };
+    }
+    case "SET_USER_INFO": {
+      return {
+        ...state,
+        userInfo: action.payload,
       };
     }
     default:

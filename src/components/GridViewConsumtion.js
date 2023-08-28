@@ -21,6 +21,10 @@ const GridViewComponent = ({
   refreshing = false,
   onRefreshShing,
 }) => {
+  // console.log("=============");
+  // console.log(data);
+  // console.log(dataHeader);
+
   const HeaderGridView = () => {
     return (
       <View

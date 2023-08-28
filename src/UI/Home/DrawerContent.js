@@ -9,13 +9,15 @@ import {
   Title,
   Caption,
 } from "react-native-paper";
-
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { useSelector } from "react-redux";
 
 import colors from "../../Common/colors";
 import theme from "../../Common/theme";
 
 const DrawerContent = (props) => {
+  const userInfo = useSelector((state) => state.userInfo);
+
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const hanldeDarkTheme = () => {
     setIsDarkTheme(!isDarkTheme);
@@ -47,8 +49,8 @@ const DrawerContent = (props) => {
                 size={50}
               />
               <View style={{ marginLeft: 5 }}>
-                <Title style={styles.title}>Tấn Đạt</Title>
-                <Caption style={styles.caption}>@vietsoft</Caption>
+                <Title style={styles.title}>{userInfo.HO_TEN}</Title>
+                <Caption style={styles.caption}>{userInfo.NHOM_USER}</Caption>
               </View>
             </View>
           </View>
@@ -123,8 +125,11 @@ const DrawerContent = (props) => {
                 style={{ marginRight: -10 }}
               />
             )}
-            label="Theo dõi yêu cầu bảo trì"
+            label="Dữ liệu thời gian thực"
             labelStyle={theme.font}
+            onPress={() => {
+              props.navigation.navigate("WorkRealtime");
+            }}
           />
         </Drawer.Section>
         <Drawer.Section>

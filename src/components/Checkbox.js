@@ -39,16 +39,7 @@ const Checkbox = ({
           />
         </View>
         <View style={{ marginLeft: 10, flexShrink: 1 }}>
-          <Text
-            style={{
-              fontSize: 14,
-              fontWeight: "400",
-              color: colors.black,
-              fontFamily: theme.fontFamily,
-            }}
-          >
-            {label}
-          </Text>
+          <Text style={theme.font}>{label}</Text>
         </View>
       </TouchableOpacity>
     </View>

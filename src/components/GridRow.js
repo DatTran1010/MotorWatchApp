@@ -8,6 +8,7 @@ import React from "react";
 
 import { windowHeight, windowWidth } from "../Common/dimentions";
 import colors from "../Common/colors";
+import theme from "../Common/theme";
 
 const GridRow = ({ data, index, columnRemove = "" }) => {
   //xóa cột nào đó trên lưới (trong data ví dụ cột id)
@@ -33,23 +34,28 @@ const GridRow = ({ data, index, columnRemove = "" }) => {
           elevation: 5,
         }}
       >
-        {filteredColumns.map((key) => (
-          <View key={key} style={{ flex: 1, justifyContent: "center" }}>
-            <TouchableOpacity style={{ flex: 1, justifyContent: "center" }}>
-              <Text
-                style={{
-                  fontSize: windowWidth / 28,
-                  color:
-                    data["color"] !== undefined ? data["color"] : colors.black,
-                  flexShrink: 1,
-                  textAlign: "center",
-                }}
-              >
-                {data[key]}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        ))}
+        {filteredColumns.map((key) => {
+          return (
+            <View key={key} style={{ flex: 1, justifyContent: "center" }}>
+              <TouchableOpacity style={{ flex: 1, justifyContent: "center" }}>
+                <Text
+                  style={{
+                    fontSize: windowWidth / 28,
+                    color:
+                      data["color"] !== undefined
+                        ? data["color"]
+                        : colors.black,
+                    flexShrink: 1,
+                    textAlign: "center",
+                    fontFamily: theme.fontFamily,
+                  }}
+                >
+                  {data[key]}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          );
+        })}
       </View>
     </TouchableNativeFeedback>
   );

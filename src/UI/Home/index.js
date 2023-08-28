@@ -8,8 +8,9 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from "react-native";
-import React, { useState, useEffect, memo } from "react";
+import React, { useState, useEffect, memo, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useFocusEffect } from "@react-navigation/native";
 
 import HeaderApp from "./HeaderApp";
 import TabBottom from "./TabBottom";
@@ -19,35 +20,52 @@ import IconButton from "../../components/IconButton";
 import IconShowTreeList from "../../components/IconShowTreeList";
 import callApi from "../../ConText/api";
 import MyMotorWatch from "./MyMotorWatch";
+import * as generalService from "../../apiServices/generalService";
 
 const Home = ({ navigation }) => {
   const dispatch = useDispatch();
-  const getDataTreeNM = async () => {
-    const endpoint = "/api/motorwatch/treeNhaMay";
-    const method = "GET";
-    const params = {
-      UserName: "admin",
-    };
+  const isShowTree = useSelector((state) => state.showTree);
 
-    const response = await callApi(
-      dispatch,
-      endpoint,
-      method,
-      null,
-      "",
-      params
-    );
+  const userInfo = useSelector((state) => state.userInfo);
 
-    if (response.status === 200) {
-      dispatch({ type: "SET_DATA_TREE", payload: response.data });
-    }
+  // lấy ra node cuối cùng của tree có check = true
+  const getLastNodesWithCheck = (items) => {
+    let result = [];
+
+    items.forEach((item) => {
+      if (item.lastNode && item.check) {
+        result.push(item.id_DC);
+      }
+
+      for (const key in item) {
+        if (Array.isArray(item[key])) {
+          result = result.concat(getLastNodesWithCheck(item[key]));
+        }
+      }
+    });
+
+    return result;
   };
 
   useEffect(() => {
+    console.log("render-tree");
+    const getDataTreeNM = async () => {
+      const result = await generalService.getDataTreeNhaMay(
+        userInfo.USER_NAME,
+        dispatch
+      );
+
+      if (result.status === 200) {
+        const listID_DC = getLastNodesWithCheck(result.data);
+
+        const listResult = listID_DC.length > 0 ? listID_DC.join(",") : "";
+        dispatch({ type: "SET_DATA_TREE", payload: result.data });
+
+        dispatch({ type: "SET_ID_TREE", payload: listResult });
+      }
+    };
     getDataTreeNM();
   }, []);
-
-  const isShowTree = useSelector((state) => state.showTree);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.backgroundColor }}>

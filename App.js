@@ -79,6 +79,19 @@ export default function App() {
             ),
           }}
         />
+        <Stack.Screen
+          name="WorkRealtime"
+          component={WorkRealtime}
+          options={{
+            title: "WorkRealtime",
+            headerShown: true,
+            drawerIcon: true,
+            headerTintColor: colors.white,
+            headerTitle: () => (
+              <Text style={theme.fontTitle}>DỮ LIỆU THỜI GIAN THỰC</Text>
+            ),
+          }}
+        />
       </Drawer.Navigator>
     );
   };
@@ -92,7 +105,9 @@ export default function App() {
           options={{
             headerShown: true,
             headerTintColor: colors.white,
-            headerTitle: () => <Text style={theme.fontTitle}>My Ecomaint</Text>,
+            headerTitle: () => (
+              <Text style={theme.fontTitle}>My MotorWatch</Text>
+            ),
           }}
         />
       </Stack.Navigator>
@@ -139,11 +154,6 @@ export default function App() {
                 component={DetailsOEE}
                 options={{ headerShown: true, headerTintColor: colors.white }}
               />
-              {/* <Stack.Screen
-                                name="WorkRealtime"
-                                component={WorkRealtime}
-                                options={{ headerShown: true }}
-                            /> */}
             </Stack.Navigator>
           </NavigationContainer>
           <ModalUser />
