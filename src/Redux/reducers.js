@@ -3,6 +3,7 @@ const initialState = {
   showTree: false,
   dataTreeNM: [{}],
   selectedIDTree: "",
+  showCamera: false,
 
   userInfo: [
     {
@@ -48,6 +49,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         userInfo: action.payload,
+      };
+    }
+    case "SET_SHOW_CAMERA": {
+      return {
+        ...state,
+        showCamera: action.payload,
       };
     }
     default:

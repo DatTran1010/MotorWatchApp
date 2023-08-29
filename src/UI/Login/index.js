@@ -33,6 +33,7 @@ import {
   requestUserPermission,
 } from "../../Common/notification";
 import theme from "../../Common/theme";
+import IconButton from "../../components/IconButton";
 
 const Login = ({ navigation }) => {
   const { token, setToken } = useContext(MainConText);
@@ -129,6 +130,13 @@ const Login = ({ navigation }) => {
   }, []);
 
   //#endregion
+
+  //#region  xử lý sự kiện handle
+
+  const handleShowCamera = () => {
+    dispatch({ type: "SET_SHOW_CAMERA", payload: true });
+  };
+  //#endregion
   return (
     <KeyboardAwareScrollView
       contentContainerStyle={{ flexGrow: 1 }}
@@ -141,6 +149,18 @@ const Login = ({ navigation }) => {
         }}
       >
         <View style={styles.container}>
+          <View
+            style={{
+              alignItems: "flex-end",
+            }}
+          >
+            <IconButton
+              nameicon={"scan-sharp"}
+              border={false}
+              size={30}
+              onPress={handleShowCamera}
+            />
+          </View>
           <View style={styles.textLoginView}>
             <Image
               style={{

@@ -10,7 +10,14 @@ import React, { useState, memo } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import colors from "../Common/colors";
 
-const IconButton = ({ label, nameicon, size, border = true, ...props }) => {
+const IconButton = ({
+  label,
+  nameicon,
+  size,
+  border = true,
+  colorIcon = colors.primarySecond,
+  ...props
+}) => {
   const [showTooltip, setShowTooltip] = useState(false);
 
   const handleLongPressIcon = () => {
@@ -22,14 +29,26 @@ const IconButton = ({ label, nameicon, size, border = true, ...props }) => {
     setShowTooltip(false);
   };
   return (
-    <View style={{ position: "relative", flexDirection: "row" }}>
+    <View
+      style={{
+        position: "relative",
+        flexDirection: "row",
+      }}
+    >
       <TouchableOpacity
         onPressOut={handlePressOut}
         onLongPress={handleLongPressIcon}
-        style={[styles.iconStyle, { borderWidth: border ? 0.5 : 0 }]}
+        style={[
+          styles.iconStyle,
+          {
+            borderWidth: border ? 0.5 : 0,
+            width: border && 40,
+            height: border && 40,
+          },
+        ]}
         {...props}
       >
-        <Ionicons name={nameicon} size={size} color={colors.primarySecond} />
+        <Ionicons name={nameicon} size={size} color={colorIcon} />
       </TouchableOpacity>
       {showTooltip && (
         <Animated.View style={styles.toltipContainer}>
@@ -53,8 +72,7 @@ const styles = StyleSheet.create({
   },
   iconStyle: {
     borderRadius: 5,
-    width: 40,
-    height: 40,
+
     alignItems: "center",
     justifyContent: "center",
     borderColor: colors.primary,
