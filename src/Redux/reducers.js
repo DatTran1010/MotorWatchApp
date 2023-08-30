@@ -1,10 +1,12 @@
 const initialState = {
+  baseURL: "",
   overlay: false,
   showTree: false,
   dataTreeNM: [{}],
   selectedIDTree: "",
   showCamera: false,
-
+  showResultCamera: false,
+  resultScanned: "",
   userInfo: [
     {
       EMAIL: "",
@@ -55,6 +57,24 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         showCamera: action.payload,
+      };
+    }
+    case "SET_SHOW_MODAL_CAMERA": {
+      return {
+        ...state,
+        showResultCamera: action.payload,
+      };
+    }
+    case "SET_RESULT_SCANNED": {
+      return {
+        ...state,
+        resultScanned: action.payload,
+      };
+    }
+    case "SET_BASE_URL": {
+      return {
+        ...state,
+        baseURL: action.payload,
       };
     }
     default:

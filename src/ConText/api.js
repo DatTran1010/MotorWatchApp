@@ -1,5 +1,6 @@
 import axios, { CancelToken } from "axios";
 import Toast from "react-native-toast-message";
+import * as asyncStorageItem from "../Common/asyncStorageItem";
 
 const callApi = async (
   dispatch,
@@ -18,8 +19,12 @@ const callApi = async (
     }, 5000);
 
     dispatch({ type: "SET_OVERLAY", payload: true });
+
+    const baseURL = await asyncStorageItem.baseURL();
+    console.log("URL là", baseURL);
+
     const response = await axios.request({
-      baseURL: "http://27.74.240.29/apiPDM/",
+      baseURL: baseURL,
       timeout: 5000,
       url: endpoint,
       method: method,
@@ -54,6 +59,7 @@ const callApi = async (
       return [];
     }
   } catch (error) {
+    console.log(error);
     try {
       console.log("Log error", response);
       const errorFields = Object.keys(error.response.data.errors);

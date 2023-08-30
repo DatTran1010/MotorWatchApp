@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import Toast from "react-native-toast-message";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import messaging from "@react-native-firebase/messaging";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import colors from "../../Common/colors";
 import globalstyle from "../../Common/globalstyle";
@@ -151,7 +152,9 @@ const Login = ({ navigation }) => {
         <View style={styles.container}>
           <View
             style={{
-              alignItems: "flex-end",
+              position: "absolute",
+              right: 5,
+              top: -20,
             }}
           >
             <IconButton

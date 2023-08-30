@@ -22,8 +22,8 @@ import WorkPlan from "./src/UI/Work/WorkPlan/WorkPlan";
 import WorkRealtime from "./src/UI/Work/WorkRealtime/WorkRealtime";
 import colors from "./src/Common/colors";
 import theme from "./src/Common/theme";
-import Camerakit from "./src/UI/CMRKit";
-import CameraComponent from "./src/components/CameraComponent";
+import QRCamera from "./src/components/QRCamera";
+// import CameraComponent from "./src/components/CameraComponent";
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -156,18 +156,12 @@ export default function App() {
                 component={DetailsOEE}
                 options={{ headerShown: true, headerTintColor: colors.white }}
               />
-
-              <Stack.Screen
-                name="Camerakit"
-                component={Camerakit}
-                options={{ headerShown: true, headerTintColor: colors.white }}
-              />
             </Stack.Navigator>
           </NavigationContainer>
           <ModalUser />
           <Overlay />
           <Toast />
-          <CameraComponent />
+          <QRCamera />
         </View>
       </ConTextProvider>
     </Provider>

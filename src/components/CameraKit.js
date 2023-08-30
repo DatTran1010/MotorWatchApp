@@ -22,7 +22,7 @@ import IconButton from "./IconButton";
 import colors from "../Common/colors";
 import { windowHeight, windowWidth } from "../Common/dimentions";
 
-const CameraComponent = ({}) => {
+const CameraKit = ({}) => {
   const dispatch = useDispatch();
   const isShowCamera = useSelector((state) => state.showCamera);
 
@@ -210,7 +210,7 @@ const CameraComponent = ({}) => {
   return isShowCamera && <CameraRender />;
 };
 
-export default CameraComponent;
+export default CameraKit;
 
 const styles = StyleSheet.create({
   headerContent: {
