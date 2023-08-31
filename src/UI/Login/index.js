@@ -14,7 +14,7 @@ import { useDispatch } from "react-redux";
 import Toast from "react-native-toast-message";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import messaging from "@react-native-firebase/messaging";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import LinearGradient from "react-native-linear-gradient";
 
 import colors from "../../Common/colors";
 import globalstyle from "../../Common/globalstyle";
@@ -205,8 +205,15 @@ const Login = ({ navigation }) => {
                   </TouchableOpacity>
                 </View>
 
-                <TouchableOpacity style={styles.btnLogin} onPress={handleLogin}>
-                  <Text style={styles.textbtnLogin}>LOGIN</Text>
+                <TouchableOpacity onPress={handleLogin} activeOpacity={0.5}>
+                  <LinearGradient
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 2, y: 0 }}
+                    colors={colors.colorButton}
+                    style={styles.btnLogin}
+                  >
+                    <Text style={styles.textbtnLogin}>ĐĂNG NHẬP</Text>
+                  </LinearGradient>
                 </TouchableOpacity>
               </View>
             </View>
@@ -276,8 +283,8 @@ const styles = StyleSheet.create({
   btnLogin: {
     width: "100%",
     height: 50,
-    backgroundColor: colors.buttoncolor,
-    borderRadius: 20,
+    backgroundColor: colors.primarySecond,
+    borderRadius: 6,
     alignItems: "center",
     justifyContent: "center",
   },

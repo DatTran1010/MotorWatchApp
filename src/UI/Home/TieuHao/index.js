@@ -25,8 +25,8 @@ const Consumption = ({ navigation, selectedID_DC }) => {
 
   const [showCalendar, setShowCalendar] = useState(false);
   const [dateToFrom, setDateToFrom] = useState({
-    startDate: moment(new Date()).format("YYYY-MM-DD"),
-    endDate: moment(new Date()).add(6, "days").format("YYYY-MM-DD"),
+    startDate: moment(new Date()).add(-6, "days").format("YYYY-MM-DD"),
+    endDate: moment(new Date()).format("YYYY-MM-DD"),
   });
 
   //#endregion

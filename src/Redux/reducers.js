@@ -21,6 +21,11 @@ const initialState = {
       TOKEN: "",
     },
   ],
+
+  notiferWarning: {
+    showNotifer: false,
+    label: "",
+  },
 };
 
 const reducer = (state = initialState, action) => {
@@ -75,6 +80,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         baseURL: action.payload,
+      };
+    }
+    case "SET_NOTIFER_WARNING": {
+      return {
+        ...state,
+        notiferWarning: action.payload,
       };
     }
     default:

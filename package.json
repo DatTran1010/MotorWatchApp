@@ -37,6 +37,7 @@
     "react-native-gesture-handler": "^2.12.1",
     "react-native-image-crop-picker": "^0.37.3",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-linear-gradient": "^2.8.2",
     "react-native-modal-datetime-picker": "^15.0.1",
     "react-native-paper": "^5.8.0",
     "react-native-qr-decode-image-camera": "^1.1.3",

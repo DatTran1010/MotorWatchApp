@@ -3,10 +3,22 @@ import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import { windowHeight, windowWidth } from "../Common/dimentions";
 import colors from "../Common/colors.js";
 import theme from "../Common/theme";
-const FormButton = ({ buttonTitle, ...rest }) => {
+import LinearGradient from "react-native-linear-gradient";
+const FormButton = ({
+  buttonTitle,
+  colorButton = colors.colorButton,
+  ...rest
+}) => {
   return (
-    <TouchableOpacity style={styles.buttonContainer} {...rest}>
-      <Text style={styles.buttonText}>{buttonTitle}</Text>
+    <TouchableOpacity {...rest}>
+      <LinearGradient
+        start={{ x: 0, y: 0 }}
+        end={{ x: 2, y: 0 }}
+        colors={colorButton}
+        style={styles.buttonContainer}
+      >
+        <Text style={styles.buttonText}>{buttonTitle}</Text>
+      </LinearGradient>
     </TouchableOpacity>
   );
 };
@@ -25,8 +37,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   buttonText: {
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 16,
+    fontWeight: "700",
     color: "#ffffff",
     fontFamily: theme.fontFamily,
   },

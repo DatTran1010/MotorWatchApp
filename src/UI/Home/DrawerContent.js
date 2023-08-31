@@ -131,6 +131,21 @@ const DrawerContent = (props) => {
               props.navigation.navigate("WorkRealtime");
             }}
           />
+          <DrawerItem
+            icon={(color, size) => (
+              <Ionicons
+                name="mail-outline"
+                size={25}
+                color={colors.primary}
+                style={{ marginRight: -10 }}
+              />
+            )}
+            label="Yêu cầu gửi báo cáo"
+            labelStyle={theme.font}
+            onPress={() => {
+              props.navigation.navigate("RequestReport");
+            }}
+          />
         </Drawer.Section>
         <Drawer.Section>
           <TouchableRipple onPress={hanldeDarkTheme}>

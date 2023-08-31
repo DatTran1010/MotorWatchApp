@@ -10,9 +10,11 @@ import {
 
 import { windowHeight, windowWidth } from "../../../Common/dimentions";
 import theme from "../../../Common/theme";
+import colors from "../../../Common/colors";
 
 const ConsumtionChart = ({ data }) => {
   const [focusedBar, setFocusedBar] = useState(null);
+
   return (
     <View style={{ flex: 1, zIndex: -1 }}>
       <VictoryChart
@@ -39,7 +41,12 @@ const ConsumtionChart = ({ data }) => {
           label={"Kwh"}
           style={{
             axisLabel: {
-              padding: 30,
+              padding: 3,
+            },
+            tickLabels: {
+              fill: colors.black,
+              fontFamily: theme.fontFamily,
+              fontSize: 11,
             },
           }}
         ></VictoryAxis>
@@ -53,21 +60,20 @@ const ConsumtionChart = ({ data }) => {
             data={data}
             x="date"
             y="tonG_TH"
-            animate={{ duration: 2000, easing: "bounce" }}
+            // animate={{ duration: 2000, easing: "bounce" }}
             style={{
               data: {
                 width: 20,
                 fill: data[0].colorTONG_TH,
               },
             }}
-
-            //   labels={({ datum }) => `${datum.y}`}
+            labels={({ datum }) => `${datum.tonG_TH}`}
           />
           <VictoryBar
             data={data}
             x="date"
             y="tonG_CX"
-            animate={{ duration: 2000, easing: "bounce" }}
+            // animate={{ duration: 2000, easing: "bounce" }}
             style={{
               data: {
                 width: 20,
@@ -79,13 +85,12 @@ const ConsumtionChart = ({ data }) => {
                 target: "data",
                 eventHandlers: {
                   onPress: () => {
-                    alert(123);
+                    // alert(123);
                   },
                 },
               },
             ]}
-
-            //   labels={({ datum }) => `${datum.y}`}
+            labels={({ datum }) => `${datum.tonG_CX}`}
           />
         </VictoryGroup>
       </VictoryChart>

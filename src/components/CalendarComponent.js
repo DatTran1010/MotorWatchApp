@@ -10,6 +10,7 @@ import { Calendar } from "react-native-calendars";
 import colors from "../Common/colors";
 import { windowHeight, windowWidth } from "../Common/dimentions";
 import theme from "../Common/theme";
+import LinearGradient from "react-native-linear-gradient";
 
 const CalendarComponent = ({
   onClickDone,
@@ -111,7 +112,6 @@ const CalendarComponent = ({
     >
       <TouchableOpacity
         style={{
-          marginLeft: 10,
           paddingHorizontal: 10,
           justifyContent: "center",
           height: windowHeight / 18,
@@ -167,12 +167,23 @@ const CalendarComponent = ({
               justifyContent: "space-between",
             }}
           >
-            <TouchableOpacity onPress={handleShowCalendar}>
+            <TouchableOpacity
+              onPress={handleShowCalendar}
+              style={{
+                backgroundColor: colors.gray,
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 2,
+                width: 50,
+                height: 30,
+              }}
+            >
               <Text
                 style={{
-                  fontSize: 16,
-                  color: colors.gray,
+                  fontSize: 14,
+                  color: colors.white,
                   fontFamily: theme.fontFamily,
+                  fontWeight: "700",
                 }}
               >
                 Cancel
@@ -184,16 +195,31 @@ const CalendarComponent = ({
                 setShowcalendar(false);
               }}
             >
-              <Text
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 2, y: 0 }}
+                colors={colors.colorButton}
                 style={{
-                  fontSize: 16,
-                  color: colors.black,
+                  backgroundColor: "red",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 3,
                   marginLeft: 10,
-                  fontFamily: theme.fontFamily,
+                  width: 50,
+                  height: 30,
                 }}
               >
-                Done
-              </Text>
+                <Text
+                  style={{
+                    fontSize: 14,
+                    color: colors.white,
+                    fontFamily: theme.fontFamily,
+                    fontWeight: "700",
+                  }}
+                >
+                  Done
+                </Text>
+              </LinearGradient>
             </TouchableOpacity>
           </View>
         </Animated.View>

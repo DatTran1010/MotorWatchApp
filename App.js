@@ -23,6 +23,9 @@ import WorkRealtime from "./src/UI/Work/WorkRealtime/WorkRealtime";
 import colors from "./src/Common/colors";
 import theme from "./src/Common/theme";
 import QRCamera from "./src/components/QRCamera";
+import NotificationApp from "./src/components/NotificationApp";
+import LinearGradient from "react-native-linear-gradient";
+import RequestReport from "./src/UI/RequestReport/RequestReport";
 // import CameraComponent from "./src/components/CameraComponent";
 
 export default function App() {
@@ -94,6 +97,19 @@ export default function App() {
             ),
           }}
         />
+        <Stack.Screen
+          name="RequestReport"
+          component={RequestReport}
+          options={{
+            title: "RequestReport",
+            headerShown: true,
+            drawerIcon: true,
+            headerTintColor: colors.white,
+            headerTitle: () => (
+              <Text style={theme.fontTitle}>YÊU CẦU GỬI BÁO CÁO</Text>
+            ),
+          }}
+        />
       </Drawer.Navigator>
     );
   };
@@ -162,6 +178,7 @@ export default function App() {
           <Overlay />
           <Toast />
           <QRCamera />
+          <NotificationApp />
         </View>
       </ConTextProvider>
     </Provider>
