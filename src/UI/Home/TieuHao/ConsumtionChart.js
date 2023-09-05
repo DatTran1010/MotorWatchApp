@@ -6,6 +6,7 @@ import {
   VictoryTheme,
   VictoryGroup,
   VictoryAxis,
+  VictoryLabel,
 } from "victory-native";
 
 import { windowHeight, windowWidth } from "../../../Common/dimentions";
@@ -36,9 +37,9 @@ const ConsumtionChart = ({ data }) => {
         }}
       >
         <VictoryAxis></VictoryAxis>
+
         <VictoryAxis
           dependentAxis
-          label={"Kwh"}
           style={{
             axisLabel: {
               padding: 3,
@@ -49,6 +50,7 @@ const ConsumtionChart = ({ data }) => {
               fontSize: 11,
             },
           }}
+          tickLabelComponent={<VictoryLabel textAnchor="end" />}
         ></VictoryAxis>
         <VictoryGroup
           offset={15}
@@ -93,6 +95,7 @@ const ConsumtionChart = ({ data }) => {
             labels={({ datum }) => `${datum.tonG_CX}`}
           />
         </VictoryGroup>
+        <VictoryLabel text="Kwh" x={10} y={20} />
       </VictoryChart>
     </View>
   );

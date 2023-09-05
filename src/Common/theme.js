@@ -13,4 +13,11 @@ export default {
     color: colors.white,
     fontFamily: "Segoe UI",
   },
+  shadow: {
+    shadowColor: "black",
+    shadowOffset: { width: 5, height: 0 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.85,
+    elevation: 5,
+  },
 };

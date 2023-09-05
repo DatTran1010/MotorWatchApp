@@ -7,15 +7,15 @@ import LinearGradient from "react-native-linear-gradient";
 const FormButton = ({
   buttonTitle,
   colorButton = colors.colorButton,
-  ...rest
+  ...props
 }) => {
   return (
-    <TouchableOpacity {...rest}>
+    <TouchableOpacity {...props}>
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 2, y: 0 }}
         colors={colorButton}
-        style={styles.buttonContainer}
+        style={[styles.buttonContainer, theme.shadow]}
       >
         <Text style={styles.buttonText}>{buttonTitle}</Text>
       </LinearGradient>

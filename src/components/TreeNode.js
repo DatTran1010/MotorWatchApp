@@ -63,14 +63,15 @@ const TreeNode = ({ data, onCheckedItem }) => {
                   activeOpacity={0.8}
                   style={{
                     flex: 1,
-                    backgroundColor: colors.primaryArgb,
-                    borderRadius: 5,
+                    borderRadius: 6,
                     height: heightTextInput,
                     marginVertical: 5,
                     flexDirection: "row",
                     justifyContent: "space-between",
                     alignItems: "center",
                     paddingLeft: 10,
+                    borderWidth: 1,
+                    borderColor: colors.primary,
                   }}
                   onPress={() => toggleExpand(index)} // Toggle mở rộng
                   key={key}
@@ -81,6 +82,7 @@ const TreeNode = ({ data, onCheckedItem }) => {
                       label={value}
                       onPress={() => onCheckedItem(item)}
                       value={item.check}
+                      isBackgroundColor={false}
                     />
                   </View>
 
@@ -94,10 +96,13 @@ const TreeNode = ({ data, onCheckedItem }) => {
                     >
                       <IconButton
                         nameicon={
-                          expandedNodes[index] ? "arrow-down" : "arrow-forward"
+                          expandedNodes[index]
+                            ? "chevron-down-sharp"
+                            : "chevron-forward-sharp"
                         }
                         border={false}
                         size={30}
+                        colorIcon={colors.primary}
                         onPress={() => {
                           toggleExpand(index, item);
                         }}

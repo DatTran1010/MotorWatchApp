@@ -38,7 +38,7 @@ const GridViewComponent = ({
             flexDirection: "row",
             alignContent: "center",
             height: windowHeight / 20,
-            backgroundColor: colors.primaryArgb,
+            backgroundColor: colors.primarySecond,
             paddingHorizontal: 5,
           }}
         >

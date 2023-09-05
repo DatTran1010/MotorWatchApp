@@ -1,11 +1,12 @@
 import { View, Text, Modal, TouchableOpacity, StyleSheet } from "react-native";
-import React from "react";
+import React, { memo } from "react";
 import LinearGradient from "react-native-linear-gradient";
 import { useSelector, useDispatch } from "react-redux";
 
 import colors from "../Common/colors";
 import { windowHeight, windowWidth } from "../Common/dimentions";
 import theme from "../Common/theme";
+import FormButton from "./button";
 const NotificationApp = ({ content = "Thông báo" }) => {
   const dispatch = useDispatch();
   const showModalWarning = useSelector((state) => state.notiferWarning);
@@ -67,6 +68,7 @@ const NotificationApp = ({ content = "Thông báo" }) => {
                 fontFamily: theme.fontFamily,
                 color: "#736d81",
                 fontSize: 14,
+                marginBottom: 20,
               }}
             >
               {showModalWarning.label}
@@ -78,11 +80,11 @@ const NotificationApp = ({ content = "Thông báo" }) => {
                 fontSize: 14,
               }}
             >
-              Vui lòng kiểm tra lại
+              {showModalWarning.label2}
             </Text>
           </View>
 
-          <TouchableOpacity activeOpacity={0.6} onPress={handleConfirmModal}>
+          {/* <TouchableOpacity activeOpacity={0.6} onPress={handleConfirmModal}>
             <LinearGradient
               start={{ x: 0, y: 0 }}
               end={{ x: 2, y: 0 }}
@@ -100,14 +102,20 @@ const NotificationApp = ({ content = "Thông báo" }) => {
                 Đồng ý
               </Text>
             </LinearGradient>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+          <FormButton
+            buttonTitle={"Đồng ý"}
+            style={styles.buttonConfirm}
+            activeOpacity={0.6}
+            onPress={handleConfirmModal}
+          />
         </View>
       </TouchableOpacity>
     </Modal>
   );
 };
 
-export default NotificationApp;
+export default memo(NotificationApp);
 
 const styles = StyleSheet.create({
   container: {
@@ -146,10 +154,7 @@ const styles = StyleSheet.create({
   buttonConfirm: {
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 20,
-    marginHorizontal: 20,
     padding: 10,
-    backgroundColor: "red",
     borderRadius: 6,
   },
 });

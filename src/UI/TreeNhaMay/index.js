@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import React, { useRef, useCallback, useMemo } from "react";
+import React, { useRef, useMemo } from "react";
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetModalProvider,
@@ -12,6 +12,9 @@ import { windowHeight } from "../../Common/dimentions";
 import TreeList from "../../components/TreeList";
 import colors from "../../Common/colors";
 import callApi from "../../ConText/api";
+import LinearGradient from "react-native-linear-gradient";
+import theme from "../../Common/theme";
+import IconButton from "../../components/IconButton";
 
 const TreeListNhaMay = () => {
   const disPatch = useDispatch();
@@ -86,26 +89,40 @@ const TreeListNhaMay = () => {
 
   const CustomHandleComponent = () => {
     return (
-      <TouchableOpacity
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-          height: 40,
-        }}
-        activeOpacity={0.7}
-        onPress={() => {
-          bottomSheetRef.current.snapToIndex(2);
-        }}
-      >
-        <View
+      <View>
+        <LinearGradient
+          start={{ x: 0, y: 0 }}
+          end={{ x: 2, y: 0 }}
+          colors={colors.colorHeader}
           style={{
-            backgroundColor: colors.blackArbg,
-            width: 30,
-            height: 5,
-            borderRadius: 5,
+            alignItems: "center",
+            justifyContent: "space-between",
+            height: 40,
+            borderTopLeftRadius: 10,
+            borderTopRightRadius: 10,
+            flex: 1,
+            flexDirection: "row",
+            paddingHorizontal: 10,
           }}
-        ></View>
-      </TouchableOpacity>
+        >
+          <View>
+            <Text style={[theme.font, { color: colors.white }]}>
+              Chọn nhà máy và động cơ
+            </Text>
+          </View>
+          <View>
+            <IconButton
+              border={false}
+              nameicon="close-outline"
+              colorIcon={colors.white}
+              size={25}
+              onPress={() => {
+                bottomSheetRef.current.close();
+              }}
+            />
+          </View>
+        </LinearGradient>
+      </View>
     );
   };
 
@@ -162,7 +179,7 @@ const TreeListNhaMay = () => {
         handleComponent={CustomHandleComponent}
         enablePanDownToClose={true}
         onClose={() => {
-          //   bottomSheetRef.current.snapToIndex(0);
+          // bottomSheetRef.current.snapToIndex(0);
         }}
         enableContentPanningGesture={false}
       >

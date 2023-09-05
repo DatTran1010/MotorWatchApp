@@ -23,6 +23,7 @@ import ModalQuestion from "../../../components/ModalQuestion";
 import * as generaService from "../../../apiServices/generalService.js";
 import * as workModeServices from "../../../apiServices/workModeService";
 import HeaderApp from "../../Home/HeaderApp";
+import FormButton from "../../../components/button";
 const WorkingMode = ({ navigation }) => {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.userInfo);
@@ -154,47 +155,47 @@ const WorkingMode = ({ navigation }) => {
   //#endregion
   return (
     <View style={styles.container}>
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={86}
-      >
-        <HeaderApp
-          navigation={navigation}
-          title={"CHẾ ĐỘ LÀM VIỆC"}
-          headerLeftVisible={true}
-          goBack={false}
-        />
-        <View style={{ flex: 1 }}>
-          <View style={styles.filterControl}>
-            <DropDown
-              data={dataMay}
-              labelField="name"
-              valueField={"value"}
-              placeholder="Chọn máy"
-              handleValue={handleSelectedMay}
-              value={selectedMay}
-            />
-          </View>
-          <Formik
-            key={keyResetFormik}
-            enableReinitialize={true}
-            initialValues={{
-              valueT2: dataCDLV.tG_T2 && dataCDLV.tG_T2.toString(),
-              valueT3: dataCDLV.tG_T3 && dataCDLV.tG_T3.toString(),
-              valueT4: dataCDLV.tG_T4 && dataCDLV.tG_T4.toString(),
-              valueT5: dataCDLV.tG_T5 && dataCDLV.tG_T5.toString(),
-              valueT6: dataCDLV.tG_T6 && dataCDLV.tG_T6.toString(),
-              valueT7: dataCDLV.tG_T7 && dataCDLV.tG_T7.toString(),
-              valueCN: dataCDLV.tG_CN && dataCDLV.tG_CN.toString(),
-              valueOEE:
-                dataCDLV.oeE_MUC_TIEU && dataCDLV.oeE_MUC_TIEU.toString(),
-            }}
-            validationSchema={validationSchema}
-            onSubmit={(values) => handleSaveButton(values)}
-          >
-            {({ handleChange, handleSubmit, values, errors }) => (
-              <View style={{ flex: 5 }}>
+      <HeaderApp
+        navigation={navigation}
+        title={"CHẾ ĐỘ LÀM VIỆC"}
+        headerLeftVisible={true}
+        goBack={false}
+      />
+
+      <View style={{ flex: 1 }}>
+        <View style={styles.filterControl}>
+          <DropDown
+            data={dataMay}
+            labelField="name"
+            valueField={"value"}
+            placeholder="Chọn máy"
+            handleValue={handleSelectedMay}
+            value={selectedMay}
+          />
+        </View>
+        <Formik
+          key={keyResetFormik}
+          enableReinitialize={true}
+          initialValues={{
+            valueT2: dataCDLV.tG_T2 && dataCDLV.tG_T2.toString(),
+            valueT3: dataCDLV.tG_T3 && dataCDLV.tG_T3.toString(),
+            valueT4: dataCDLV.tG_T4 && dataCDLV.tG_T4.toString(),
+            valueT5: dataCDLV.tG_T5 && dataCDLV.tG_T5.toString(),
+            valueT6: dataCDLV.tG_T6 && dataCDLV.tG_T6.toString(),
+            valueT7: dataCDLV.tG_T7 && dataCDLV.tG_T7.toString(),
+            valueCN: dataCDLV.tG_CN && dataCDLV.tG_CN.toString(),
+            valueOEE: dataCDLV.oeE_MUC_TIEU && dataCDLV.oeE_MUC_TIEU.toString(),
+          }}
+          validationSchema={validationSchema}
+          onSubmit={(values) => handleSaveButton(values)}
+        >
+          {({ handleChange, handleSubmit, values, errors }) => (
+            <View style={{ flex: 5 }}>
+              <KeyboardAvoidingView
+                style={{ flex: 1 }}
+                behavior={Platform.OS === "ios" && "padding"}
+                keyboardVerticalOffset={86}
+              >
                 <ScrollView
                   style={{ flex: 4 }}
                   refreshControl={
@@ -350,72 +351,86 @@ const WorkingMode = ({ navigation }) => {
                     )}
                   </View>
                 </ScrollView>
-                <View style={styles.button}>
-                  <View style={styles.savebutton}>
-                    <TouchableOpacity
+              </KeyboardAvoidingView>
+              <View style={styles.button}>
+                {/* <View style={styles.savebutton}>
+                  <TouchableOpacity
+                    style={{
+                      width: 100,
+                      height: 40,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: 6,
+                      backgroundColor: colors.primary,
+                    }}
+                    activeOpacity={0.6}
+                    onPress={handleSubmit}
+                  >
+                    <Text
                       style={{
-                        width: 100,
-                        height: 40,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderRadius: 6,
-                        backgroundColor: colors.primary,
-                      }}
-                      activeOpacity={0.6}
-                      onPress={handleSubmit}
-                    >
-                      <Text
-                        style={{
-                          fontWeight: "500",
-                          color: colors.white,
-                        }}
-                      >
-                        Lưu
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-
-                  <View style={styles.dontsavebutton}>
-                    <TouchableOpacity
-                      style={{
-                        width: 100,
-                        height: 40,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderRadius: 6,
-                        borderWidth: 1,
-                        borderColor: colors.primary,
-                        backgroundColor: colors.backgroundColor,
-                      }}
-                      activeOpacity={0.6}
-                      onPress={() => {
-                        Keyboard.dismiss();
+                        fontWeight: "500",
+                        color: colors.white,
                       }}
                     >
-                      <Text
-                        style={{
-                          fontWeight: "500",
-                          color: colors.black,
-                        }}
-                      >
-                        Không lưu
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
+                      Lưu
+                    </Text>
+                  </TouchableOpacity>
                 </View>
+
+                <View style={styles.dontsavebutton}>
+                  <TouchableOpacity
+                    style={{
+                      width: 100,
+                      height: 40,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: 6,
+                      borderWidth: 1,
+                      borderColor: colors.primary,
+                      backgroundColor: colors.backgroundColor,
+                    }}
+                    activeOpacity={0.6}
+                    onPress={() => {
+                      Keyboard.dismiss();
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontWeight: "500",
+                        color: colors.black,
+                      }}
+                    >
+                      Không lưu
+                    </Text>
+                  </TouchableOpacity>
+                </View> */}
+
+                <FormButton
+                  buttonTitle={"LƯU"}
+                  activeOpacity={0.7}
+                  onPress={handleSubmit}
+                />
+                <FormButton
+                  buttonTitle={"KHÔNG LƯU"}
+                  colorButton={colors.colorHeader}
+                  activeOpacity={0.6}
+                  onPress={() => {
+                    Keyboard.dismiss();
+                  }}
+                />
               </View>
-            )}
-          </Formik>
-        </View>
-        {showModalSave && (
-          <ModalQuestion
-            onClose={handleCloseModal}
-            onConfirm={handleConfirmModal}
-            label="Bạn có chắc chắn muốn lưu dữ liệu ?"
-            content="Lưu dữ liệu"
-          />
-        )}
-      </KeyboardAvoidingView>
+            </View>
+          )}
+        </Formik>
+      </View>
+      {showModalSave && (
+        <ModalQuestion
+          onClose={handleCloseModal}
+          onConfirm={handleConfirmModal}
+          label="Bạn có chắc chắn muốn lưu dữ liệu ?"
+          content="Lưu dữ liệu"
+        />
+      )}
     </View>
   );
 };
@@ -436,21 +451,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   button: {
-    flex: 0.1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 10,
-  },
-  savebutton: {
-    flex: 1,
-
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  dontsavebutton: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    flex: 0.3,
   },
 });

@@ -25,6 +25,7 @@ const initialState = {
   notiferWarning: {
     showNotifer: false,
     label: "",
+    label2: "",
   },
 };
 

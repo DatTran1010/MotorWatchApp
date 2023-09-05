@@ -9,6 +9,7 @@ const Checkbox = ({
   value = false,
   size = 20,
   label = "name checkbox",
+  isBackgroundColor = true,
   ...props
 }) => {
   return (
@@ -26,16 +27,26 @@ const Checkbox = ({
           style={[
             styles.checkboxStyle,
             {
-              backgroundColor: value ? colors.primary : colors.white,
               width: size,
               height: size,
+              backgroundColor: isBackgroundColor
+                ? value
+                  ? colors.primary
+                  : colors.white
+                : colors.white,
             },
           ]}
         >
           <Ionicons
             name="checkmark-outline"
             size={size - 5}
-            color={colors.white}
+            color={
+              !isBackgroundColor
+                ? value
+                  ? colors.primary
+                  : colors.white
+                : colors.white
+            }
           />
         </View>
         <View style={{ marginLeft: 10, flexShrink: 1 }}>

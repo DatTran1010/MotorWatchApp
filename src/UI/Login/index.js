@@ -35,6 +35,7 @@ import {
 } from "../../Common/notification";
 import theme from "../../Common/theme";
 import IconButton from "../../components/IconButton";
+import FormButton from "../../components/button";
 
 const Login = ({ navigation }) => {
   const { token, setToken } = useContext(MainConText);
@@ -205,7 +206,12 @@ const Login = ({ navigation }) => {
                   </TouchableOpacity>
                 </View>
 
-                <TouchableOpacity onPress={handleLogin} activeOpacity={0.5}>
+                <FormButton
+                  buttonTitle={"ĐĂNG NHẬP"}
+                  onPress={handleLogin}
+                  activeOpacity={0.5}
+                />
+                {/* <TouchableOpacity onPress={handleLogin} activeOpacity={0.5}>
                   <LinearGradient
                     start={{ x: 0, y: 0 }}
                     end={{ x: 2, y: 0 }}
@@ -214,7 +220,7 @@ const Login = ({ navigation }) => {
                   >
                     <Text style={styles.textbtnLogin}>ĐĂNG NHẬP</Text>
                   </LinearGradient>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
             </View>
             <View style={styles.moreLogin}>
@@ -278,15 +284,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.black,
     fontFamily: theme.fontFamily,
-  },
-
-  btnLogin: {
-    width: "100%",
-    height: 50,
-    backgroundColor: colors.primarySecond,
-    borderRadius: 6,
-    alignItems: "center",
-    justifyContent: "center",
   },
 
   textbtnLogin: {

@@ -47,7 +47,6 @@ const IconButton = ({
           },
         ]}
         {...props}
-        
       >
         <Ionicons name={nameicon} size={size} color={colorIcon} />
       </TouchableOpacity>

@@ -1,8 +1,8 @@
 import callApi from "../ConText/api";
 
-export const getDataCboReport = async (dispatch) => {
+export const getCboTinhTrang = async (dispatch) => {
   try {
-    const endpoint = "/api/motorwatch/baocao";
+    const endpoint = "/api/motorwatch/tinhtrangdc";
     const method = "GET";
     const params = null;
 
@@ -14,20 +14,17 @@ export const getDataCboReport = async (dispatch) => {
       "",
       params
     );
-
     return response.data;
   } catch (error) {
     return [];
   }
 };
 
-export const getDataCboDiaDiem = async (username, dispatch) => {
+export const getCboTinhTrangLoi = async (dispatch) => {
   try {
-    const endpoint = "/api/motorwatch/diadiem";
+    const endpoint = "/api/motorwatch/tinhtrangloi";
     const method = "GET";
-    const params = {
-      UserName: username,
-    };
+    const params = null;
 
     const response = await callApi(
       dispatch,
@@ -37,7 +34,6 @@ export const getDataCboDiaDiem = async (username, dispatch) => {
       "",
       params
     );
-
     return response.data;
   } catch (error) {
     return [];

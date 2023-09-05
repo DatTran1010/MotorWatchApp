@@ -9,6 +9,7 @@ import {
 import React, { memo } from "react";
 
 import colors from "../Common/colors";
+import theme from "../Common/theme";
 const ModalQuestion = ({ onClose, content = "", label = "", onConfirm }) => {
   const handleBlur = (event) => {
     if (event.target === event.currentTarget) {
@@ -86,6 +87,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     padding: 15,
     color: "#000",
+    fontFamily: theme.fontFamily,
   },
   divider: {
     width: "100%",

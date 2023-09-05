@@ -61,6 +61,7 @@ const QRCamera = () => {
               showNotifer: true,
               label:
                 "Mã QR không hợp lệ hoặc chất lượng hình ảnh không phù hợp quy chuẩn của hệ điều hành.",
+              label2: "Vui lòng kiểm tra lại.",
             },
           });
         });

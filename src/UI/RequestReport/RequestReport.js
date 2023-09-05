@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import moment from "moment";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import HeaderApp from "../Home/HeaderApp";
 import colors from "../../Common/colors";
@@ -9,8 +9,11 @@ import DropDown from "../../components/DropDown";
 import FormButton from "../../components/button";
 import CalendarComponent from "../../components/CalendarComponent";
 import * as reportServices from "../../apiServices/resquestReportServices";
+import ModalQuestion from "../../components/ModalQuestion";
+import NotificationApp from "../../components/NotificationApp";
 const RequestReport = ({ navigation }) => {
   const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.userInfo);
 
   const [dateFromTo, setDataFromTo] = useState({
     startDate: moment(new Date()).add(-6, "days").format("YYYY-MM-DD"),
@@ -18,21 +21,67 @@ const RequestReport = ({ navigation }) => {
   });
 
   const [dataCboReport, setDataCboReport] = useState([]);
-  const [selectedValueReport, setSelectedValueReport] = useState("");
+  const [dataDiaDiem, setDataCboDiaDiem] = useState([]);
+
+  const [selectedValueReport, setSelectedValueReport] = useState({
+    name: "",
+    value: "",
+  });
+  const [selectedValueDiaDiem, setSelectedValueDiaDiem] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const getDataCboReport = async () => {
       const result = await reportServices.getDataCboReport(dispatch);
       setDataCboReport(result);
     };
+    const getDataCboDiaDiem = async () => {
+      const result = await reportServices.getDataCboDiaDiem(
+        userInfo.USER_NAME,
+        dispatch
+      );
+      setDataCboDiaDiem(result);
+    };
     getDataCboReport();
+    getDataCboDiaDiem();
   }, []);
 
   //handle
-
   const handleValueReport = (item) => {
-    setSelectedValueReport(item.value);
+    setSelectedValueReport({
+      name: item.name,
+      value: item.value,
+    });
   };
+
+  const handleValueDiaDiem = (item) => {
+    setSelectedValueDiaDiem(item.value);
+  };
+
+  const handleDoneDate = (date) => {
+    setDataFromTo(date);
+  };
+
+  const handleSendMail = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleConfirmSendEmail = () => {
+    setShowModal(false);
+    dispatch({
+      type: "SET_NOTIFER_WARNING",
+      payload: {
+        showNotifer: true,
+        label: `Báo cáo ${selectedValueReport.name} đã được gửi đến cho Mr/Ms ${userInfo.HO_TEN} theo địa chỉ email: ${userInfo.EMAIL} `,
+        label2: "Vui lòng kiểm tra email để xem báo cáo. ",
+      },
+    });
+  };
+
   return (
     <View style={styles.container}>
       <HeaderApp
@@ -48,7 +97,7 @@ const RequestReport = ({ navigation }) => {
               labelField="name"
               valueField={"value"}
               data={dataCboReport}
-              value={selectedValueReport}
+              value={selectedValueReport.value}
               handleValue={handleValueReport}
             />
           </View>
@@ -59,22 +108,44 @@ const RequestReport = ({ navigation }) => {
             }}
           >
             <View style={styles.viewFilter}>
-              <DropDown placeholder={"Địa điểm"} labelField="Địa điểm" />
-            </View>
-            <View style={[styles.viewFilter, { marginLeft: 10 }]}>
-              <CalendarComponent
-                isRight
-                startDate={dateFromTo.startDate}
-                endDate={dateFromTo.endDate}
+              <DropDown
+                placeholder={"Địa điểm"}
+                labelField="name"
+                valueField={"value"}
+                data={dataDiaDiem}
+                handleValue={handleValueDiaDiem}
+                value={selectedValueDiaDiem}
               />
             </View>
+            {selectedValueReport.value !== "4" && (
+              <View style={[styles.viewFilter, { marginLeft: 10 }]}>
+                <CalendarComponent
+                  isRight
+                  startDate={dateFromTo.startDate}
+                  endDate={dateFromTo.endDate}
+                  placeholder="Từ ngày - Đến ngày"
+                  onClickDone={handleDoneDate}
+                />
+              </View>
+            )}
           </View>
         </View>
         <View style={styles.viewButton}>
-          <FormButton buttonTitle={"GỬI"} />
+          <FormButton buttonTitle={"GỬI"} onPress={handleSendMail} />
           <FormButton buttonTitle={"CANCLE"} colorButton={colors.colorHeader} />
         </View>
       </View>
+      {showModal && (
+        <ModalQuestion
+          // onClose={handleCloseModal}
+          // onConfirm={handleConfirmModal}
+          label="Bạn có muốn gửi báo cáo ?"
+          content="Gửi báo cáo"
+          onClose={handleCloseModal}
+          onConfirm={handleConfirmSendEmail}
+        />
+      )}
+      <NotificationApp />
     </View>
   );
 };

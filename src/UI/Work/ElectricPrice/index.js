@@ -21,6 +21,7 @@ import { windowHeight, windowWidth } from "../../../Common/dimentions";
 import ModalQuestion from "../../../components/ModalQuestion";
 import callApi from "../../../ConText/api";
 import HeaderApp from "../../Home/HeaderApp";
+import FormButton from "../../../components/button";
 
 const ElictricPrice = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -193,7 +194,7 @@ const ElictricPrice = ({ navigation }) => {
           </View>
         </ScrollView>
         <View style={styles.button}>
-          <View style={styles.savebutton}>
+          {/* <View style={styles.savebutton}>
             <TouchableOpacity
               style={{
                 width: 100,
@@ -244,6 +245,26 @@ const ElictricPrice = ({ navigation }) => {
                 Không lưu
               </Text>
             </TouchableOpacity>
+          </View> */}
+          <View
+            style={{ width: "100%", height: "100%", flex: 1, marginBottom: 10 }}
+          >
+            <FormButton
+              buttonTitle={"LƯU"}
+              activeOpacity={0.7}
+              onPress={handleSaveButton}
+            />
+          </View>
+          <View style={{ width: "100%", height: "100%", flex: 1 }}>
+            <FormButton
+              buttonTitle={"KHÔNG LƯU"}
+              colorButton={colors.colorHeader}
+              activeOpacity={0.6}
+              onPress={() => {
+                setRefeshing(!refeshing);
+                Keyboard.dismiss();
+              }}
+            />
           </View>
         </View>
         {showModalSave && (
@@ -271,11 +292,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   button: {
-    flex: 0.1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 20,
+    flex: 0.3,
+    marginBottom: 10,
   },
   savebutton: {
     flex: 1,
