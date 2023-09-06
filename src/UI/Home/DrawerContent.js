@@ -31,7 +31,7 @@ const DrawerContent = (props) => {
             <DrawerContentScrollView {...props}>
                 {/* <DrawerItemList {...props} /> */}
                 <Image
-                    source={require("../../../assets/Logo.png")}
+                    source={require("../../../assets/LogoMotorWatch.jpg")}
                     style={{ width: "100%", height: 100 }}
                 />
                 <View style={styles.drawerContent}>
