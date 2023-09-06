@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: colors.backgroundColor,
-    width: "95%",
+    width: "90%",
     borderRadius: 4,
   },
   modalHeader: {

@@ -1,6 +1,12 @@
 const initialState = {
   baseURL: "",
   overlay: false,
+  toastContainer: {
+    showToast: false,
+    type: "info",
+    title: "Thông báo",
+    body: "",
+  },
   showTree: false,
   dataTreeNM: [{}],
   selectedIDTree: "",
@@ -36,6 +42,12 @@ const reducer = (state = initialState, action) => {
         ...state,
         overlay: action.payload,
       };
+    case "SET_SHOW_TOAST": {
+      return {
+        ...state,
+        toastContainer: action.payload,
+      };
+    }
     case "SET_SHOW_TREE":
       return {
         ...state,

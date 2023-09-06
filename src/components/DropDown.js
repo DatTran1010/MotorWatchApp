@@ -149,15 +149,15 @@ const styles = StyleSheet.create({
     top: -8,
     zIndex: 999,
     paddingHorizontal: 8,
-    fontSize: 14,
+    fontSize: theme.fontSize,
     fontFamily: theme.fontFamily,
     color: colors.black,
   },
   placeholderStyle: {
-    fontSize: 14,
+    fontSize: theme.fontSize,
   },
   selectedTextStyle: {
-    fontSize: 14,
+    fontSize: theme.fontSize,
     color: colors.black,
     fontFamily: theme.fontFamily,
   },
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
   },
   textItem: {
     flex: 1,
-    fontSize: 14,
+    fontSize: theme.fontSize,
     fontFamily: theme.fontFamily,
   },
 });

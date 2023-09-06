@@ -1,9 +1,11 @@
 import colors from "./colors";
+import { windowWidth } from "./dimentions";
+
 export default {
   fontFamily: "Segoe UI",
   font: {
     fontWeight: "400",
-    fontSize: 14,
+    fontSize: windowWidth / 30,
     color: colors.black,
     fontFamily: "Segoe UI",
   },
@@ -20,4 +22,5 @@ export default {
     shadowRadius: 3.85,
     elevation: 5,
   },
+  fontSize: windowWidth / 30,
 };

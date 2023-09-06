@@ -105,6 +105,7 @@ const CalendarComponent = ({
     });
     setShowcalendar(!showCalendar);
   };
+
   return (
     <Animated.View
       style={{
@@ -119,7 +120,7 @@ const CalendarComponent = ({
           top: -8,
           zIndex: 999,
           paddingHorizontal: 8,
-          fontSize: 14,
+          fontSize: theme.fontSize,
           fontFamily: theme.fontFamily,
           color: showCalendar ? colors.primary : colors.black,
         }}
@@ -143,7 +144,7 @@ const CalendarComponent = ({
         }}
         onPress={handleShowCalendar}
       >
-        <Text style={theme.font}>
+        <Text style={[theme.font, { fontSize: 12 }]}>
           {dateFromTo.startDate} - {dateFromTo.endDate}
         </Text>
       </TouchableOpacity>
@@ -151,7 +152,6 @@ const CalendarComponent = ({
       {showCalendar && (
         <Animated.View
           style={{
-            zIndex: 999,
             left: isRight ? -windowWidth / 2 : 0,
             right: isLeft ? -windowHeight / 2 : -10,
             position: "absolute",

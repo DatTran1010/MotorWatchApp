@@ -51,7 +51,6 @@ const DetailsConsumtion = ({ navigation }) => {
     );
 
     setData(response.data);
-    setRefeshing(false);
   };
 
   useEffect(() => {
@@ -65,7 +64,7 @@ const DetailsConsumtion = ({ navigation }) => {
   };
 
   const handleRefeshing = () => {
-    setRefeshing(true);
+    setRefeshing(!refeshing);
   };
   //#endregion
 
@@ -195,7 +194,6 @@ const DetailsConsumtion = ({ navigation }) => {
             data={data}
             dataHeader={dataHeader}
             onRefreshShing={handleRefeshing}
-            refreshing={refeshing}
             // columnRemove={{ id: true }}
           />
         </View>

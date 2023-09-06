@@ -21,7 +21,6 @@ const callApi = async (
     dispatch({ type: "SET_OVERLAY", payload: true });
 
     const baseURL = await asyncStorageItem.baseURL();
-    console.log("URL là", baseURL);
 
     const response = await axios.request({
       baseURL: baseURL,
@@ -35,6 +34,7 @@ const callApi = async (
       // signal: AbortSignal.timeout(5000),
     });
 
+    console.log("URL là", response.request.responseURL);
     clearTimeout(timeout); // Xóa timeout khi request thành công
     if (response.status == 200) {
       dispatch({ type: "SET_OVERLAY", payload: false });
@@ -43,18 +43,28 @@ const callApi = async (
       console.log("Log 204", response);
 
       dispatch({ type: "SET_OVERLAY", payload: false });
-      Toast.show({
-        type: "error",
-        text1: "Thông báo",
-        text2: "Không có dữ liệu",
+      dispatch({
+        type: "SET_SHOW_TOAST",
+        payload: {
+          showToast: true,
+          title: "Thông báo",
+          body: "Không có dữ liệu",
+          type: "error",
+        },
       });
+
       return [];
     } else {
       dispatch({ type: "SET_OVERLAY", payload: false });
-      Toast.show({
-        type: "error",
-        text1: "Thông báo",
-        text2: "Error",
+
+      dispatch({
+        type: "SET_SHOW_TOAST",
+        payload: {
+          showToast: true,
+          title: "Thông báo",
+          body: "Error",
+          type: "error",
+        },
       });
       return [];
     }
@@ -67,10 +77,14 @@ const callApi = async (
       // Truy cập giá trị lỗi của từng trường
       errorFields.forEach((fieldName) => {
         const errorText = error.response.data.errors[fieldName][0];
-        Toast.show({
-          type: "error",
-          text1: "Thông báo",
-          text2: errorText,
+        dispatch({
+          type: "SET_SHOW_TOAST",
+          payload: {
+            showToast: true,
+            title: "Thông báo",
+            body: errorText,
+            type: "error",
+          },
         });
       });
     } catch {}

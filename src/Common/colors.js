@@ -10,4 +10,8 @@ export default {
   blackArbg: "rgba(0,0,0,0.7)",
   colorButton: ["#f57c00", "#ffad58", "#ffe7ce"],
   colorHeader: ["#123485", "#92aef0"],
+  error: "#ff5630",
+  success: "#36b37e",
+  info: "#2684ff",
+  warning: "#ffab00",
 };

@@ -23,7 +23,8 @@ import { useDispatch } from "react-redux";
 import colors from "../../../Common/colors";
 import { windowHeight, windowWidth } from "../../../Common/dimentions";
 import callApi from "../../../ConText/api";
-const EngineState = ({ navigation, selectedID_DC }) => {
+import theme from "../../../Common/theme";
+const EngineState = ({ navigation, selectedID_DC, refeshing }) => {
   const dispatch = useDispatch();
 
   const [data, setData] = useState([{}]);
@@ -50,7 +51,7 @@ const EngineState = ({ navigation, selectedID_DC }) => {
 
   useEffect(() => {
     getData();
-  }, [selectedID_DC]);
+  }, [selectedID_DC, refeshing]);
 
   const handleState = (idTT) => {
     navigation.navigate("DetailsEngineState", {
@@ -102,7 +103,7 @@ const EngineState = ({ navigation, selectedID_DC }) => {
                   //     },
                   //   ];
                   // },
-                  onPress: () => {
+                  onPressIn: () => {
                     return [
                       {
                         target: "labels",
@@ -131,7 +132,7 @@ const EngineState = ({ navigation, selectedID_DC }) => {
             //     colors.primarySecond,
             //     colors.gray,
             // ]}
-            labelRadius={({ innerRadius }) => innerRadius * 1.5 + 10}
+            labelRadius={({ innerRadius }) => innerRadius + 50}
             style={{
               labels: {
                 fill: colors.black,
@@ -224,7 +225,7 @@ const styles = StyleSheet.create({
     height: 20,
   },
   labelLegend: {
-    fontSize: 12,
+    fontSize: theme.fontSize,
     fontWeight: "400",
     color: colors.black,
     flexShrink: 1,

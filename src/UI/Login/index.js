@@ -14,7 +14,6 @@ import { useDispatch } from "react-redux";
 import Toast from "react-native-toast-message";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import messaging from "@react-native-firebase/messaging";
-import LinearGradient from "react-native-linear-gradient";
 
 import colors from "../../Common/colors";
 import globalstyle from "../../Common/globalstyle";
@@ -89,23 +88,41 @@ const Login = ({ navigation }) => {
         dispatch({ type: "SET_USER_INFO", payload: userInfo });
 
         navigation.navigate("Home");
-        Toast.show({
-          type: "success",
-          text1: "Thông báo",
-          text2: "Đăng nhập thành công",
+        // Toast.show({
+        //   type: "success",
+        //   text1: "Thông báo",
+        //   text2: "Đăng nhập thành công",
+        // });
+
+        dispatch({
+          type: "SET_SHOW_TOAST",
+          payload: {
+            showToast: true,
+            title: "Thông báo",
+            body: "Đăng nhập thành công",
+            type: "success",
+          },
         });
       } else {
-        Toast.show({
-          type: "error",
-          text1: "Thông báo",
-          text2: response.data.message,
+        dispatch({
+          type: "SET_SHOW_TOAST",
+          payload: {
+            showToast: true,
+            title: "Thông báo",
+            body: response.data.message,
+            type: "error",
+          },
         });
       }
     } catch {
-      Toast.show({
-        type: "error",
-        text1: "Thông báo",
-        text2: "Đăng nhập không thành công",
+      dispatch({
+        type: "SET_SHOW_TOAST",
+        payload: {
+          showToast: true,
+          title: "Thông báo",
+          body: "Đăng nhập không thành công",
+          type: "error",
+        },
       });
     }
   };

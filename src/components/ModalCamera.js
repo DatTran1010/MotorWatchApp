@@ -46,13 +46,32 @@ const ModalCamera = ({ content = "", valueScan = "" }) => {
   const storeData = async (value) => {
     try {
       await AsyncStorage.setItem("URL", value);
+      dispatch({
+        type: "SET_SHOW_TOAST",
+        payload: {
+          showToast: true,
+          title: "Thông báo",
+          body: "Thiết lập URL thành công",
+          type: "success",
+        },
+      });
     } catch (e) {
       // saving error
+      dispatch({
+        type: "SET_SHOW_TOAST",
+        payload: {
+          showToast: true,
+          title: "Thông báo",
+          body: "Nhập URL thất bại",
+          type: "error",
+        },
+      });
     }
   };
   const handleConfirmURL = (values) => {
     storeData(values.valueURL.trim());
     dispatch({ type: "SET_BASE_URL", payload: values.valueURL.trim() });
+
     closeModal();
   };
 

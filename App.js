@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Provider } from "react-redux";
 import Toast from "react-native-toast-message";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import Login from "./src/UI/Login";
 import Home from "./src/UI/Home";
@@ -26,6 +27,7 @@ import QRCamera from "./src/components/QRCamera";
 import NotificationApp from "./src/components/NotificationApp";
 import LinearGradient from "react-native-linear-gradient";
 import RequestReport from "./src/UI/RequestReport/RequestReport";
+import ToastNotification from "./src/components/toast";
 // import CameraComponent from "./src/components/CameraComponent";
 
 export default function App() {
@@ -134,52 +136,75 @@ export default function App() {
   return (
     <Provider store={store}>
       <ConTextProvider>
-        <View
-          style={{
-            flex: 1,
-          }}
-          // onStartShouldSetResponder={() => {
-          //     Keyboard.dismiss();
-          // }}
-        >
-          <NavigationContainer>
-            <Stack.Navigator defaultScreenOptions={Home}>
-              <Stack.Screen
-                name="Login"
-                component={Login}
-                options={{
-                  headerShown: false,
-                  title: "Login",
-                }}
-              />
-              <Stack.Screen
-                name="Home"
-                component={DrawerNavigator}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="DetailsConsumtion"
-                component={DetailsConsumtion}
-                options={{ headerShown: true, headerTintColor: colors.white }}
-              />
-              <Stack.Screen
-                name="DetailsEngineState"
-                component={DetailsEngineState}
-                options={{ headerShown: true, headerTintColor: colors.white }}
-              />
-              <Stack.Screen
-                name="DetailsOEE"
-                component={DetailsOEE}
-                options={{ headerShown: true, headerTintColor: colors.white }}
-              />
-            </Stack.Navigator>
-          </NavigationContainer>
-          <ModalUser />
-          <Overlay />
-          <Toast />
-          <QRCamera />
-          <NotificationApp />
-        </View>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <View
+            style={{
+              flex: 1,
+            }}
+            // onStartShouldSetResponder={() => {
+            //     Keyboard.dismiss();
+            // }}
+          >
+            <NavigationContainer>
+              <Stack.Navigator defaultScreenOptions={Home}>
+                <Stack.Screen
+                  name="Login"
+                  component={Login}
+                  options={{
+                    headerShown: false,
+                    title: "Login",
+                  }}
+                />
+                <Stack.Screen
+                  name="Home"
+                  component={DrawerNavigator}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="DetailsConsumtion"
+                  component={DetailsConsumtion}
+                  options={{
+                    headerShown: true,
+                    headerTintColor: colors.white,
+                    headerTitle: () => (
+                      <Text style={theme.fontTitle}>CHI TIẾT TIÊU HAO</Text>
+                    ),
+                  }}
+                />
+                <Stack.Screen
+                  name="DetailsEngineState"
+                  component={DetailsEngineState}
+                  options={{
+                    headerShown: true,
+                    headerTintColor: colors.white,
+                    headerTitle: () => (
+                      <Text style={theme.fontTitle}>
+                        CHI TIẾT TÌNH TRẠNG ĐỘNG CƠ
+                      </Text>
+                    ),
+                  }}
+                />
+                <Stack.Screen
+                  name="DetailsOEE"
+                  component={DetailsOEE}
+                  options={{
+                    headerShown: true,
+                    headerTintColor: colors.white,
+                    headerTitle: () => (
+                      <Text style={theme.fontTitle}>CHI TIẾT CHỈ SỐ OEE</Text>
+                    ),
+                  }}
+                />
+              </Stack.Navigator>
+            </NavigationContainer>
+            <ModalUser />
+            <Overlay />
+            <Toast />
+            <QRCamera />
+            <NotificationApp />
+            <ToastNotification />
+          </View>
+        </GestureHandlerRootView>
       </ConTextProvider>
     </Provider>
   );

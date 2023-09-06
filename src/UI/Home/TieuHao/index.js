@@ -16,7 +16,7 @@ import ConsumtionChart from "./ConsumtionChart";
 import CalendarComponent from "../../../components/CalendarComponent";
 import callApi from "../../../ConText/api";
 import theme from "../../../Common/theme";
-const Consumption = ({ navigation, selectedID_DC }) => {
+const Consumption = ({ navigation, selectedID_DC, refeshing }) => {
   //#region  State
 
   const [data, setData] = useState([{}]);
@@ -73,7 +73,7 @@ const Consumption = ({ navigation, selectedID_DC }) => {
 
   useEffect(() => {
     getData();
-  }, [dateToFrom, selectedID_DC]);
+  }, [dateToFrom.startDate, dateToFrom.endDate, selectedID_DC, refeshing]);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
   },
   textLegend: {
     color: colors.black,
-    fontSize: 12,
+    fontSize: theme.fontSize,
     fontWeight: "400",
     marginHorizontal: 5,
     fontFamily: theme.fontFamily,

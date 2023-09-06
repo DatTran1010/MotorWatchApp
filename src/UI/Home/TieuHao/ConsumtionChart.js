@@ -14,8 +14,6 @@ import theme from "../../../Common/theme";
 import colors from "../../../Common/colors";
 
 const ConsumtionChart = ({ data }) => {
-  const [focusedBar, setFocusedBar] = useState(null);
-
   return (
     <View style={{ flex: 1, zIndex: -1 }}>
       <VictoryChart
@@ -47,7 +45,7 @@ const ConsumtionChart = ({ data }) => {
             tickLabels: {
               fill: colors.black,
               fontFamily: theme.fontFamily,
-              fontSize: 11,
+              fontSize: theme.fontSize - 1,
             },
           }}
           tickLabelComponent={<VictoryLabel textAnchor="end" />}

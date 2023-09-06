@@ -86,7 +86,6 @@ const DetailsEngineState = ({ navigation, route }) => {
     console.log("=======================");
     console.log(selectedTinhTrang);
     setData(response.data);
-    setRefesh(false);
   };
 
   useEffect(() => {
@@ -107,7 +106,7 @@ const DetailsEngineState = ({ navigation, route }) => {
   };
 
   const handleRefeshing = () => {
-    setRefesh(true);
+    setRefesh(!refesh);
   };
   //#endregion
   return (
@@ -142,6 +141,7 @@ const DetailsEngineState = ({ navigation, route }) => {
                 valueField={"value"}
                 placeholder="Lỗi"
                 multiselected={true}
+                value={selectedError}
                 onSubmitSelected={handleSubmitSelectedMulti}
               />
             </View>
@@ -152,7 +152,6 @@ const DetailsEngineState = ({ navigation, route }) => {
             data={data}
             dataHeader={dataHeader}
             columnRemove={{ id: true, color: true }}
-            refreshing={refesh}
             onRefreshShing={handleRefeshing}
           />
         </View>

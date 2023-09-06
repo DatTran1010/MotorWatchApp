@@ -86,6 +86,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     padding: 5,
     fontFamily: theme.fontFamily,
+    fontSize: theme.fontSize,
   },
   label: {
     position: "absolute",
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
     top: -8,
     zIndex: 999,
     paddingHorizontal: 8,
-    fontSize: 14,
+    fontSize: theme.fontSize,
     fontFamily: theme.fontFamily,
   },
 });

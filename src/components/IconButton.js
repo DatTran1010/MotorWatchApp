@@ -9,6 +9,7 @@ import {
 import React, { useState, memo } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import colors from "../Common/colors";
+import theme from "../Common/theme";
 
 const IconButton = ({
   label,
@@ -52,7 +53,7 @@ const IconButton = ({
       </TouchableOpacity>
       {showTooltip && (
         <Animated.View style={styles.toltipContainer}>
-          <Text style={{ color: colors.black }}>{label}</Text>
+          <Text style={theme.font}>{label}</Text>
         </Animated.View>
       )}
     </View>

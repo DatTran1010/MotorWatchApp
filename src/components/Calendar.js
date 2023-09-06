@@ -57,7 +57,7 @@ const CalendarCustom = ({
             width: "100%",
             height: "100%",
             justifyContent: "center",
-            fontSize: 16,
+            fontSize: theme.fontSize,
             paddingTop: 12,
           }}
           // onFocus={() => {
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     top: -8,
     zIndex: 999,
     paddingHorizontal: 8,
-    fontSize: 14,
+    fontSize: theme.fontSize,
     fontFamily: theme.fontFamily,
   },
 });

@@ -105,7 +105,6 @@ const DetailsOEE = ({ navigation }) => {
 
     console.log("DATA BIỂU ĐỒ 3", response.data);
     setData(response.data);
-    setRefeshing(false);
   };
 
   useEffect(() => {
@@ -122,7 +121,7 @@ const DetailsOEE = ({ navigation }) => {
   };
 
   const handleRefeshing = () => {
-    setRefeshing(true);
+    setRefeshing(!refeshing);
   };
   //#endregion
 
@@ -160,7 +159,6 @@ const DetailsOEE = ({ navigation }) => {
             dataHeader={dataHeader}
             columnRemove={{ id: true, tt: true }}
             onSortTable={handleSort}
-            refreshing={refeshing}
             onRefreshShing={handleRefeshing}
           />
         </View>
