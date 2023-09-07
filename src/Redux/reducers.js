@@ -1,5 +1,6 @@
 const initialState = {
   baseURL: "",
+  showSplash: true,
   overlay: false,
   toastContainer: {
     showToast: false,
@@ -25,6 +26,7 @@ const initialState = {
       TEN_TO: "",
       USER_NAME: "",
       TOKEN: "",
+      MS_DV: "",
     },
   ],
 
@@ -46,6 +48,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         toastContainer: action.payload,
+      };
+    }
+    case "SET_SHOW_SPLASH": {
+      return {
+        ...state,
+        showSplash: action.payload,
       };
     }
     case "SET_SHOW_TREE":

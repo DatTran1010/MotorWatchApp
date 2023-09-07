@@ -10,7 +10,7 @@ const FormButton = ({
   ...props
 }) => {
   return (
-    <TouchableOpacity {...props}>
+    <TouchableOpacity activeOpacity={0.7} {...props}>
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 2, y: 0 }}

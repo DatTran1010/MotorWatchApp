@@ -69,14 +69,14 @@ const callApi = async (
       return [];
     }
   } catch (error) {
-    console.log(error);
+    console.log("Log error", error.response.data.errors);
     try {
-      console.log("Log error", response);
       const errorFields = Object.keys(error.response.data.errors);
 
       // Truy cập giá trị lỗi của từng trường
       errorFields.forEach((fieldName) => {
         const errorText = error.response.data.errors[fieldName][0];
+
         dispatch({
           type: "SET_SHOW_TOAST",
           payload: {

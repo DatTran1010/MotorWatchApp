@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Linking } from "react-native";
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
@@ -63,7 +63,18 @@ const RequestReport = ({ navigation }) => {
   };
 
   const handleSendMail = () => {
-    setShowModal(true);
+    if (userInfo.EMAIL && userInfo.EMAIL !== "") {
+      setShowModal(true);
+    } else {
+      dispatch({
+        type: "SET_NOTIFER_WARNING",
+        payload: {
+          showNotifer: true,
+          label: `Tài khoản của bạn chưa có email`,
+          label2: "Vui lòng kiểm tra lại.",
+        },
+      });
+    }
   };
 
   const handleCloseModal = () => {
@@ -71,15 +82,42 @@ const RequestReport = ({ navigation }) => {
   };
 
   const handleConfirmSendEmail = () => {
+    const sendEmail = async () => {
+      const dataSend = {
+        iBC: selectedValueReport.value,
+        tNgay: selectedValueReport.value == 4 ? "" : dateFromTo.startDate,
+        dNgay: selectedValueReport.value == 4 ? "" : dateFromTo.endDate,
+        userName: userInfo.USER_NAME,
+        mS_DON_VI: userInfo.MS_DV,
+        mS_N_XUONG: selectedValueDiaDiem,
+        email: userInfo.EMAIL,
+      };
+
+      const result = await reportServices.sendEmail(dataSend, dispatch);
+
+      if (result === 1) {
+        dispatch({
+          type: "SET_NOTIFER_WARNING",
+          payload: {
+            showNotifer: true,
+            label: `Báo cáo ${selectedValueReport.name} đã được gửi đến cho Mr/Ms ${userInfo.HO_TEN} theo địa chỉ email: ${userInfo.EMAIL} `,
+            label2: "Vui lòng kiểm tra email để xem báo cáo. ",
+          },
+        });
+      } else if (result === 2) {
+        dispatch({
+          type: "SET_NOTIFER_WARNING",
+          payload: {
+            showNotifer: true,
+            label: `Không có dữ liệu gửi`,
+            label2: "Vui lòng kiểm tra lại.",
+          },
+        });
+      }
+      // console.log(result);
+    };
     setShowModal(false);
-    dispatch({
-      type: "SET_NOTIFER_WARNING",
-      payload: {
-        showNotifer: true,
-        label: `Báo cáo ${selectedValueReport.name} đã được gửi đến cho Mr/Ms ${userInfo.HO_TEN} theo địa chỉ email: ${userInfo.EMAIL} `,
-        label2: "Vui lòng kiểm tra email để xem báo cáo. ",
-      },
-    });
+    sendEmail();
   };
 
   return (

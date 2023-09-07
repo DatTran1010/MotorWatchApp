@@ -43,11 +43,11 @@ const CalendarComponent = ({
       const dateString = date.toISOString().split("T")[0];
       if (dateString === dateFromTo.startDate) {
         updatedMarkedDates[dateString] = {
-          color: colors.primary,
+          color: colors.primarySecond,
         };
       } else if (dateString === dateFromTo.endDate) {
         updatedMarkedDates[dateString] = {
-          color: colors.primary,
+          color: colors.primarySecond,
         };
       } else {
         updatedMarkedDates[dateString] = { color: "#e2b68b" };

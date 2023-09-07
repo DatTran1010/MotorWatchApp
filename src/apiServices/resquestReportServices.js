@@ -43,3 +43,24 @@ export const getDataCboDiaDiem = async (username, dispatch) => {
     return [];
   }
 };
+
+export const sendEmail = async (data, dispatch) => {
+  try {
+    const endpoint = "/api/motorwatch/bcdongco";
+    const method = "POST";
+    const params = null;
+
+    const response = await callApi(
+      dispatch,
+      endpoint,
+      method,
+      data,
+      "",
+      params
+    );
+
+    return response.data;
+  } catch (error) {
+    return [];
+  }
+};
