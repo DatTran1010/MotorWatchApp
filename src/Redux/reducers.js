@@ -10,7 +10,7 @@ const initialState = {
   },
   showTree: false,
   dataTreeNM: [{}],
-  selectedIDTree: "",
+  selectedIDTree: "-1",
   showCamera: false,
   showResultCamera: false,
   resultScanned: "",

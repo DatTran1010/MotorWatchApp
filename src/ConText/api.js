@@ -71,21 +71,17 @@ const callApi = async (
   } catch (error) {
     console.log("Log error", error.response.data.errors);
     try {
-      const errorFields = Object.keys(error.response.data.errors);
+      const errorFields = error.response.data.errors;
+      const errorMessage = errorFields[Object.keys(errorFields)[0]][0];
 
-      // Truy cập giá trị lỗi của từng trường
-      errorFields.forEach((fieldName) => {
-        const errorText = error.response.data.errors[fieldName][0];
-
-        dispatch({
-          type: "SET_SHOW_TOAST",
-          payload: {
-            showToast: true,
-            title: "Thông báo",
-            body: errorText,
-            type: "error",
-          },
-        });
+      dispatch({
+        type: "SET_SHOW_TOAST",
+        payload: {
+          showToast: true,
+          title: "Thông báo",
+          body: errorMessage,
+          type: "error",
+        },
       });
     } catch {}
     // console.log(error.response.data.errors);

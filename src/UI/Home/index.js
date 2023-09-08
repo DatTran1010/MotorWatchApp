@@ -24,7 +24,6 @@ import * as generalService from "../../apiServices/generalService";
 
 const Home = ({ navigation }) => {
   const dispatch = useDispatch();
-  const isShowTree = useSelector((state) => state.showTree);
 
   const userInfo = useSelector((state) => state.userInfo);
 
@@ -77,7 +76,7 @@ const Home = ({ navigation }) => {
       <IconShowTreeList />
       <MyMotorWatch navigation={navigation} />
       {/* <TabBottom navigation={navigation} /> */}
-      {isShowTree && <TreeListNhaMay />}
+      <TreeListNhaMay />
     </View>
   );
 };

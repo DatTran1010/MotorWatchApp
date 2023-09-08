@@ -116,8 +116,8 @@ const DetailsEngineState = ({ navigation, route }) => {
           <View style={styles.headerContainer}>
             <TouchableOpacity style={{ flex: 1 }}>
               <CalendarCustom
-                date={dateTNgay.startDate}
-                //   setDateDNgay={setDateDNgay}
+                date={dateTNgay}
+                setDateDNgay={() => {}}
                 placeholder={"Ngày"}
                 mode="datetime"
               />

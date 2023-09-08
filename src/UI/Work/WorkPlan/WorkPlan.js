@@ -73,6 +73,8 @@ const WorkPlan = ({ navigation }) => {
 
   useFocusEffect(
     useCallback(() => {
+      if (selectedMay === undefined) return;
+
       const getDataWorkPlan = async () => {
         unstable_batchedUpdates(async () => {
           const result = await workPlanServices.getDataWorkPlan(
@@ -268,70 +270,25 @@ const WorkPlan = ({ navigation }) => {
                     })}
                   </ScrollView>
                   <View style={styles.button}>
-                    {/* <View style={styles.savebutton}>
-                      <TouchableOpacity
-                        style={{
-                          width: 100,
-                          height: 40,
-                          alignItems: "center",
-                          justifyContent: "center",
-                          borderRadius: 6,
-                          backgroundColor: colors.primary,
-                        }}
-                        activeOpacity={0.6}
+                    <View
+                      style={[styles.buttonView, { justifyContent: "center" }]}
+                    >
+                      <FormButton
+                        buttonTitle={"LƯU"}
+                        activeOpacity={0.7}
                         onPress={handleSubmit}
-                      >
-                        <Text
-                          style={{
-                            fontWeight: "500",
-                            color: colors.white,
-                          }}
-                        >
-                          Lưu
-                        </Text>
-                      </TouchableOpacity>
+                      />
                     </View>
-
-                    <View style={styles.dontsavebutton}>
-                      <TouchableOpacity
-                        style={{
-                          width: 100,
-                          height: 40,
-                          alignItems: "center",
-                          justifyContent: "center",
-                          borderRadius: 6,
-                          borderWidth: 1,
-                          borderColor: colors.primary,
-                          backgroundColor: colors.backgroundColor,
-                        }}
+                    <View style={styles.buttonView}>
+                      <FormButton
+                        buttonTitle={"KHÔNG LƯU"}
+                        colorButton={colors.colorHeader}
                         activeOpacity={0.6}
                         onPress={() => {
                           Keyboard.dismiss();
                         }}
-                      >
-                        <Text
-                          style={{
-                            fontWeight: "500",
-                            color: colors.black,
-                          }}
-                        >
-                          Không lưu
-                        </Text>
-                      </TouchableOpacity>
-                    </View> */}
-                    <FormButton
-                      buttonTitle={"LƯU"}
-                      activeOpacity={0.7}
-                      onPress={handleSubmit}
-                    />
-                    <FormButton
-                      buttonTitle={"KHÔNG LƯU"}
-                      colorButton={colors.colorHeader}
-                      activeOpacity={0.7}
-                      onPress={() => {
-                        Keyboard.dismiss();
-                      }}
-                    />
+                      />
+                    </View>
                   </View>
                 </View>
               )}
@@ -379,6 +336,11 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 0.3,
+    marginBottom: 10,
+  },
+  buttonView: {
+    flex: 1,
+    marginVertical: 5,
   },
   savebutton: {
     flex: 1,

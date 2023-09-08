@@ -15,7 +15,6 @@ const IconButton = ({
   label,
   nameicon,
   size,
-  border = true,
   colorIcon = colors.primarySecond,
   ...props
 }) => {
@@ -30,23 +29,11 @@ const IconButton = ({
     setShowTooltip(false);
   };
   return (
-    <View
-      style={{
-        position: "relative",
-        flexDirection: "row",
-      }}
-    >
+    <View>
       <TouchableOpacity
         onPressOut={handlePressOut}
         onLongPress={handleLongPressIcon}
-        style={[
-          styles.iconStyle,
-          {
-            borderWidth: border ? 0.5 : 0,
-            width: border && 40,
-            height: border && 40,
-          },
-        ]}
+        style={[styles.iconStyle]}
         {...props}
       >
         <Ionicons name={nameicon} size={size} color={colorIcon} />

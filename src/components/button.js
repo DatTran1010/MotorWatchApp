@@ -10,7 +10,11 @@ const FormButton = ({
   ...props
 }) => {
   return (
-    <TouchableOpacity activeOpacity={0.7} {...props}>
+    <TouchableOpacity
+      activeOpacity={0.7}
+      style={[theme.shadow, { borderRadius: 5 }]}
+      {...props}
+    >
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 2, y: 0 }}
@@ -27,7 +31,6 @@ export default FormButton;
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    marginTop: 10,
     width: "100%",
     height: windowHeight / 15,
     backgroundColor: colors.primary,

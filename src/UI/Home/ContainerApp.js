@@ -8,8 +8,6 @@ import colors from "../../Common/colors";
 import TreeListNhaMay from "../TreeNhaMay";
 
 const ContainerApp = ({ title = "", navigation, children }) => {
-  const isShowTree = useSelector((state) => state.showTree);
-
   return (
     <View style={{ flex: 1, backgroundColor: colors.backgroundColor }}>
       <HeaderApp
@@ -20,7 +18,7 @@ const ContainerApp = ({ title = "", navigation, children }) => {
       />
       <IconShowTreeList />
       <View style={{ flex: 1 }}>{children}</View>
-      {isShowTree && <TreeListNhaMay />}
+      <TreeListNhaMay />
     </View>
   );
 };

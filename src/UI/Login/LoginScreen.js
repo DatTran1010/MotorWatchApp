@@ -7,6 +7,7 @@ import {
   Keyboard,
   Image,
   Alert,
+  Button,
 } from "react-native";
 import React, { useContext, useState, useEffect } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -36,6 +37,7 @@ import theme from "../../Common/theme";
 import IconButton from "../../components/IconButton";
 import FormButton from "../../components/button";
 import Animated, { FadeIn } from "react-native-reanimated";
+import * as asyncStorageItem from "../../Common/asyncStorageItem";
 
 const LoginScreen = ({ navigation }) => {
   const { token, setToken } = useContext(MainConText);
@@ -57,79 +59,92 @@ const LoginScreen = ({ navigation }) => {
   };
 
   const handleLogin = async () => {
-    console.log(username, password, "token ===== " + tokenDevies);
-    const endpoint = "/api/account/login";
-    const method = "POST";
-    const data = {
-      employeeCode: username,
-      password: password,
-      token: tokenDevies,
-    };
-
-    const response = await callApi(dispatch, endpoint, method, data);
-
-    console.log(response.data);
-    try {
-      if (response && response.data.statusCode == 200) {
-        setToken(response.data.responseData.token);
-
-        // save user info
-        const userInfo = {
-          EMAIL: response.data.responseData.email,
-          HO_TEN: response.data.responseData.hO_TEN,
-          MS_CN: response.data.responseData.mS_CONG_NHAN,
-          MS_TO: response.data.responseData.mS_TO,
-          NHOM_USER: response.data.responseData.nhoM_USER,
-          SO_DTDD: response.data.responseData.sO_DTDD,
-          TEN_DV: response.data.responseData.teN_DON_VI,
-          TEN_TO: response.data.responseData.teN_TO,
-          USER_NAME: response.data.responseData.userName,
-          TOKEN: response.data.responseData.token,
-          MS_DV: response.data.responseData.mS_DON_VI,
-        };
-        dispatch({ type: "SET_USER_INFO", payload: userInfo });
-
-        navigation.navigate("Home");
-        // Toast.show({
-        //   type: "success",
-        //   text1: "Thông báo",
-        //   text2: "Đăng nhập thành công",
-        // });
-
-        dispatch({
-          type: "SET_SHOW_TOAST",
-          payload: {
-            showToast: true,
-            title: "Thông báo",
-            body: "Đăng nhập thành công",
-            type: "success",
-          },
-        });
-      } else {
-        dispatch({
-          type: "SET_SHOW_TOAST",
-          payload: {
-            showToast: true,
-            title: "Thông báo",
-            body: response.data.message,
-            type: "error",
-          },
-        });
-      }
-    } catch {
+    const baseURL = await asyncStorageItem.baseURL();
+    if (baseURL === "") {
       dispatch({
         type: "SET_SHOW_TOAST",
         payload: {
           showToast: true,
-          title: "Thông báo",
-          body: "Đăng nhập không thành công",
-          type: "error",
+          title: "Chưa có URL",
+          body: "Chưa có mã URL. Vui lòng nhập mã URL để đăng nhập",
+          type: "warning",
         },
       });
+    } else {
+      console.log(username, password, "token ===== " + tokenDevies);
+      const endpoint = "/api/account/login";
+      const method = "POST";
+      const data = {
+        employeeCode: username,
+        password: password,
+        token: tokenDevies,
+      };
+
+      const response = await callApi(dispatch, endpoint, method, data);
+
+      console.log(response.data);
+      try {
+        if (response && response.data.statusCode == 200) {
+          setToken(response.data.responseData.token);
+
+          // save user info
+          const userInfo = {
+            EMAIL: response.data.responseData.email,
+            HO_TEN: response.data.responseData.hO_TEN,
+            MS_CN: response.data.responseData.mS_CONG_NHAN,
+            MS_TO: response.data.responseData.mS_TO,
+            NHOM_USER: response.data.responseData.nhoM_USER,
+            SO_DTDD: response.data.responseData.sO_DTDD,
+            TEN_DV: response.data.responseData.teN_DON_VI,
+            TEN_TO: response.data.responseData.teN_TO,
+            USER_NAME: response.data.responseData.userName,
+            TOKEN: response.data.responseData.token,
+            MS_DV: response.data.responseData.mS_DON_VI,
+          };
+          dispatch({ type: "SET_USER_INFO", payload: userInfo });
+
+          navigation.navigate("Home");
+          // Toast.show({
+          //   type: "success",
+          //   text1: "Thông báo",
+          //   text2: "Đăng nhập thành công",
+          // });
+
+          dispatch({
+            type: "SET_SHOW_TOAST",
+            payload: {
+              showToast: true,
+              title: "Thông báo",
+              body: "Đăng nhập thành công",
+              type: "success",
+            },
+          });
+        } else {
+          dispatch({
+            type: "SET_SHOW_TOAST",
+            payload: {
+              showToast: true,
+              title: "Thông báo",
+              body: response.data.message,
+              type: "error",
+            },
+          });
+        }
+      } catch {
+        dispatch({
+          type: "SET_SHOW_TOAST",
+          payload: {
+            showToast: true,
+            title: "Thông báo",
+            body: "Đăng nhập không thành công",
+            type: "error",
+          },
+        });
+      }
     }
   };
 
-  //#region  Notification
+  // //#region  Notification
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
@@ -150,7 +165,7 @@ const LoginScreen = ({ navigation }) => {
     getTokenDevices();
   }, []);
 
-  //#endregion
+  // //#endregion
 
   //#region  xử lý sự kiện handle
 
@@ -173,14 +188,13 @@ const LoginScreen = ({ navigation }) => {
         <Animated.View style={styles.container} entering={FadeIn}>
           <View
             style={{
-              right: 5,
-              top: -20,
               alignItems: "flex-end",
+              flex: 1,
             }}
           >
+            {/* <Ionicons name="scan-outline" size={40} color="#4867aa" /> */}
             <IconButton
-              nameicon={"scan-sharp"}
-              border={false}
+              nameicon={"scan-outline"}
               size={30}
               onPress={handleShowCamera}
             />
@@ -193,16 +207,10 @@ const LoginScreen = ({ navigation }) => {
               }}
               source={require("../../../assets/LogoApp.png")}
             />
-
-            {/* <SvgUri
-              width="500"
-              height="500"
-              source={require("../../../assets/MotorWatch.svg")}
-            /> */}
           </View>
           <View style={styles.containerLogin}>
             <View style={styles.loginCenter}>
-              <View style={{ paddingHorizontal: 10 }}>
+              <View style={{ paddingHorizontal: 10, flex: 2 }}>
                 <TextInput
                   placeholder={"Email"}
                   keyboardType="email-address"
@@ -231,33 +239,18 @@ const LoginScreen = ({ navigation }) => {
                     <Text style={theme.font}>Quên mật khẩu ?</Text>
                   </TouchableOpacity>
                 </View>
-
-                <FormButton
-                  buttonTitle={"ĐĂNG NHẬP"}
-                  onPress={handleLogin}
-                  activeOpacity={0.5}
-                />
-                {/* <TouchableOpacity onPress={handleLogin} activeOpacity={0.5}>
-                  <LinearGradient
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 2, y: 0 }}
-                    colors={colors.colorButton}
-                    style={styles.btnLogin}
-                  >
-                    <Text style={styles.textbtnLogin}>ĐĂNG NHẬP</Text>
-                  </LinearGradient>
-                </TouchableOpacity> */}
+                <FormButton buttonTitle={"ĐĂNG NHẬP"} onPress={handleLogin} />
               </View>
-            </View>
-            <View style={styles.moreLogin}>
-              <Text style={theme.font}>Or Login with social account</Text>
-              <View style={styles.social}>
-                <TouchableOpacity style={styles.iconSoial}>
-                  <Ionicons name="logo-google" size={40} color="#de4d41" />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.iconSoial}>
-                  <Ionicons name="logo-facebook" size={40} color="#4867aa" />
-                </TouchableOpacity>
+              <View style={styles.moreLogin}>
+                <Text style={theme.font}>Or Login with social account</Text>
+                <View style={styles.social}>
+                  <TouchableOpacity style={styles.iconSoial}>
+                    <Ionicons name="logo-google" size={40} color="#de4d41" />
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.iconSoial}>
+                    <Ionicons name="logo-facebook" size={40} color="#4867aa" />
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           </View>

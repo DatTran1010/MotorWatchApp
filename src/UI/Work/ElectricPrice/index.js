@@ -164,7 +164,7 @@ const ElictricPrice = ({ navigation }) => {
           headerLeftVisible={true}
           goBack={false}
         />
-        <ScrollView>
+        <ScrollView style={{ flex: 0.7 }}>
           <View style={{ flex: 1 }}>
             <View style={styles.input}>
               <CustomTextInput
@@ -194,68 +194,14 @@ const ElictricPrice = ({ navigation }) => {
           </View>
         </ScrollView>
         <View style={styles.button}>
-          {/* <View style={styles.savebutton}>
-            <TouchableOpacity
-              style={{
-                width: 100,
-                height: 40,
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 6,
-                backgroundColor: colors.primary,
-              }}
-              activeOpacity={0.6}
-              onPress={handleSaveButton}
-            >
-              <Text
-                style={{
-                  fontWeight: "500",
-                  color: colors.white,
-                }}
-              >
-                Lưu
-              </Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.dontsavebutton}>
-            <TouchableOpacity
-              style={{
-                width: 100,
-                height: 40,
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 6,
-                borderWidth: 1,
-                borderColor: colors.primary,
-                backgroundColor: colors.backgroundColor,
-              }}
-              activeOpacity={0.6}
-              onPress={() => {
-                setRefeshing(!refeshing);
-                Keyboard.dismiss();
-              }}
-            >
-              <Text
-                style={{
-                  fontWeight: "500",
-                  color: colors.black,
-                }}
-              >
-                Không lưu
-              </Text>
-            </TouchableOpacity>
-          </View> */}
-          <View
-            style={{ width: "100%", height: "100%", flex: 1, marginBottom: 10 }}
-          >
+          <View style={[styles.buttonView, { justifyContent: "center" }]}>
             <FormButton
               buttonTitle={"LƯU"}
               activeOpacity={0.7}
               onPress={handleSaveButton}
             />
           </View>
-          <View style={{ width: "100%", height: "100%", flex: 1 }}>
+          <View style={styles.buttonView}>
             <FormButton
               buttonTitle={"KHÔNG LƯU"}
               colorButton={colors.colorHeader}
@@ -295,15 +241,8 @@ const styles = StyleSheet.create({
     flex: 0.3,
     marginBottom: 10,
   },
-  savebutton: {
+  buttonView: {
     flex: 1,
-
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  dontsavebutton: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    marginVertical: 5,
   },
 });

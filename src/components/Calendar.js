@@ -46,6 +46,7 @@ const CalendarCustom = ({
             borderColor: focus ? colors.primary : colors.border,
             flexDirection: "row",
             alignItems: "center",
+            justifyContent: "space-between",
           },
         ]}
         onPress={() => {
@@ -53,13 +54,7 @@ const CalendarCustom = ({
         }}
       >
         <Text
-          style={{
-            width: "100%",
-            height: "100%",
-            justifyContent: "center",
-            fontSize: theme.fontSize,
-            paddingTop: 12,
-          }}
+          style={theme.font}
           // onFocus={() => {
           //     setFocus(true);
           // }}

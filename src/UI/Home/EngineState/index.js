@@ -1,23 +1,6 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  LayoutAnimation,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState, useEffect } from "react";
-import {
-  VictoryPie,
-  VictoryAxis,
-  VictoryContainer,
-  VictoryVoronoiContainer,
-  VictoryTheme,
-  VictoryLegend,
-  VictoryLabel,
-  VictoryLine,
-  VictoryTooltip,
-} from "victory-native";
-import { Svg, Path } from "react-native-svg";
+import { VictoryPie, VictoryTheme } from "victory-native";
 import { useDispatch } from "react-redux";
 
 import colors from "../../../Common/colors";
@@ -132,7 +115,7 @@ const EngineState = ({ navigation, selectedID_DC, refeshing }) => {
             //     colors.primarySecond,
             //     colors.gray,
             // ]}
-            labelRadius={({ innerRadius }) => innerRadius + 50}
+            labelRadius={({ innerRadius }) => innerRadius + windowWidth / 6}
             style={{
               labels: {
                 fill: colors.black,

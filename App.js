@@ -48,7 +48,7 @@ export default function App() {
             title: "Home",
           }}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="ElictricPrice"
           component={ElictricPrice}
           options={{
@@ -59,7 +59,7 @@ export default function App() {
               <Text style={theme.fontTitle}>ĐƠN GIÁ ĐIỆN</Text>
             ),
           }}
-        />
+        /> */}
         <Stack.Screen
           name="WorkingMode"
           component={WorkingMode}

@@ -1,5 +1,5 @@
 import { View, ScrollView, StyleSheet, RefreshControl } from "react-native";
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { useSelector } from "react-redux";
 import colors from "../../Common/colors";
 import Consumption from "./TieuHao";
@@ -12,30 +12,36 @@ const MyMotorWatch = ({ navigation }) => {
   const handleRefreshing = () => {
     setRefeshing(!refeshing);
   };
+
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
         <ScrollView
+          showsVerticalScrollIndicator={true}
           refreshControl={
             <RefreshControl onRefresh={handleRefreshing} refreshing={false} />
           }
           style={styles.container}
         >
-          <Consumption
-            navigation={navigation}
-            selectedID_DC={selectedID_DC}
-            refeshing={refeshing}
-          />
-          <EngineState
-            navigation={navigation}
-            selectedID_DC={selectedID_DC}
-            refeshing={refeshing}
-          />
-          <OEEMain
-            navigation={navigation}
-            selectedID_DC={selectedID_DC}
-            refeshing={refeshing}
-          />
+          {selectedID_DC != -1 && (
+            <>
+              <Consumption
+                navigation={navigation}
+                selectedID_DC={selectedID_DC}
+                refeshing={refeshing}
+              />
+              <EngineState
+                navigation={navigation}
+                selectedID_DC={selectedID_DC}
+                refeshing={refeshing}
+              />
+              <OEEMain
+                navigation={navigation}
+                selectedID_DC={selectedID_DC}
+                refeshing={refeshing}
+              />
+            </>
+          )}
         </ScrollView>
       </View>
     </View>

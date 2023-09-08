@@ -2,7 +2,8 @@ import { View, Text, Alert } from "react-native";
 import React, { useEffect, useMemo, useState } from "react";
 import Animated, {
   FadeInUp,
-  FadeOutUp,
+  BounceInUp,
+  BounceOutUp,
   useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
@@ -12,10 +13,7 @@ import Animated, {
   Easing,
   withTiming,
 } from "react-native-reanimated";
-import {
-  PanGestureHandler,
-  PanGestureHandlerGestureEvent,
-} from "react-native-gesture-handler";
+import { PanGestureHandler } from "react-native-gesture-handler";
 import { useSelector, useDispatch } from "react-redux";
 
 import IconButton from "./IconButton";
@@ -167,8 +165,8 @@ const ToastNotification = () => {
     return (
       <PanGestureHandler onGestureEvent={panGestureEvent}>
         <Animated.View
-          entering={FadeInUp}
-          exiting={FadeOutUp}
+          entering={BounceInUp.duration(1000)}
+          exiting={BounceOutUp.duration(1000)}
           style={[
             rStyle,
             theme.shadow,
@@ -182,6 +180,7 @@ const ToastNotification = () => {
               flexDirection: "row",
               justifyContent: "flex-start",
               alignItems: "center",
+              zIndex: 999,
             },
           ]}
         >

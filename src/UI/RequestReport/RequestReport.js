@@ -169,8 +169,15 @@ const RequestReport = ({ navigation }) => {
           </View>
         </View>
         <View style={styles.viewButton}>
-          <FormButton buttonTitle={"GỬI"} onPress={handleSendMail} />
-          <FormButton buttonTitle={"CANCLE"} colorButton={colors.colorHeader} />
+          <View style={styles.buttonView}>
+            <FormButton buttonTitle={"GỬI"} onPress={handleSendMail} />
+          </View>
+          <View style={styles.buttonView}>
+            <FormButton
+              buttonTitle={"CANCLE"}
+              colorButton={colors.colorHeader}
+            />
+          </View>
         </View>
       </View>
       {showModal && (
@@ -203,6 +210,10 @@ const styles = StyleSheet.create({
   },
   viewButton: {
     flex: 0.2,
+    marginBottom: 10,
+  },
+  buttonView: {
+    marginVertical: 5,
   },
   viewFilter: {
     flex: 1,

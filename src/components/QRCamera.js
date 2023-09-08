@@ -6,6 +6,7 @@ import {
   Alert,
   Linking,
   StatusBar,
+  SafeAreaView,
 } from "react-native";
 import React, { useRef, useState } from "react";
 import QRCodeScanner from "react-native-qrcode-scanner";
@@ -168,130 +169,132 @@ const QRCamera = () => {
   const RenderCamera = () => {
     return (
       <>
-        <View>
-          <QRCodeScanner
-            onRead={handleReadQRCode}
-            flashMode={
-              showFlash
-                ? RNCamera.Constants.FlashMode.torch
-                : RNCamera.Constants.FlashMode.off
-            }
-            reactivate={true}
-            reactivateTimeout={1000}
-            cameraStyle={{
-              position: "relative",
-              width: windowWidth,
-              height: windowHeight,
-            }}
-            // showMarker={true}
-            markerStyle={{
-              borderWidth: 1,
-            }}
-            fadeIn={false}
-          />
-
-          <CameraFrame />
-
-          <View style={styles.headerContent}>
-            <View>
-              <IconButton
-                nameicon={"arrow-back-outline"}
-                border={false}
-                size={25}
-                colorIcon={colors.white}
-                onPress={handleCloseCamera}
-              />
-            </View>
-            <View>
-              <Text
-                style={{
-                  fontSize: 14,
-                  color: colors.white,
-                  fontWeight: "bold",
-                  fontFamily: theme.fontFamily,
-                }}
-              >
-                Quét mã QR
-              </Text>
-            </View>
-            <View>
-              <IconButton
-                nameicon={"flash-outline"}
-                border={false}
-                size={25}
-                colorIcon={colors.white}
-                onPress={handleOpenFlash}
-              />
-            </View>
-          </View>
-          <View style={styles.bodyContent}>
-            <Text
-              style={{
-                fontSize: 14,
-                color: colors.white,
-                fontWeight: "300",
-                textAlign: "center",
-                fontFamily: theme.fontFamily,
+        <SafeAreaView>
+          <View>
+            <QRCodeScanner
+              onRead={handleReadQRCode}
+              flashMode={
+                showFlash
+                  ? RNCamera.Constants.FlashMode.torch
+                  : RNCamera.Constants.FlashMode.off
+              }
+              reactivate={true}
+              reactivateTimeout={1000}
+              cameraStyle={{
+                position: "relative",
+                width: windowWidth,
+                height: windowHeight,
               }}
-            >
-              Quét mã QR để chuyển hướng đến dữ liệu
-            </Text>
-          </View>
-          <View style={styles.footerContent}>
-            <TouchableOpacity onPress={handleChooseImageLib}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
+              // showMarker={true}
+              markerStyle={{
+                borderWidth: 1,
+              }}
+              fadeIn={false}
+            />
+
+            <CameraFrame />
+
+            <View style={styles.headerContent}>
+              <View>
                 <IconButton
-                  nameicon={"images-outline"}
+                  nameicon={"arrow-back-outline"}
                   border={false}
+                  size={25}
                   colorIcon={colors.white}
-                  size={20}
+                  onPress={handleCloseCamera}
                 />
-                <Text
-                  style={{
-                    fontSize: 12,
-                    color: colors.white,
-                    fontWeight: "400",
-                    textDecorationLine: "underline",
-                    fontFamily: theme.fontFamily,
-                  }}
-                >
-                  Chọn ảnh trong máy
-                </Text>
               </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleOpenModalURL}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
-                <IconButton
-                  nameicon={"link-outline"}
-                  border={false}
-                  colorIcon={colors.white}
-                  size={20}
-                />
+              <View>
                 <Text
                   style={{
                     fontSize: 14,
                     color: colors.white,
-                    fontWeight: "400",
-                    textDecorationLine: "underline",
+                    fontWeight: "bold",
                     fontFamily: theme.fontFamily,
                   }}
                 >
-                  Nhập bằng tay
+                  Quét mã QR
                 </Text>
               </View>
-            </TouchableOpacity>
+              <View>
+                <IconButton
+                  nameicon={"flash-outline"}
+                  border={false}
+                  size={25}
+                  colorIcon={colors.white}
+                  onPress={handleOpenFlash}
+                />
+              </View>
+            </View>
+            <View style={styles.bodyContent}>
+              <Text
+                style={{
+                  fontSize: 14,
+                  color: colors.white,
+                  fontWeight: "300",
+                  textAlign: "center",
+                  fontFamily: theme.fontFamily,
+                }}
+              >
+                Quét mã QR để chuyển hướng đến dữ liệu
+              </Text>
+            </View>
+            <View style={styles.footerContent}>
+              <TouchableOpacity onPress={handleChooseImageLib}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <IconButton
+                    nameicon={"images-outline"}
+                    border={false}
+                    colorIcon={colors.white}
+                    size={20}
+                  />
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      color: colors.white,
+                      fontWeight: "400",
+                      textDecorationLine: "underline",
+                      fontFamily: theme.fontFamily,
+                    }}
+                  >
+                    Chọn ảnh trong máy
+                  </Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleOpenModalURL}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <IconButton
+                    nameicon={"link-outline"}
+                    border={false}
+                    colorIcon={colors.white}
+                    size={20}
+                  />
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      color: colors.white,
+                      fontWeight: "400",
+                      textDecorationLine: "underline",
+                      fontFamily: theme.fontFamily,
+                    }}
+                  >
+                    Nhập bằng tay
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
+        </SafeAreaView>
         <ModalCamera />
       </>
     );
