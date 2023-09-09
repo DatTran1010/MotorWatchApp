@@ -36,6 +36,7 @@ const WorkRealtime = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
+    if (selectedValueMay == "") return;
     const getDataCboDongCo = async () => {
       const resultCboDongCo = await generalService.getDataComBoDongCo(
         selectedValueMay,

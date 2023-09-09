@@ -25,9 +25,9 @@ import colors from "./src/Common/colors";
 import theme from "./src/Common/theme";
 import QRCamera from "./src/components/QRCamera";
 import NotificationApp from "./src/components/NotificationApp";
-import LinearGradient from "react-native-linear-gradient";
 import RequestReport from "./src/UI/RequestReport/RequestReport";
 import ToastNotification from "./src/components/toast";
+import NotifiHistory from "./src/UI/NotificationHistory/notificationHistory";
 // import CameraComponent from "./src/components/CameraComponent";
 
 export default function App() {
@@ -37,7 +37,14 @@ export default function App() {
   //Draw chung cho tất cả
   const DrawerNavigator = () => {
     return (
-      <Drawer.Navigator drawerContent={(props) => DrawerContent(props)}>
+      <Drawer.Navigator
+        drawerContent={(props) => DrawerContent(props)}
+        screenOptions={{
+          sceneContainerStyle: {
+            backgroundColor: "transparent", // Đảm bảo nền trong suốt để tạo hiệu ứng mượt mà
+          },
+        }}
+      >
         <Stack.Screen
           name="Home"
           component={StackNavigator}
@@ -146,8 +153,16 @@ export default function App() {
             // }}
           >
             <NavigationContainer>
-              <Stack.Navigator defaultScreenOptions={Home}>
-                <Stack.Screen
+              <Stack.Navigator
+                screenOptions={{
+                  transitionSpec: {
+                    open: { animation: "timing", config: { duration: 500 } }, // Cấu hình animation
+                    close: { animation: "timing", config: { duration: 500 } }, // Cấu hình animation
+                  },
+                }}
+                defaultScreenOptions={Home}
+              >
+                {/* <Stack.Screen
                   name="Login"
                   component={Login}
                   options={{
@@ -189,6 +204,17 @@ export default function App() {
                   component={DetailsOEE}
                   options={{
                     headerShown: true,
+                    headerTintColor: colors.white,
+                    headerTitle: () => (
+                      <Text style={theme.fontTitle}>CHI TIẾT CHỈ SỐ OEE</Text>
+                    ),
+                  }}
+                /> */}
+                <Stack.Screen
+                  name="NotifiHistory"
+                  component={NotifiHistory}
+                  options={{
+                    headerShown: false,
                     headerTintColor: colors.white,
                     headerTitle: () => (
                       <Text style={theme.fontTitle}>CHI TIẾT CHỈ SỐ OEE</Text>

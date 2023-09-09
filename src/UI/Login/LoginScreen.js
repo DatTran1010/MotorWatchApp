@@ -150,6 +150,53 @@ const LoginScreen = ({ navigation }) => {
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
       // Alert.alert("A new FCM message arrived!", JSON.stringify(remoteMessage));
 
+      //set data vào 1 array temp
+      const dataNotification = [
+        {
+          date: Date.now(),
+          titile: remoteMessage.notification.title,
+          body: remoteMessage.notification.body,
+        },
+      ];
+
+      const resultDataNotification = await asyncStorageItem.getItem(
+        "DATA_NOTIFICATION"
+      );
+
+      if (resultDataNotification != "") {
+        //lấy dữ liệu hiện có trên storegate
+        // convert JSON -> ARAY
+        const reslut = JSON.parse(resultDataNotification);
+
+        // tạo ra 1 clone
+        const newData = [...reslut];
+
+        // push giá trị vào data vừa nhận
+        newData.push(dataNotification[0]);
+
+        //convert giá trị về json
+        // convert ARAY -> JSON
+        const dataNotifi = JSON.stringify(newData);
+
+        // set lại data lên storegate
+        // console.log("DATA NOTIFICATION", dataNotifi);
+        await asyncStorageItem.setItem("DATA_NOTIFICATION", dataNotifi);
+
+        // const res = await asyncStorageItem.deleteItem("DATA_NOTIFICATION");
+        //  if (reslut.length > 10) {
+        //    const res = await asyncStorageItem.deleteItem("DATA_NOTIFICATION");
+        //    if (res === 1) {
+        //      console.log("Xóa thành công");
+        //    }
+        //  }
+        // NẾU CHƯA CÓ THÔNG BÁO NÀO HOẶC (MỚI CÀI APP)
+      } else {
+        const dataNotifi = JSON.stringify(dataNotification);
+
+        console.log("DATA NOTIFICATION", dataNotifi);
+        await asyncStorageItem.setItem("DATA_NOTIFICATION", dataNotifi);
+      }
+
       onDisplayNotification({
         title: remoteMessage.notification.title,
         body: remoteMessage.notification.body,

@@ -173,16 +173,24 @@ const WorkPlan = ({ navigation }) => {
       );
 
       if (result === 200) {
-        Toast.show({
-          type: "success",
-          text1: "Thông báo",
-          text2: "Lưu thành công",
+        dispatch({
+          type: "SET_SHOW_TOAST",
+          payload: {
+            showToast: true,
+            title: "Thông báo",
+            body: "Lưu thành công",
+            type: "success",
+          },
         });
       } else {
-        Toast.show({
-          type: "error",
-          text1: "Thông báo",
-          text2: "Lưu không thành công",
+        dispatch({
+          type: "SET_SHOW_TOAST",
+          payload: {
+            showToast: true,
+            title: "Thông báo",
+            body: "Lưu không thành công",
+            type: "error",
+          },
         });
       }
     };

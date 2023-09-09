@@ -13,7 +13,6 @@ import React, { useCallback, useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
 import { Formik } from "formik";
-import Toast from "react-native-toast-message";
 import { useFocusEffect } from "@react-navigation/native";
 
 import colors from "../../../Common/colors";
@@ -124,16 +123,24 @@ const WorkingMode = ({ navigation }) => {
       );
 
       if (result.status === 200) {
-        Toast.show({
-          type: "success",
-          text1: "Thông báo",
-          text2: "Lưu thành công",
+        dispatch({
+          type: "SET_SHOW_TOAST",
+          payload: {
+            showToast: true,
+            title: "Thông báo",
+            body: "Lưu thành công",
+            type: "success",
+          },
         });
       } else {
-        Toast.show({
-          type: "error",
-          text1: "Thông báo",
-          text2: "Lưu không thành công",
+        dispatch({
+          type: "SET_SHOW_TOAST",
+          payload: {
+            showToast: true,
+            title: "Thông báo",
+            body: "Lưu không thành công",
+            type: "error",
+          },
         });
       }
     };

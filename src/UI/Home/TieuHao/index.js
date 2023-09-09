@@ -6,9 +6,9 @@ import {
   LayoutAnimation,
 } from "react-native";
 import React, { useEffect, useRef, useState, useCallback, memo } from "react";
-
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
+import Animated, { BounceInUp } from "react-native-reanimated";
 
 import colors from "../../../Common/colors";
 import IconButton from "../../../components/IconButton";

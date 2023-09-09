@@ -1,7 +1,6 @@
-import { View, Text } from "react-native";
+import { View, Text, Platform } from "react-native";
 import React, { memo } from "react";
 import { useSelector } from "react-redux";
-
 import HeaderApp from "./HeaderApp";
 import IconShowTreeList from "../../components/IconShowTreeList";
 import colors from "../../Common/colors";

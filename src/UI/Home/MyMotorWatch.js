@@ -1,12 +1,15 @@
 import { View, ScrollView, StyleSheet, RefreshControl } from "react-native";
 import React, { memo, useState } from "react";
 import { useSelector } from "react-redux";
+import Animated, { FadeIn } from "react-native-reanimated";
+
 import colors from "../../Common/colors";
 import Consumption from "./TieuHao";
 import EngineState from "./EngineState";
 import OEEMain from "./OEE";
 
 const MyMotorWatch = ({ navigation }) => {
+  console.log("renderr lai");
   const selectedID_DC = useSelector((state) => state.selectedIDTree);
   const [refeshing, setRefeshing] = useState(false);
   const handleRefreshing = () => {
