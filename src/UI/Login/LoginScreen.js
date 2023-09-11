@@ -150,15 +150,17 @@ const LoginScreen = ({ navigation }) => {
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
       // Alert.alert("A new FCM message arrived!", JSON.stringify(remoteMessage));
 
-      //set data vào 1 array temp
+      //data notification hiện tại
       const dataNotification = [
         {
           date: Date.now(),
           titile: remoteMessage.notification.title,
           body: remoteMessage.notification.body,
+          seen: false,
         },
       ];
 
+      // lấy data notification cũ ra
       const resultDataNotification = await asyncStorageItem.getItem(
         "DATA_NOTIFICATION"
       );
@@ -167,12 +169,15 @@ const LoginScreen = ({ navigation }) => {
         //lấy dữ liệu hiện có trên storegate
         // convert JSON -> ARAY
         const reslut = JSON.parse(resultDataNotification);
-
+        if (reslut.length > 9) {
+          reslut.pop();
+        }
         // tạo ra 1 clone
         const newData = [...reslut];
 
         // push giá trị vào data vừa nhận
-        newData.push(dataNotification[0]);
+        newData.unshift(dataNotification[0]);
+        dispatch({ type: "SET_NOTIFER_APP", payload: newData });
 
         //convert giá trị về json
         // convert ARAY -> JSON
@@ -181,7 +186,6 @@ const LoginScreen = ({ navigation }) => {
         // set lại data lên storegate
         // console.log("DATA NOTIFICATION", dataNotifi);
         await asyncStorageItem.setItem("DATA_NOTIFICATION", dataNotifi);
-
         // const res = await asyncStorageItem.deleteItem("DATA_NOTIFICATION");
         //  if (reslut.length > 10) {
         //    const res = await asyncStorageItem.deleteItem("DATA_NOTIFICATION");
@@ -189,8 +193,11 @@ const LoginScreen = ({ navigation }) => {
         //      console.log("Xóa thành công");
         //    }
         //  }
+
         // NẾU CHƯA CÓ THÔNG BÁO NÀO HOẶC (MỚI CÀI APP)
       } else {
+        dispatch({ type: "SET_NOTIFER_APP", payload: dataNotification });
+
         const dataNotifi = JSON.stringify(dataNotification);
 
         console.log("DATA NOTIFICATION", dataNotifi);
@@ -202,7 +209,6 @@ const LoginScreen = ({ navigation }) => {
         body: remoteMessage.notification.body,
       });
     });
-
     return unsubscribe;
   }, []);
 

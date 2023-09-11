@@ -21,7 +21,7 @@ const DropDown = ({
   const [focus, setFocus] = useState(false);
 
   const renderLabel = () => {
-    if (value !== "") {
+    if (value != "") {
       return (
         <Text style={[styles.label, focus && { color: colors.primary }]}>
           {placeholder}

@@ -35,6 +35,8 @@ const initialState = {
     label: "",
     label2: "",
   },
+  showListNotifer: false,
+  notiferApp: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -107,6 +109,18 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         notiferWarning: action.payload,
+      };
+    }
+    case "SET_SHOW_LIST_NOTIFER": {
+      return {
+        ...state,
+        showListNotifer: action.payload,
+      };
+    }
+    case "SET_NOTIFER_APP": {
+      return {
+        ...state,
+        notiferApp: action.payload,
       };
     }
     default:

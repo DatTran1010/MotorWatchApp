@@ -27,7 +27,6 @@ import QRCamera from "./src/components/QRCamera";
 import NotificationApp from "./src/components/NotificationApp";
 import RequestReport from "./src/UI/RequestReport/RequestReport";
 import ToastNotification from "./src/components/toast";
-import NotifiHistory from "./src/UI/NotificationHistory/notificationHistory";
 // import CameraComponent from "./src/components/CameraComponent";
 
 export default function App() {
@@ -115,7 +114,9 @@ export default function App() {
             drawerIcon: true,
             headerTintColor: colors.white,
             headerTitle: () => (
-              <Text style={theme.fontTitle}>YÊU CẦU GỬI BÁO CÁO</Text>
+              <View>
+                <Text style={theme.fontTitle}>YÊU CẦU GỬI BÁO CÁO</Text>
+              </View>
             ),
           }}
         />
@@ -162,7 +163,7 @@ export default function App() {
                 }}
                 defaultScreenOptions={Home}
               >
-                {/* <Stack.Screen
+                <Stack.Screen
                   name="Login"
                   component={Login}
                   options={{
@@ -204,17 +205,6 @@ export default function App() {
                   component={DetailsOEE}
                   options={{
                     headerShown: true,
-                    headerTintColor: colors.white,
-                    headerTitle: () => (
-                      <Text style={theme.fontTitle}>CHI TIẾT CHỈ SỐ OEE</Text>
-                    ),
-                  }}
-                /> */}
-                <Stack.Screen
-                  name="NotifiHistory"
-                  component={NotifiHistory}
-                  options={{
-                    headerShown: false,
                     headerTintColor: colors.white,
                     headerTitle: () => (
                       <Text style={theme.fontTitle}>CHI TIẾT CHỈ SỐ OEE</Text>
