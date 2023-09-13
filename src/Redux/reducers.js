@@ -37,6 +37,7 @@ const initialState = {
   },
   showListNotification: false,
   notiferApp: [],
+  heightHeaderNav: 0,
 };
 
 const reducer = (state = initialState, action) => {
@@ -121,6 +122,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         notiferApp: action.payload,
+      };
+    }
+    case "SET_HEIGHT_HEADER_NAVIGATION": {
+      return {
+        ...state,
+        heightHeaderNav: action.payload,
       };
     }
     default:

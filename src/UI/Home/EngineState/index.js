@@ -43,11 +43,27 @@ const EngineState = ({ navigation, selectedID_DC, refeshing }) => {
       idTT: idTT,
     });
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <View style={styles.titleChart}>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
           <Text style={styles.textTitle}>Tình trạng động cơ</Text>
+          <Text style={(styles.textTitle, { fontSize: theme.fontSize + 2 })}>
+            Tổng động cơ:{" "}
+            {data.length > 0
+              ? data.reduce((accumulator, currentValue) => {
+                  return accumulator + currentValue.value;
+                }, 0)
+              : 0}
+          </Text>
         </View>
       </View>
       <View style={styles.chartPie}>

@@ -18,7 +18,7 @@ export default {
   shadow: {
     backgroundColor: colors.backgroundColor,
     shadowColor: colors.black,
-    shadowOffset: { width: 5, height: 0 },
+    shadowOffset: { width: 2, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.85,
     elevation: 5,

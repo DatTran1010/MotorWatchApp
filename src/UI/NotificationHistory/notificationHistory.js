@@ -7,6 +7,7 @@ import {
   Modal,
   TouchableOpacity,
   Alert,
+  StatusBar,
 } from "react-native";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +21,9 @@ import { windowHeight, windowWidth } from "../../Common/dimentions";
 import theme from "../../Common/theme";
 
 const NotifiHistory = () => {
+  const statusBarHeight = StatusBar.currentHeight || 0;
+  const heightHeaderNav = useSelector((state) => state.heightHeaderNav);
+
   const dispatch = useDispatch();
 
   const dataNotifer = useSelector((state) => state.notiferApp);
@@ -29,7 +33,6 @@ const NotifiHistory = () => {
 
   console.log("render LIST NO");
   useEffect(() => {
-    console.log("123");
     const getDataNotification = async () => {
       const reslut = await asyncStorageItem.getItem("DATA_NOTIFICATION");
       if (reslut == "") return;
@@ -80,7 +83,26 @@ const NotifiHistory = () => {
         style={{ flex: 1 }}
         onPress={handleBlur}
       >
-        <View style={[styles.container, theme.shadow]}>
+        <View
+          style={[styles.container, theme.shadow, { top: heightHeaderNav }]}
+        >
+          <View
+            style={{
+              position: "absolute",
+              top: -10,
+              right: 15,
+              width: 0,
+              height: 0,
+              backgroundColor: "transparent",
+              borderStyle: "solid",
+              borderLeftWidth: 10,
+              borderRightWidth: 10,
+              borderBottomWidth: 20,
+              borderLeftColor: "transparent",
+              borderRightColor: "transparent",
+              borderBottomColor: colors.white,
+            }}
+          ></View>
           <View style={styles.headerContent}>
             <View style={styles.title}>
               <Text style={[theme.font, { fontWeight: "bold" }]}>
@@ -150,9 +172,8 @@ export default NotifiHistory;
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
-    top: windowHeight / 15,
     bottom: 0,
-    right: 30,
+    right: 10,
     height: windowHeight / 2,
     width: windowWidth / 1.5,
     borderRadius: 6,

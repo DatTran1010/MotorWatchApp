@@ -155,7 +155,9 @@ const LoginScreen = ({ navigation }) => {
         {
           date: Date.now(),
           titile: remoteMessage.notification.title,
-          body: remoteMessage.notification.body,
+          body: remoteMessage.notification.body
+            .toString()
+            .replace("<br>", "\n"),
           seen: false,
         },
       ];

@@ -69,40 +69,46 @@ const WorkRealtime = ({ navigation }) => {
 
       const dataRealtime = querySnapshot.data();
 
-      console.log("data khi chưa map ", dataRealtime);
-      // const dataArray =
-      //   dataRealtime &&
-      //   Object.keys(dataRealtime).map((key) => ({
-      //     [key]: dataRealtime[key],
-      //   }));
+      const dataArray =
+        dataRealtime &&
+        Object.keys(dataRealtime).map((key) => ({
+          [key]: dataRealtime[key],
+        }));
 
-      // const dataArray =
-      //   dataRealtime &&
-      //   Object.entries(dataRealtime).map(([key, value]) => ({
-      //     [key]: value,
-      //   }));
-
-      const keyValueArray = [];
-
-      // Tạo mảng các đối tượng key-value
-      for (const key in dataRealtime) {
-        if (dataRealtime.hasOwnProperty(key)) {
-          keyValueArray.push({ key, value: dataRealtime[key] });
-        }
-      }
-
-      // Sắp xếp mảng theo thứ tự của key
-      keyValueArray.sort((a, b) => {
-        return a.key.localeCompare(b.key);
+      // Sắp xếp mảng theo thứ tự từ A đến Z theo key
+      const sortedArray = dataArray.sort((a, b) => {
+        const keyA = Object.keys(a)[0];
+        const keyB = Object.keys(b)[0];
+        return keyA.localeCompare(keyB);
       });
 
-      const resultArray = keyValueArray.map((item) => ({
-        [item.key]: item.value,
-      }));
+      // Loại bỏ chữ cái đầu tiên của key và lưu kết quả vào mảng mới
+      const modifiedArray = sortedArray.reduce((acc, obj) => {
+        const [[oldKey, value]] = Object.entries(obj);
+        const newKey = oldKey.slice(1); // Loại bỏ chữ cái đầu tiên của key
+        acc.push({ [newKey]: value });
+        return acc;
+      }, []);
 
-      console.log("data sau khi chạy qua map", resultArray);
-      setData(resultArray);
-      //   console.log(querySnapshot.data());
+      // const keyValueArray = [];
+
+      // // Tạo mảng các đối tượng key-value
+      // for (const key in dataRealtime) {
+      //   if (dataRealtime.hasOwnProperty(key)) {
+      //     keyValueArray.push({ key, value: dataRealtime[key] });
+      //   }
+      // }
+
+      // // Sắp xếp mảng theo thứ tự của key
+      // keyValueArray.sort((a, b) => {
+      //   return a.key.localeCompare(b.key);
+      // });
+
+      // const resultArray = keyValueArray.map((item) => ({
+      //   [item.key]: item.value,
+      // }));
+
+      setData(modifiedArray);
     });
   }, [selectedValueDongCo.value]);
 

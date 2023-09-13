@@ -1,5 +1,9 @@
 import messaging from "@react-native-firebase/messaging";
-import notifee, { AndroidImportance } from "@notifee/react-native";
+import notifee, {
+  AndroidImportance,
+  AndroidStyle,
+  AndroidVisibility,
+} from "@notifee/react-native";
 import { Platform, PermissionsAndroid } from "react-native";
 export async function requestUserPermission() {
   if (Platform.OS === "android") {
@@ -43,9 +47,6 @@ export const notificationListenr = () => {
 export const getToken = async () => {
   await messaging().registerDeviceForRemoteMessages();
   const token = await messaging().getToken();
-  // console.log("=====================================");
-  // console.log(token);
-  // console.log("=====================================");
   return token;
 };
 
@@ -75,6 +76,8 @@ export async function onDisplayNotification({ title = "", body = "" }) {
       pressAction: {
         id: "default",
       },
+
+      style: { type: AndroidStyle.BIGTEXT, text: body },
     },
   });
 }

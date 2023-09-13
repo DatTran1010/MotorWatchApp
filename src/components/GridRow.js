@@ -14,8 +14,7 @@ const GridRow = ({ data, index, columnRemove = "" }) => {
   //xóa cột nào đó trên lưới (trong data ví dụ cột id)
 
   const filteredColumns = Object.keys(data).filter((key) => !columnRemove[key]);
-
-  // console.log(filteredColumns);
+  console.log("filteredColumns", filteredColumns);
   return (
     <TouchableNativeFeedback style={{ flex: 1 }}>
       <View

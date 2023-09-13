@@ -8,9 +8,9 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from "react-native";
-import React, { useState, useEffect, memo, useCallback } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useFocusEffect } from "@react-navigation/native";
+import { useHeaderHeight } from "@react-navigation/elements";
 
 import HeaderApp from "./HeaderApp";
 import TabBottom from "./TabBottom";
@@ -23,6 +23,7 @@ import MyMotorWatch from "./MyMotorWatch";
 import * as generalService from "../../apiServices/generalService";
 
 const Home = ({ navigation }) => {
+  const headerHeightNavigation = useHeaderHeight();
   const dispatch = useDispatch();
 
   const userInfo = useSelector((state) => state.userInfo);
@@ -64,6 +65,11 @@ const Home = ({ navigation }) => {
       }
     };
     getDataTreeNM();
+
+    dispatch({
+      type: "SET_HEIGHT_HEADER_NAVIGATION",
+      payload: headerHeightNavigation,
+    });
   }, []);
 
   return (
