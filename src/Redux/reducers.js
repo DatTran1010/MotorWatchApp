@@ -35,7 +35,7 @@ const initialState = {
     label: "",
     label2: "",
   },
-  showListNotifer: false,
+  showListNotification: false,
   notiferApp: [],
 };
 
@@ -111,10 +111,10 @@ const reducer = (state = initialState, action) => {
         notiferWarning: action.payload,
       };
     }
-    case "SET_SHOW_LIST_NOTIFER": {
+    case "SET_SHOW_LIST_NOTIFI": {
       return {
         ...state,
-        showListNotifer: action.payload,
+        showListNotification: action.payload,
       };
     }
     case "SET_NOTIFER_APP": {

@@ -37,7 +37,7 @@ const WorkPlan = ({ navigation }) => {
   //#region  state
   const [dataWorkPlan, setDataWorkPlan] = useState([]);
   const [dataMay, setDataMay] = useState([]);
-  const [selectedMay, setSelectedMay] = useState();
+  const [selectedMay, setSelectedMay] = useState("");
 
   const [dateFromTo, setDataFromTo] = useState({
     startDate: moment(new Date()).add(-6, "days").format("YYYY-MM-DD"),
@@ -47,7 +47,7 @@ const WorkPlan = ({ navigation }) => {
   const [showModalSave, setShowModalSave] = useState(false);
 
   const [dataForm, setDataForm] = useState({});
-
+  const [refeshing, setRefeshing] = useState(false);
   const [keyResetFormik, setKeyResetFormik] = useState(Date.now());
   const [initialValues, setInitalValues] = useState({});
   const [validationSchema, setValidationSchema] = useState({});
@@ -73,7 +73,7 @@ const WorkPlan = ({ navigation }) => {
 
   useFocusEffect(
     useCallback(() => {
-      if (selectedMay === undefined) return;
+      if (selectedMay === "") return;
 
       const getDataWorkPlan = async () => {
         unstable_batchedUpdates(async () => {
@@ -112,6 +112,7 @@ const WorkPlan = ({ navigation }) => {
 
             setInitalValues(initValuesFormik);
             setValidationSchema(validationFormik);
+            setKeyResetFormik(Date.now());
           } else {
             setDataWorkPlan({});
           }
@@ -119,7 +120,7 @@ const WorkPlan = ({ navigation }) => {
       };
 
       getDataWorkPlan();
-    }, [selectedMay, dateFromTo.startDate, dateFromTo.endDate])
+    }, [selectedMay, dateFromTo.startDate, dateFromTo.endDate, refeshing])
   );
 
   //#endregion
@@ -127,13 +128,12 @@ const WorkPlan = ({ navigation }) => {
   //#region  các event xử lý sự kiện
 
   const handleRefeshing = () => {
-    setKeyResetFormik(Date.now());
+    setRefeshing(!refeshing);
   };
 
   const handleSelectedMay = useCallback(
     (item) => {
       setSelectedMay(item.value);
-      setKeyResetFormik(Date.now());
     },
     [selectedMay]
   );
@@ -141,7 +141,6 @@ const WorkPlan = ({ navigation }) => {
   const handleDoneDateCalendar = useCallback(
     (date) => {
       setDataFromTo(date);
-      setKeyResetFormik(Date.now());
     },
     [dateFromTo.startDate, dateFromTo.endDate]
   );
@@ -151,8 +150,23 @@ const WorkPlan = ({ navigation }) => {
   }, []);
 
   const handleSaveButton = (values) => {
-    setShowModalSave(true);
-    setDataForm(values);
+    const allValuesEmpty = Object.values(values).every(
+      (value) => value == 0 || value == ""
+    );
+    if (allValuesEmpty) {
+      dispatch({
+        type: "SET_SHOW_TOAST",
+        payload: {
+          showToast: true,
+          title: "Thông báo",
+          body: "Vui lòng nhập dữ liệu",
+          type: "warning",
+        },
+      });
+    } else {
+      setShowModalSave(true);
+      setDataForm(values);
+    }
   };
 
   const handleConfirmModal = () => {
@@ -205,17 +219,16 @@ const WorkPlan = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <HeaderApp
+        navigation={navigation}
+        headerLeftVisible={true}
+        goBack={false}
+      />
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" && "padding"}
         keyboardVerticalOffset={86}
       >
-        <HeaderApp
-          navigation={navigation}
-          title={"KẾ HOẠCH LÀM VIỆC"}
-          headerLeftVisible={true}
-          goBack={false}
-        />
         <View style={{ flex: 1 }}>
           <View style={styles.filterControl}>
             <View style={{ flex: 1 }}>
@@ -238,80 +251,86 @@ const WorkPlan = ({ navigation }) => {
             </View>
           </View>
 
-          {dataWorkPlan.length > 0 ? (
-            <Formik
-              key={keyResetFormik}
-              enableReinitialize={true}
-              initialValues={initialValues}
-              validationSchema={validationSchema}
-              onSubmit={(values) => handleSaveButton(values)}
-            >
-              {({ handleChange, handleSubmit, values, errors }) => (
-                <View style={{ flex: 5, zIndex: -1 }}>
-                  <ScrollView
-                    style={{ flex: 4 }}
-                    refreshControl={
-                      <RefreshControl onRefresh={handleRefeshing} />
-                    }
-                  >
-                    {dataWorkPlan.map((item, index) => {
-                      return (
-                        <View key={index} style={styles.input}>
-                          <CustomTextInput
-                            placeholder={item.date}
-                            keyboardType="numbers-and-punctuation"
-                            value={values[item.date]}
-                            onChangeText={handleChange(item.date)}
-                          />
-                          {errors[item.date] && (
-                            <Text
-                              style={{
-                                color: "red",
-                                fontWeight: "600",
-                              }}
-                            >
-                              {errors[item.date]}
-                            </Text>
-                          )}
-                        </View>
-                      );
-                    })}
-                  </ScrollView>
-                  <View style={styles.button}>
-                    <View
-                      style={[styles.buttonView, { justifyContent: "center" }]}
+          <View style={{ flex: 5, zIndex: -1 }}>
+            {dataWorkPlan.length > 0 ? (
+              <Formik
+                key={keyResetFormik}
+                enableReinitialize={true}
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={(values) => handleSaveButton(values)}
+              >
+                {({ handleChange, handleSubmit, values, errors }) => (
+                  <View style={{ flex: 1 }}>
+                    <ScrollView
+                      style={{ flex: 4 }}
+                      refreshControl={
+                        <RefreshControl onRefresh={handleRefeshing} />
+                      }
                     >
-                      <FormButton
-                        buttonTitle={"LƯU"}
-                        activeOpacity={0.7}
-                        onPress={handleSubmit}
-                      />
-                    </View>
-                    <View style={styles.buttonView}>
-                      <FormButton
-                        buttonTitle={"KHÔNG LƯU"}
-                        colorButton={colors.colorHeader}
-                        activeOpacity={0.6}
-                        onPress={() => {
-                          Keyboard.dismiss();
-                        }}
-                      />
+                      {dataWorkPlan.map((item, index) => {
+                        return (
+                          <View key={index} style={styles.input}>
+                            <CustomTextInput
+                              placeholder={item.date}
+                              keyboardType="numbers-and-punctuation"
+                              value={values[item.date]}
+                              onChangeText={handleChange(item.date)}
+                            />
+                            {errors[item.date] && (
+                              <Text
+                                style={{
+                                  color: "red",
+                                  fontWeight: "600",
+                                }}
+                              >
+                                {errors[item.date]}
+                              </Text>
+                            )}
+                          </View>
+                        );
+                      })}
+                    </ScrollView>
+                    <View style={styles.button}>
+                      <View
+                        style={[
+                          styles.buttonView,
+                          { justifyContent: "center" },
+                        ]}
+                      >
+                        <FormButton
+                          buttonTitle={"LƯU"}
+                          activeOpacity={0.7}
+                          onPress={handleSubmit}
+                        />
+                      </View>
+                      <View style={styles.buttonView}>
+                        <FormButton
+                          buttonTitle={"KHÔNG LƯU"}
+                          colorButton={colors.colorHeader}
+                          activeOpacity={0.6}
+                          onPress={() => {
+                            Keyboard.dismiss();
+                            setRefeshing(!refeshing);
+                          }}
+                        />
+                      </View>
                     </View>
                   </View>
-                </View>
-              )}
-            </Formik>
-          ) : (
-            <View
-              style={{
-                alignItems: "center",
-                justifyContent: "center",
-                flex: 1,
-              }}
-            >
-              <Text style={theme.font}>Không có dữ liệu </Text>
-            </View>
-          )}
+                )}
+              </Formik>
+            ) : (
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flex: 1,
+                }}
+              >
+                <Text style={theme.font}>Không có dữ liệu </Text>
+              </View>
+            )}
+          </View>
         </View>
         {showModalSave && (
           <ModalQuestion
@@ -333,6 +352,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.backgroundColor,
     padding: 10,
+    zIndex: -1,
   },
   filterControl: {
     paddingVertical: 10,

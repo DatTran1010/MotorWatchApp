@@ -143,11 +143,11 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   label: {
+    zIndex: 999,
     position: "absolute",
     backgroundColor: colors.backgroundColor,
     left: 10,
     top: -8,
-    zIndex: 999,
     paddingHorizontal: 8,
     fontSize: theme.fontSize,
     fontFamily: theme.fontFamily,

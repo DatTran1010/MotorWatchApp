@@ -11,7 +11,7 @@ export default {
   },
   fontTitle: {
     fontWeight: "bold",
-    fontSize: 18,
+    fontSize: windowWidth / 25,
     color: colors.white,
     fontFamily: "Segoe UI",
   },

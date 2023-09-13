@@ -24,6 +24,7 @@ import * as workModeServices from "../../../apiServices/workModeService";
 import HeaderApp from "../../Home/HeaderApp";
 import FormButton from "../../../components/button";
 import theme from "../../../Common/theme";
+
 const WorkingMode = ({ navigation }) => {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.userInfo);
@@ -39,6 +40,7 @@ const WorkingMode = ({ navigation }) => {
   const [dataForm, setDataForm] = useState({});
   const [keyResetFormik, setKeyResetFormik] = useState(Date.now());
 
+  const [refeshing, setRefeshing] = useState(false);
   //#endregion
 
   //#region  get Dữ liệu
@@ -74,10 +76,11 @@ const WorkingMode = ({ navigation }) => {
         } else {
           setDataCDLV({});
         }
+        setKeyResetFormik(Date.now());
       };
 
       getDataCDLV();
-    }, [selectedMay])
+    }, [selectedMay, refeshing])
   );
 
   //#endregion
@@ -86,7 +89,6 @@ const WorkingMode = ({ navigation }) => {
   const handleSelectedMay = useCallback(
     (item) => {
       setSelectedMay(item.value);
-      setKeyResetFormik(Date.now());
     },
     [selectedMay]
   );
@@ -96,24 +98,39 @@ const WorkingMode = ({ navigation }) => {
   }, []);
 
   const handleSaveButton = (values) => {
-    setShowModalSave(true);
-    setDataForm(values);
+    const allValuesEmpty = Object.values(values).every(
+      (value) => value == 0 || value == ""
+    );
+
+    if (allValuesEmpty) {
+      dispatch({
+        type: "SET_SHOW_TOAST",
+        payload: {
+          showToast: true,
+          title: "Thông báo",
+          body: "Vui lòng nhập dữ liệu",
+          type: "warning",
+        },
+      });
+    } else {
+      setShowModalSave(true);
+      setDataForm(values);
+    }
   };
 
-  console.log("render");
   const handleConfirmModal = () => {
     setShowModalSave(false);
 
     const saveData = async () => {
       const datasave = {
-        tG_T2: dataForm.valueT2,
-        tG_T3: dataForm.valueT3,
-        tG_T4: dataForm.valueT4,
-        tG_T5: dataForm.valueT5,
-        tG_T6: dataForm.valueT6,
-        tG_T7: dataForm.valueT7,
-        tG_CN: dataForm.valueCN,
-        oeE_MUC_TIEU: dataForm.valueOEE,
+        tG_T2: dataForm.valueT2 == "" ? 0 : dataForm.valueT2,
+        tG_T3: dataForm.valueT3 == "" ? 0 : dataForm.valueT3,
+        tG_T4: dataForm.valueT4 == "" ? 0 : dataForm.valueT4,
+        tG_T5: dataForm.valueT5 == "" ? 0 : dataForm.valueT5,
+        tG_T6: dataForm.valueT6 == "" ? 0 : dataForm.valueT6,
+        tG_T7: dataForm.valueT7 == "" ? 0 : dataForm.valueT7,
+        tG_CN: dataForm.valueCN == "" ? 0 : dataForm.valueCN,
+        oeE_MUC_TIEU: dataForm.valueOEE == "" ? 0 : dataForm.valueOEE,
       };
 
       const result = await workModeServices.postSubmitDataWorkMode(
@@ -166,7 +183,6 @@ const WorkingMode = ({ navigation }) => {
     <View style={styles.container}>
       <HeaderApp
         navigation={navigation}
-        title={"CHẾ ĐỘ LÀM VIỆC"}
         headerLeftVisible={true}
         goBack={false}
       />
@@ -211,8 +227,9 @@ const WorkingMode = ({ navigation }) => {
                     style={{ flex: 4 }}
                     refreshControl={
                       <RefreshControl
+                        refreshing={false}
                         onRefresh={() => {
-                          setKeyResetFormik(Date.now());
+                          setRefeshing(!refeshing);
                         }}
                       />
                     }
@@ -380,6 +397,7 @@ const WorkingMode = ({ navigation }) => {
                       activeOpacity={0.6}
                       onPress={() => {
                         Keyboard.dismiss();
+                        setRefeshing(!refeshing);
                       }}
                     />
                   </View>

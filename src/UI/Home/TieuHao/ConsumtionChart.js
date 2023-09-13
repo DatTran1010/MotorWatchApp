@@ -15,10 +15,15 @@ import colors from "../../../Common/colors";
 
 const ConsumtionChart = ({ data }) => {
   return (
-    <View style={{ flex: 1, zIndex: -1 }}>
+    <View
+      style={{
+        flex: 1,
+        zIndex: -1,
+      }}
+    >
       <VictoryChart
         theme={VictoryTheme.material}
-        domainPadding={20}
+        domainPadding={5}
         width={windowWidth + 10} // Tùy chỉnh chiều rộng của biểu đồ
         height={windowHeight / 2} // Tùy chỉnh chiều cao của biểu đồ
         // containerComponent={
@@ -51,7 +56,7 @@ const ConsumtionChart = ({ data }) => {
           tickLabelComponent={<VictoryLabel textAnchor="end" />}
         ></VictoryAxis>
         <VictoryGroup
-          offset={15}
+          offset={20}
           style={{
             data: { stroke: "rgba(0,0,0,0.5)", strokeWidth: 1 },
           }}
@@ -67,7 +72,7 @@ const ConsumtionChart = ({ data }) => {
                 fill: data[0].colorTONG_TH,
               },
             }}
-            labels={({ datum }) => `${datum.tonG_TH}`}
+            labels={({ datum }) => `${datum.tonG_TH == 0 ? "" : datum.tonG_TH}`}
           />
           <VictoryBar
             data={data}
@@ -90,7 +95,7 @@ const ConsumtionChart = ({ data }) => {
                 },
               },
             ]}
-            labels={({ datum }) => `${datum.tonG_CX}`}
+            labels={({ datum }) => `${datum.tonG_CX == 0 ? "" : datum.tonG_CX}`}
           />
         </VictoryGroup>
         <VictoryLabel text="Kwh" x={10} y={20} />

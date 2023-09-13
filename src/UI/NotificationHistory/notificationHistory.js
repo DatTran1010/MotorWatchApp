@@ -16,7 +16,6 @@ import Animated, { BounceInRight } from "react-native-reanimated";
 
 import * as asyncStorageItem from "../../Common/asyncStorageItem";
 import colors from "../../Common/colors";
-import IconButton from "../../components/IconButton";
 import { windowHeight, windowWidth } from "../../Common/dimentions";
 import theme from "../../Common/theme";
 
@@ -24,7 +23,9 @@ const NotifiHistory = () => {
   const dispatch = useDispatch();
 
   const dataNotifer = useSelector((state) => state.notiferApp);
-  const showListNotifer = useSelector((state) => state.showListNotifer);
+  const showListNotification = useSelector(
+    (state) => state.showListNotification
+  );
 
   console.log("render LIST NO");
   useEffect(() => {
@@ -41,7 +42,7 @@ const NotifiHistory = () => {
   // handle
   const handleBlur = (event) => {
     if (event.target === event.currentTarget) {
-      dispatch({ type: "SET_SHOW_LIST_NOTIFER", payload: false });
+      dispatch({ type: "SET_SHOW_LIST_NOTIFI", payload: false });
     }
   };
 
@@ -68,110 +69,79 @@ const NotifiHistory = () => {
   };
   //Render
 
-  const RenderListNotifer = () => {
-    return (
-      <Modal transparent={true} visible={true} animationType="fade">
-        <TouchableOpacity
-          activeOpacity={1}
-          style={{ flex: 1 }}
-          onPress={handleBlur}
-        >
-          <View style={[styles.container, theme.shadow]}>
-            <View style={styles.headerContent}>
-              <View style={styles.title}>
-                <Text style={[theme.font, { fontWeight: "bold" }]}>
-                  Notifications
-                </Text>
-              </View>
-              <TouchableOpacity
-                style={styles.readAll}
-                onPress={handleReadAllNotifer}
-              >
-                <Ionicons name={"checkmark-done"} size={25} color="lightblue" />
-                <Text style={[theme.font]}>Đọc tất cả</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.bodyContent}>
-              <FlatList
-                data={dataNotifer}
-                keyExtractor={(item, index) => index + ""}
-                windowSize={5}
-                renderItem={({ item, index, event }) => {
-                  return (
-                    <Animated.View
-                      entering={index === 0 && !item.seen && BounceInRight}
-                      style={[
-                        theme.shadow,
-                        {
-                          backgroundColor: item.seen
-                            ? colors.backgroundColor
-                            : "#e9f5f8",
-                          padding: 15,
-                          margin: 5,
-                          borderRadius: 5,
-                        },
-                      ]}
-                      // onPress={() => handleContentNotifer(index)}
-                      activeOpacity={0.6}
-                    >
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          justifyContent: "space-between",
-                          marginBottom: 10,
-                        }}
-                      >
-                        <Text style={[theme.font]}>{item.titile}</Text>
-                        <Text style={[theme.font, { color: colors.gray }]}>
-                          {moment(item.date).format("DD/MM/YYYY HH:mm:ss")}
-                        </Text>
-                      </View>
-                      <View>
-                        <Text style={theme.font}>{item.body}</Text>
-                      </View>
-                    </Animated.View>
-                  );
-                }}
-              />
-            </View>
-            <View style={styles.footerContent}></View>
-          </View>
-        </TouchableOpacity>
-      </Modal>
-    );
-  };
   return (
-    <View style={{ marginRight: 15 }}>
-      <IconButton
-        nameicon={"notifications"}
-        size={30}
-        colorIcon={colors.white}
-        onPress={() => {
-          dispatch({ type: "SET_SHOW_LIST_NOTIFER", payload: true });
-        }}
-      />
-      {dataNotifer.filter((item) => item.seen === false).length > 0 && (
-        <View
-          style={{
-            backgroundColor: "red",
-            width: 20,
-            height: 20,
-            borderRadius: 10,
-            alignItems: "center",
-            justifyContent: "center",
-            position: "absolute",
-            right: 0,
-            top: -5,
-          }}
-        >
-          <Text style={[theme.font, { color: colors.white }]}>
-            {dataNotifer.filter((item) => item.seen === false).length}
-          </Text>
+    <Modal
+      transparent={true}
+      visible={showListNotification}
+      animationType="fade"
+    >
+      <TouchableOpacity
+        activeOpacity={1}
+        style={{ flex: 1 }}
+        onPress={handleBlur}
+      >
+        <View style={[styles.container, theme.shadow]}>
+          <View style={styles.headerContent}>
+            <View style={styles.title}>
+              <Text style={[theme.font, { fontWeight: "bold" }]}>
+                Notifications
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={styles.readAll}
+              onPress={handleReadAllNotifer}
+            >
+              <Ionicons name={"checkmark-done"} size={25} color="lightblue" />
+              <Text style={[theme.font]}>Đọc tất cả</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.bodyContent}>
+            <FlatList
+              data={dataNotifer}
+              keyExtractor={(item, index) => index + ""}
+              windowSize={5}
+              renderItem={({ item, index, event }) => {
+                return (
+                  <Animated.View
+                    entering={index === 0 && !item.seen && BounceInRight}
+                    style={[
+                      theme.shadow,
+                      {
+                        backgroundColor: item.seen
+                          ? colors.backgroundColor
+                          : "#e9f5f8",
+                        padding: 15,
+                        margin: 5,
+                        borderRadius: 5,
+                      },
+                    ]}
+                    // onPress={() => handleContentNotifer(index)}
+                    activeOpacity={0.6}
+                  >
+                    <View
+                      style={{
+                        justifyContent: "space-between",
+                        marginBottom: 10,
+                        flexShrink: 1,
+                      }}
+                    >
+                      <Text style={[theme.font]}>{item.titile}</Text>
+                      <Text style={[theme.font, { color: colors.gray }]}>
+                        {moment(item.date).format("DD/MM/YYYY HH:mm:ss")}
+                      </Text>
+                    </View>
+                    <View>
+                      <Text style={theme.font}>{item.body}</Text>
+                    </View>
+                  </Animated.View>
+                );
+              }}
+            />
+          </View>
+          <View style={styles.footerContent}></View>
         </View>
-      )}
-
-      {showListNotifer && <RenderListNotifer />}
-    </View>
+      </TouchableOpacity>
+    </Modal>
   );
 };
 

@@ -8,6 +8,7 @@ import theme from "../../../Common/theme";
 import DropDown from "../../../components/DropDown";
 import * as generalService from "../../../apiServices/generalService";
 import HeaderApp from "../../Home/HeaderApp";
+import { windowWidth } from "../../../Common/dimentions";
 
 const WorkRealtime = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -68,14 +69,39 @@ const WorkRealtime = ({ navigation }) => {
 
       const dataRealtime = querySnapshot.data();
 
-      const dataArray =
-        dataRealtime &&
-        Object.keys(dataRealtime).map((key) => ({
-          [key]: dataRealtime[key],
-        }));
+      console.log("data khi chưa map ", dataRealtime);
+      // const dataArray =
+      //   dataRealtime &&
+      //   Object.keys(dataRealtime).map((key) => ({
+      //     [key]: dataRealtime[key],
+      //   }));
 
-      console.log(dataArray);
-      setData(dataArray);
+      // const dataArray =
+      //   dataRealtime &&
+      //   Object.entries(dataRealtime).map(([key, value]) => ({
+      //     [key]: value,
+      //   }));
+
+      const keyValueArray = [];
+
+      // Tạo mảng các đối tượng key-value
+      for (const key in dataRealtime) {
+        if (dataRealtime.hasOwnProperty(key)) {
+          keyValueArray.push({ key, value: dataRealtime[key] });
+        }
+      }
+
+      // Sắp xếp mảng theo thứ tự của key
+      keyValueArray.sort((a, b) => {
+        return a.key.localeCompare(b.key);
+      });
+
+      const resultArray = keyValueArray.map((item) => ({
+        [item.key]: item.value,
+      }));
+
+      console.log("data sau khi chạy qua map", resultArray);
+      setData(resultArray);
       //   console.log(querySnapshot.data());
     });
   }, [selectedValueDongCo.value]);
@@ -95,7 +121,6 @@ const WorkRealtime = ({ navigation }) => {
     <View style={styles.container}>
       <HeaderApp
         navigation={navigation}
-        title={"KẾ HOẠCH LÀM VIỆC"}
         headerLeftVisible={true}
         goBack={false}
       />

@@ -13,6 +13,7 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import NotifiHistory from "../NotificationHistory/notificationHistory";
+import IconNotification from "../NotificationHistory/iconNotification";
 
 const HeaderApp = ({
   navigation,
@@ -115,14 +116,14 @@ const HeaderApp = ({
             alignItems: "center",
           }}
         >
-          <NotifiHistory />
-          <Ionicons
+          <IconNotification />
+          {/* <Ionicons
             name="person-circle-outline"
             size={30}
             color={colors.white}
             style={{ marginRight: 15 }}
             onPress={handleInfo}
-          />
+          /> */}
         </View>
       ),
       headerStyle: { backgroundColor: colors.primary },

@@ -43,15 +43,15 @@ const callApi = async (
       console.log("Log 204", response);
 
       dispatch({ type: "SET_OVERLAY", payload: false });
-      dispatch({
-        type: "SET_SHOW_TOAST",
-        payload: {
-          showToast: true,
-          title: "Thông báo",
-          body: "Không có dữ liệu",
-          type: "error",
-        },
-      });
+      // dispatch({
+      //   type: "SET_SHOW_TOAST",
+      //   payload: {
+      //     showToast: true,
+      //     title: "Thông báo",
+      //     body: "Không có dữ liệu",
+      //     type: "error",
+      //   },
+      // });
 
       return [];
     } else {

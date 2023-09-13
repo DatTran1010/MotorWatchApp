@@ -27,6 +27,7 @@ import QRCamera from "./src/components/QRCamera";
 import NotificationApp from "./src/components/NotificationApp";
 import RequestReport from "./src/UI/RequestReport/RequestReport";
 import ToastNotification from "./src/components/toast";
+import NotifiHistory from "./src/UI/NotificationHistory/notificationHistory";
 // import CameraComponent from "./src/components/CameraComponent";
 
 export default function App() {
@@ -101,7 +102,7 @@ export default function App() {
             drawerIcon: true,
             headerTintColor: colors.white,
             headerTitle: () => (
-              <Text style={theme.fontTitle}>DỮ LIỆU THỜI GIAN THỰC</Text>
+              <Text style={[theme.fontTitle]}>DỮ LIỆU THỜI GIAN THỰC</Text>
             ),
           }}
         />
@@ -207,7 +208,7 @@ export default function App() {
                     headerShown: true,
                     headerTintColor: colors.white,
                     headerTitle: () => (
-                      <Text style={theme.fontTitle}>CHI TIẾT CHỈ SỐ OEE</Text>
+                      <Text style={theme.fontTitle}>CHI TIẾT OEE</Text>
                     ),
                   }}
                 />
@@ -219,6 +220,7 @@ export default function App() {
             <QRCamera />
             <NotificationApp />
             <ToastNotification />
+            <NotifiHistory />
           </View>
         </GestureHandlerRootView>
       </ConTextProvider>

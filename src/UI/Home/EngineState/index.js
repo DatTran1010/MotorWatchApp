@@ -127,7 +127,9 @@ const EngineState = ({ navigation, selectedID_DC, refeshing }) => {
               },
               parent: { ...styles.shadowContainer },
             }}
-            labels={({ datum }) => String(Math.round(datum.value))}
+            labels={({ datum }) =>
+              datum.value == 0 ? "" : String(Math.round(datum.value))
+            }
             // labels={() => ""}
           />
         )}

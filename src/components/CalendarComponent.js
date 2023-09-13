@@ -1,16 +1,11 @@
-import {
-  View,
-  Text,
-  Animated,
-  TouchableOpacity,
-  LayoutAnimation,
-} from "react-native";
+import { View, Text, TouchableOpacity, LayoutAnimation } from "react-native";
 import React, { useState, useEffect, memo } from "react";
 import { Calendar, Agenda } from "react-native-calendars";
+import LinearGradient from "react-native-linear-gradient";
+
 import colors from "../Common/colors";
 import { windowHeight, windowWidth } from "../Common/dimentions";
 import theme from "../Common/theme";
-import LinearGradient from "react-native-linear-gradient";
 
 const CalendarComponent = ({
   onClickDone,
@@ -82,23 +77,6 @@ const CalendarComponent = ({
   };
 
   const handleShowCalendar = () => {
-    LayoutAnimation.configureNext({
-      duration: 500,
-      create: {
-        type: LayoutAnimation.Types.spring,
-        property: LayoutAnimation.Properties.scaleXY,
-        springDamping: 0.7,
-      },
-      update: {
-        type: LayoutAnimation.Types.spring,
-        springDamping: 0.7,
-      },
-      delete: {
-        type: LayoutAnimation.Types.easeOut,
-        property: LayoutAnimation.Properties.scaleXY,
-      },
-    });
-
     setDateFromTo({
       startDate: startDate,
       endDate: endDate,
@@ -107,7 +85,7 @@ const CalendarComponent = ({
   };
 
   return (
-    <Animated.View
+    <View
       style={{
         flex: 1,
       }}
@@ -150,7 +128,7 @@ const CalendarComponent = ({
       </TouchableOpacity>
 
       {showCalendar && (
-        <Animated.View
+        <View
           style={{
             left: isRight ? -windowWidth / 2 : 0,
             right: isLeft ? -windowHeight / 2 : -10,
@@ -239,9 +217,9 @@ const CalendarComponent = ({
               </LinearGradient>
             </TouchableOpacity>
           </View>
-        </Animated.View>
+        </View>
       )}
-    </Animated.View>
+    </View>
   );
 };
 
