@@ -11,9 +11,10 @@ import CalendarComponent from "../../components/CalendarComponent";
 import * as reportServices from "../../apiServices/resquestReportServices";
 import ModalQuestion from "../../components/ModalQuestion";
 import NotificationApp from "../../components/NotificationApp";
+import { setNotiferWarning } from "../../Redux/appSlice";
 const RequestReport = ({ navigation }) => {
   const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.userInfo);
+  const userInfo = useSelector((state) => state.app.userInfo);
 
   const [dateFromTo, setDataFromTo] = useState({
     startDate: moment(new Date()).add(-6, "days").format("YYYY-MM-DD"),
@@ -66,14 +67,13 @@ const RequestReport = ({ navigation }) => {
     if (userInfo.EMAIL && userInfo.EMAIL !== "") {
       setShowModal(true);
     } else {
-      dispatch({
-        type: "SET_NOTIFER_WARNING",
-        payload: {
+      dispatch(
+        setNotiferWarning({
           showNotifer: true,
           label: `Tài khoản của bạn chưa có email`,
           label2: "Vui lòng kiểm tra lại.",
-        },
-      });
+        })
+      );
     }
   };
 
@@ -96,23 +96,21 @@ const RequestReport = ({ navigation }) => {
       const result = await reportServices.sendEmail(dataSend, dispatch);
 
       if (result === 1) {
-        dispatch({
-          type: "SET_NOTIFER_WARNING",
-          payload: {
+        dispatch(
+          setNotiferWarning({
             showNotifer: true,
             label: `Báo cáo ${selectedValueReport.name} đã được gửi đến cho Mr/Ms ${userInfo.HO_TEN} theo địa chỉ email: ${userInfo.EMAIL} `,
             label2: "Vui lòng kiểm tra email để xem báo cáo. ",
-          },
-        });
+          })
+        );
       } else if (result === 2) {
-        dispatch({
-          type: "SET_NOTIFER_WARNING",
-          payload: {
+        dispatch(
+          setNotiferWarning({
             showNotifer: true,
             label: `Không có dữ liệu gửi`,
             label2: "Vui lòng kiểm tra lại.",
-          },
-        });
+          })
+        );
       }
       // console.log(result);
     };

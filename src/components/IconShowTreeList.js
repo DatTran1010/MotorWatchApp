@@ -3,14 +3,15 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import IconButton from "./IconButton";
 import { windowHeight } from "../Common/dimentions";
+import { setShowTree } from "../Redux/appSlice";
 
 const IconShowTreeList = () => {
   const dispatch = useDispatch();
 
-  const isShowTree = useSelector((state) => state.showTree);
+  const isShowTree = useSelector((state) => state.app.showTree);
 
   const handleArrowIcon = () => {
-    dispatch({ type: "SET_SHOW_TREE", payload: !isShowTree });
+    dispatch(setShowTree(!isShowTree));
   };
   return (
     <View

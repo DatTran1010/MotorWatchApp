@@ -11,7 +11,7 @@ import Login from "./src/UI/Login";
 import Home from "./src/UI/Home";
 import DrawerContent from "./src/UI/Home/DrawerContent.js";
 import ConTextProvider from "./src/ConText/MainContext";
-import ModalUser from "./src/Common/ModalUser";
+// import ModalUser from "./src/Common/ModalUser";
 import Overlay from "./src/Common/Overlay";
 import store from "./src/Redux/store";
 import DetailsConsumtion from "./src/UI/Home/TieuHao/DetailsConsumtion";
@@ -214,7 +214,7 @@ export default function App() {
                 />
               </Stack.Navigator>
             </NavigationContainer>
-            <ModalUser />
+            {/* <ModalUser /> */}
             <Overlay />
             <Toast />
             <QRCamera />

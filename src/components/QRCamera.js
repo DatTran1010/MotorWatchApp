@@ -21,12 +21,18 @@ import colors from "../Common/colors";
 import IconButton from "./IconButton";
 import ModalCamera from "./ModalCamera";
 import theme from "../Common/theme";
+import {
+  setNotiferWarning,
+  setResultScanned,
+  setShowCamera,
+  setShowModalCamera,
+} from "../Redux/appSlice";
 
 const QRCamera = () => {
   const dispatch = useDispatch();
 
   const [showFlash, setShowFlash] = useState(false);
-  const isShowCamera = useSelector((state) => state.showCamera);
+  const isShowCamera = useSelector((state) => state.app.showCamera);
 
   const handleOpenFlash = () => {
     setShowFlash(!showFlash);
@@ -46,40 +52,33 @@ const QRCamera = () => {
 
       QRreader(image.path)
         .then((data) => {
-          dispatch({
-            type: "SET_SHOW_MODAL_CAMERA",
-            payload: true,
-          });
-          dispatch({
-            type: "SET_RESULT_SCANNED",
-            payload: data.trim(),
-          });
+          dispatch(setShowModalCamera(true));
+          dispatch(setResultScanned(data.trim()));
         })
         .catch((err) => {
-          dispatch({
-            type: "SET_NOTIFER_WARNING",
-            payload: {
+          dispatch(
+            setNotiferWarning({
               showNotifer: true,
               label:
                 "Mã QR không hợp lệ hoặc chất lượng hình ảnh không phù hợp quy chuẩn của hệ điều hành.",
               label2: "Vui lòng kiểm tra lại.",
-            },
-          });
+            })
+          );
         });
     });
   };
 
   const handleCloseCamera = () => {
-    dispatch({ type: "SET_SHOW_CAMERA", payload: false });
+    dispatch(setShowCamera(false));
   };
 
   const handleReadQRCode = (e) => {
-    dispatch({ type: "SET_SHOW_MODAL_CAMERA", payload: true });
-    dispatch({ type: "SET_RESULT_SCANNED", payload: e.data.trim() });
+    dispatch(setShowModalCamera(true));
+    dispatch(setResultScanned(e.data.trim()));
   };
 
   const handleOpenModalURL = () => {
-    dispatch({ type: "SET_SHOW_MODAL_CAMERA", payload: true });
+    dispatch(setShowModalCamera(true));
   };
 
   //#endregion

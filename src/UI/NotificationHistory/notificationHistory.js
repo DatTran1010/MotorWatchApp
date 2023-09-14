@@ -19,16 +19,17 @@ import * as asyncStorageItem from "../../Common/asyncStorageItem";
 import colors from "../../Common/colors";
 import { windowHeight, windowWidth } from "../../Common/dimentions";
 import theme from "../../Common/theme";
+import { setNotiferApp, setShowListNotification } from "../../Redux/appSlice";
 
 const NotifiHistory = () => {
   const statusBarHeight = StatusBar.currentHeight || 0;
-  const heightHeaderNav = useSelector((state) => state.heightHeaderNav);
+  const heightHeaderNav = useSelector((state) => state.app.heightHeaderNav);
 
   const dispatch = useDispatch();
 
-  const dataNotifer = useSelector((state) => state.notiferApp);
+  const dataNotifer = useSelector((state) => state.app.notiferApp);
   const showListNotification = useSelector(
-    (state) => state.showListNotification
+    (state) => state.app.showListNotification
   );
 
   console.log("render LIST NO");
@@ -37,7 +38,7 @@ const NotifiHistory = () => {
       const reslut = await asyncStorageItem.getItem("DATA_NOTIFICATION");
       if (reslut == "") return;
       const res = JSON.parse(reslut);
-      dispatch({ type: "SET_NOTIFER_APP", payload: res });
+      dispatch(setNotiferApp(res));
     };
     getDataNotification();
   }, []);
@@ -45,7 +46,7 @@ const NotifiHistory = () => {
   // handle
   const handleBlur = (event) => {
     if (event.target === event.currentTarget) {
-      dispatch({ type: "SET_SHOW_LIST_NOTIFI", payload: false });
+      dispatch(setShowListNotification(false));
     }
   };
 
@@ -57,7 +58,7 @@ const NotifiHistory = () => {
     const result = JSON.stringify(newData);
     console.log(result);
     await asyncStorageItem.setItem("DATA_NOTIFICATION", result);
-    dispatch({ type: "SET_NOTIFER_APP", payload: newData });
+    dispatch(setNotiferApp(newData));
   };
 
   const handleReadAllNotifer = async () => {
@@ -68,7 +69,7 @@ const NotifiHistory = () => {
 
     const result = JSON.stringify(updatedData);
     await asyncStorageItem.setItem("DATA_NOTIFICATION", result);
-    dispatch({ type: "SET_NOTIFER_APP", payload: updatedData });
+    dispatch(setNotiferApp(updatedData));
   };
   //Render
 

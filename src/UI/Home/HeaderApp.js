@@ -1,18 +1,16 @@
 import React, { useEffect, useContext, memo, useState } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { View, Text, Modal, Alert } from "react-native";
+import { View } from "react-native";
 
 import colors from "../../Common/colors";
 import { MainConText } from "../../ConText/MainContext";
 import LinearGradient from "react-native-linear-gradient";
 import Animated, {
-  Easing,
   useSharedValue,
   withRepeat,
   useAnimatedStyle,
   withSpring,
 } from "react-native-reanimated";
-import NotifiHistory from "../NotificationHistory/notificationHistory";
 import IconNotification from "../NotificationHistory/iconNotification";
 
 const HeaderApp = ({

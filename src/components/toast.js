@@ -20,10 +20,11 @@ import IconButton from "./IconButton";
 import colors from "../Common/colors";
 import theme from "../Common/theme";
 import { windowWidth } from "../Common/dimentions";
+import { setShowToast } from "../Redux/appSlice";
 
 const ToastNotification = () => {
   const dispatch = useDispatch();
-  const toastContainer = useSelector((state) => state.toastContainer);
+  const toastContainer = useSelector((state) => state.app.toastContainer);
   // useEffect(() => {
   //   if (toastContainer.showToast) {
   //     const timer = setTimeout(() => {
@@ -89,14 +90,13 @@ const ToastNotification = () => {
   };
   //handle
   const handleCloseToast = () => {
-    dispatch({
-      type: "SET_SHOW_TOAST",
-      payload: {
+    dispatch(
+      setShowToast({
         showToast: false,
         title: "Thông báo",
         body: "",
-      },
-    });
+      })
+    );
   };
 
   //kéo thả toast

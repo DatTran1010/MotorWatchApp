@@ -88,15 +88,16 @@ const CalendarComponent = ({
     <View
       style={{
         flex: 1,
+        zIndex: 999,
       }}
     >
       <Text
         style={{
+          zIndex: 999,
           position: "absolute",
           backgroundColor: colors.backgroundColor,
           left: 10,
           top: -8,
-          zIndex: 999,
           paddingHorizontal: 8,
           fontSize: theme.fontSize,
           fontFamily: theme.fontFamily,
@@ -105,7 +106,8 @@ const CalendarComponent = ({
       >
         {placeholder}
       </Text>
-      <TouchableOpacity
+
+      <View
         style={{
           paddingHorizontal: 10,
           justifyContent: "center",
@@ -120,12 +122,19 @@ const CalendarComponent = ({
           elevation: 5,
           backgroundColor: colors.backgroundColor,
         }}
-        onPress={handleShowCalendar}
       >
-        <Text style={[theme.font, { fontSize: 12 }]}>
-          {dateFromTo.startDate} - {dateFromTo.endDate}
-        </Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            height: "100%",
+            justifyContent: "center",
+          }}
+          onPress={handleShowCalendar}
+        >
+          <Text style={[theme.font, { fontSize: 12 }]}>
+            {dateFromTo.startDate} - {dateFromTo.endDate}
+          </Text>
+        </TouchableOpacity>
+      </View>
 
       {showCalendar && (
         <View

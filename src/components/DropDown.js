@@ -98,17 +98,25 @@ const DropDown = ({
           maxHeight={300}
           labelField={labelField}
           valueField={valueField}
-          placeholder={selectedText}
+          placeholder={
+            data.length && selectedText == "" ? data[0].lable : selectedText
+          }
           searchPlaceholder="Search..."
-          value={selectedValue}
+          value={
+            data.length && selectedValue.length === 0
+              ? [data[0].value]
+              : selectedValue
+          }
           onFocus={() => setFocus(true)}
           onBlur={() => {
-            onSubmitSelected(selectedValue);
+            if (selectedValue.length > 0) {
+              onSubmitSelected(selectedValue);
+            }
             setFocus(false);
           }}
           onChange={(item) => {
+            if (item.length === 0) return;
             setSelectedValue(item);
-
             const newData = data.filter((value) => item.includes(value.value));
             const newData2 = newData.map((textItem) => textItem.lable);
             setSelectedText(newData2.join(" , "));

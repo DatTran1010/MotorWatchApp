@@ -1,4 +1,6 @@
+import { unwrapResult } from "@reduxjs/toolkit";
 import callApi from "../ConText/api";
+import { fetchApiData } from "../Redux/apiSlice";
 
 export const getDataWorkMode = async (msmay, dispatch) => {
   try {
@@ -7,18 +9,17 @@ export const getDataWorkMode = async (msmay, dispatch) => {
     const params = {
       msmay: msmay,
     };
+    const data = null;
+    const token = "";
 
-    const response = await callApi(
-      dispatch,
-      endpoint,
-      method,
-      null,
-      "",
-      params
+    // Gọi API và xử lý kết quả
+    const response = await dispatch(
+      fetchApiData({ endpoint, method, data, token, params })
     );
-
-    return response.data;
+    // Xử lý kết quả đăng nhập
+    return unwrapResult(response);
   } catch (error) {
+    // Xử lý lỗi nếu có
     return [];
   }
 };
@@ -30,18 +31,17 @@ export const postSubmitDataWorkMode = async (msMay, dispatch, datasave) => {
     const params = {
       msMay: msMay,
     };
+    const data = datasave;
+    const token = "";
 
-    const response = await callApi(
-      dispatch,
-      endpoint,
-      method,
-      datasave,
-      "",
-      params
+    // Gọi API và xử lý kết quả
+    const response = await dispatch(
+      fetchApiData({ endpoint, method, data, token, params })
     );
-
-    return response;
+    // Xử lý kết quả đăng nhập
+    return unwrapResult(response);
   } catch (error) {
-    return error;
+    // Xử lý lỗi nếu có
+    return [];
   }
 };

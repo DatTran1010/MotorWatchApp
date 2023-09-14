@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from "react";
 import Lottie from "lottie-react-native";
 import { useDispatch } from "react-redux";
 import colors from "../../Common/colors";
-
+import { setShowSplash } from "../../Redux/appSlice";
 const SplashScreen = () => {
   const dispatch = useDispatch();
   return (
@@ -20,7 +20,7 @@ const SplashScreen = () => {
         autoPlay
         loop={false}
         onAnimationFinish={() => {
-          dispatch({ type: "SET_SHOW_SPLASH", payload: false });
+          dispatch(setShowSplash(false));
         }}
       />
     </View>

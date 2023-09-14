@@ -12,9 +12,10 @@ import { useEffect } from "react";
 import ContainerApp from "../ContainerApp";
 import theme from "../../../Common/theme";
 import FormButton from "../../../components/button";
+import { getDetailData } from "../../../apiServices/consumtionServices";
 
 const DetailsConsumtion = ({ navigation }) => {
-  const selectedID_DC = useSelector((state) => state.selectedIDTree);
+  const selectedID_DC = useSelector((state) => state.app.selectedIDTree);
 
   const [dateTNgay, setDateTNgay] = useState(
     moment(new Date()).format("YYYY-MM-DD")
@@ -33,27 +34,12 @@ const DetailsConsumtion = ({ navigation }) => {
     { id: 1, COLNAME: "Tổng tiêu hao,kWh" },
   ]);
 
-  const getData = async () => {
-    const endpoint = "/api/motorwatch/databieudo1";
-    const method = "GET";
-    const params = {
-      dNgay: dateTNgay,
-      sdk: selectedID_DC,
+  useEffect(() => {
+    const getData = async () => {
+      const result = await getDetailData(dispatch, dateTNgay, selectedID_DC);
+      setData(result);
     };
 
-    const response = await callApi(
-      dispatch,
-      endpoint,
-      method,
-      null,
-      "",
-      params
-    );
-
-    setData(response.data);
-  };
-
-  useEffect(() => {
     getData();
   }, [dateTNgay, selectedID_DC, refeshing]);
 
@@ -211,7 +197,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    backgroundColor: colors.white,
   },
   header: {
     flex: 1,
@@ -226,8 +211,6 @@ const styles = StyleSheet.create({
 
   body: {
     marginVertical: 10,
-
-    backgroundColor: colors.white,
     flex: 15,
   },
   footer: {},

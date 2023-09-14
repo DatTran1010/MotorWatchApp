@@ -1,14 +1,16 @@
 import { unwrapResult } from "@reduxjs/toolkit";
-import callApi from "../ConText/api";
 import { fetchApiData } from "../Redux/apiSlice";
 
-export const getDataComBoMay = async (userName, dispatch) => {
+export const getDataBieuDo = async (dispatch, dTngay, dDngay, sdk) => {
   try {
-    const endpoint = "/api/motorwatch/cbomay";
+    const endpoint = "/api/motorwatch/bieudo3";
     const method = "GET";
     const params = {
-      Username: userName,
+      dTngay: dTngay,
+      dDngay: dDngay,
+      sdk: sdk,
     };
+
     const data = null;
     const token = "";
 
@@ -16,7 +18,6 @@ export const getDataComBoMay = async (userName, dispatch) => {
     const response = await dispatch(
       fetchApiData({ endpoint, method, data, token, params })
     );
-    // Xử lý kết quả đăng nhập
     return unwrapResult(response);
   } catch (error) {
     // Xử lý lỗi nếu có
@@ -24,13 +25,12 @@ export const getDataComBoMay = async (userName, dispatch) => {
   }
 };
 
-export const getDataComBoDongCo = async (msmay, dispatch) => {
+export const getCboTinhTrangDC = async (dispatch) => {
   try {
-    const endpoint = "/api/motorwatch/cbodongco";
+    const endpoint = "/api/motorwatch/tinhtrangdc";
     const method = "GET";
-    const params = {
-      MsMay: msmay,
-    };
+    const params = null;
+
     const data = null;
     const token = "";
 
@@ -38,7 +38,6 @@ export const getDataComBoDongCo = async (msmay, dispatch) => {
     const response = await dispatch(
       fetchApiData({ endpoint, method, data, token, params })
     );
-    // Xử lý kết quả đăng nhập
     return unwrapResult(response);
   } catch (error) {
     // Xử lý lỗi nếu có
@@ -46,12 +45,14 @@ export const getDataComBoDongCo = async (msmay, dispatch) => {
   }
 };
 
-export const getDataTreeNhaMay = async (username, dispatch) => {
+export const getDataDetails = async (dispatch, dNgay, iITOEE, sdk) => {
   try {
-    const endpoint = "/api/motorwatch/treeNhaMay";
+    const endpoint = "/api/motorwatch/databieudo3";
     const method = "GET";
     const params = {
-      UserName: username,
+      dNgay: dNgay,
+      iITOEE: iITOEE,
+      sdk: sdk,
     };
     const data = null;
     const token = "";
@@ -60,7 +61,6 @@ export const getDataTreeNhaMay = async (username, dispatch) => {
     const response = await dispatch(
       fetchApiData({ endpoint, method, data, token, params })
     );
-    // Xử lý kết quả đăng nhập
     return unwrapResult(response);
   } catch (error) {
     // Xử lý lỗi nếu có

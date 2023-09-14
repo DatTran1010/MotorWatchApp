@@ -12,7 +12,7 @@ import { windowWidth } from "../../../Common/dimentions";
 
 const WorkRealtime = ({ navigation }) => {
   const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.userInfo);
+  const userInfo = useSelector((state) => state.app.userInfo);
 
   const [data, setData] = useState([]);
   const [dataCboMay, setDataCboMay] = useState([]);
@@ -56,6 +56,8 @@ const WorkRealtime = ({ navigation }) => {
   }, [selectedValueMay]);
 
   useEffect(() => {
+    if (selectedValueMay == "") return;
+
     const listGTDCCollection = firestore()
       .collection("listGTDC")
       .doc(selectedValueDongCo.name);

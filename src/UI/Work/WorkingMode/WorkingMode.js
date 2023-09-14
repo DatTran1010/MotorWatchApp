@@ -24,10 +24,11 @@ import * as workModeServices from "../../../apiServices/workModeService";
 import HeaderApp from "../../Home/HeaderApp";
 import FormButton from "../../../components/button";
 import theme from "../../../Common/theme";
+import { setShowToast } from "../../../Redux/appSlice";
 
 const WorkingMode = ({ navigation }) => {
   const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.userInfo);
+  const userInfo = useSelector((state) => state.app.userInfo);
 
   //#region  state
   const [dataCDLV, setDataCDLV] = useState({});
@@ -103,15 +104,14 @@ const WorkingMode = ({ navigation }) => {
     );
 
     if (allValuesEmpty) {
-      dispatch({
-        type: "SET_SHOW_TOAST",
-        payload: {
+      dispatch(
+        setShowToast({
           showToast: true,
           title: "Thông báo",
           body: "Vui lòng nhập dữ liệu",
           type: "warning",
-        },
-      });
+        })
+      );
     } else {
       setShowModalSave(true);
       setDataForm(values);
@@ -139,26 +139,24 @@ const WorkingMode = ({ navigation }) => {
         datasave
       );
 
-      if (result.status === 200) {
-        dispatch({
-          type: "SET_SHOW_TOAST",
-          payload: {
+      if (result === 1) {
+        dispatch(
+          setShowToast({
             showToast: true,
             title: "Thông báo",
             body: "Lưu thành công",
             type: "success",
-          },
-        });
+          })
+        );
       } else {
-        dispatch({
-          type: "SET_SHOW_TOAST",
-          payload: {
+        dispatch(
+          setShowToast({
             showToast: true,
             title: "Thông báo",
             body: "Lưu không thành công",
             type: "error",
-          },
-        });
+          })
+        );
       }
     };
     saveData();

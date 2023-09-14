@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import React, { useContext, useState, useEffect } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Toast from "react-native-toast-message";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import messaging from "@react-native-firebase/messaging";
@@ -38,6 +38,14 @@ import IconButton from "../../components/IconButton";
 import FormButton from "../../components/button";
 import Animated, { FadeIn } from "react-native-reanimated";
 import * as asyncStorageItem from "../../Common/asyncStorageItem";
+import {
+  setNotiferApp,
+  setShowCamera,
+  setShowToast,
+  setUserInfo,
+} from "../../Redux/appSlice";
+import * as authenServices from "../../apiServices/authenServices";
+import { fetchApiData } from "../../Redux/apiSlice";
 
 const LoginScreen = ({ navigation }) => {
   const { token, setToken } = useContext(MainConText);
@@ -61,47 +69,44 @@ const LoginScreen = ({ navigation }) => {
   const handleLogin = async () => {
     const baseURL = await asyncStorageItem.baseURL();
     if (baseURL === "") {
-      dispatch({
-        type: "SET_SHOW_TOAST",
-        payload: {
+      dispatch(
+        setShowToast({
           showToast: true,
           title: "Chưa có URL",
           body: "Chưa có mã URL. Vui lòng nhập mã URL để đăng nhập",
           type: "warning",
-        },
-      });
+        })
+      );
     } else {
       console.log(username, password, "token ===== " + tokenDevies);
-      const endpoint = "/api/account/login";
-      const method = "POST";
-      const data = {
-        employeeCode: username,
-        password: password,
-        token: tokenDevies,
-      };
 
-      const response = await callApi(dispatch, endpoint, method, data);
+      const response = await authenServices.login(
+        dispatch,
+        username,
+        password,
+        tokenDevies
+      );
 
-      console.log(response.data);
+      console.log(response.responseData);
       try {
-        if (response && response.data.statusCode == 200) {
-          setToken(response.data.responseData.token);
+        if (response && response.statusCode == 200) {
+          setToken(response.responseData.token);
 
           // save user info
           const userInfo = {
-            EMAIL: response.data.responseData.email,
-            HO_TEN: response.data.responseData.hO_TEN,
-            MS_CN: response.data.responseData.mS_CONG_NHAN,
-            MS_TO: response.data.responseData.mS_TO,
-            NHOM_USER: response.data.responseData.nhoM_USER,
-            SO_DTDD: response.data.responseData.sO_DTDD,
-            TEN_DV: response.data.responseData.teN_DON_VI,
-            TEN_TO: response.data.responseData.teN_TO,
-            USER_NAME: response.data.responseData.userName,
-            TOKEN: response.data.responseData.token,
-            MS_DV: response.data.responseData.mS_DON_VI,
+            EMAIL: response.responseData.email,
+            HO_TEN: response.responseData.hO_TEN,
+            MS_CN: response.responseData.mS_CONG_NHAN,
+            MS_TO: response.responseData.mS_TO,
+            NHOM_USER: response.responseData.nhoM_USER,
+            SO_DTDD: response.responseData.sO_DTDD,
+            TEN_DV: response.responseData.teN_DON_VI,
+            TEN_TO: response.responseData.teN_TO,
+            USER_NAME: response.responseData.userName,
+            TOKEN: response.responseData.token,
+            MS_DV: response.responseData.mS_DON_VI,
           };
-          dispatch({ type: "SET_USER_INFO", payload: userInfo });
+          dispatch(setUserInfo(userInfo));
 
           navigation.navigate("Home");
           // Toast.show({
@@ -110,36 +115,33 @@ const LoginScreen = ({ navigation }) => {
           //   text2: "Đăng nhập thành công",
           // });
 
-          dispatch({
-            type: "SET_SHOW_TOAST",
-            payload: {
+          dispatch(
+            setShowToast({
               showToast: true,
               title: "Thông báo",
               body: "Đăng nhập thành công",
               type: "success",
-            },
-          });
+            })
+          );
         } else {
-          dispatch({
-            type: "SET_SHOW_TOAST",
-            payload: {
+          dispatch(
+            setShowToast({
               showToast: true,
               title: "Thông báo",
               body: response.data.message,
               type: "error",
-            },
-          });
+            })
+          );
         }
       } catch {
-        dispatch({
-          type: "SET_SHOW_TOAST",
-          payload: {
+        dispatch(
+          setShowToast({
             showToast: true,
             title: "Thông báo",
             body: "Đăng nhập không thành công",
             type: "error",
-          },
-        });
+          })
+        );
       }
     }
   };
@@ -179,8 +181,7 @@ const LoginScreen = ({ navigation }) => {
 
         // push giá trị vào data vừa nhận
         newData.unshift(dataNotification[0]);
-        dispatch({ type: "SET_NOTIFER_APP", payload: newData });
-
+        dispatch(setNotiferApp(newData));
         //convert giá trị về json
         // convert ARAY -> JSON
         const dataNotifi = JSON.stringify(newData);
@@ -198,7 +199,7 @@ const LoginScreen = ({ navigation }) => {
 
         // NẾU CHƯA CÓ THÔNG BÁO NÀO HOẶC (MỚI CÀI APP)
       } else {
-        dispatch({ type: "SET_NOTIFER_APP", payload: dataNotification });
+        dispatch(setNotiferApp(dataNotification));
 
         const dataNotifi = JSON.stringify(dataNotification);
 
@@ -225,7 +226,7 @@ const LoginScreen = ({ navigation }) => {
   //#region  xử lý sự kiện handle
 
   const handleShowCamera = () => {
-    dispatch({ type: "SET_SHOW_CAMERA", payload: true });
+    dispatch(setShowCamera(true));
   };
   //#endregion
 

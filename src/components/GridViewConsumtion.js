@@ -61,7 +61,7 @@ const GridViewComponent = ({
       </View>
     );
   };
-  console.log("render-bn lan");
+
   return (
     <Animated.View style={styles.container}>
       <Animated.FlatList

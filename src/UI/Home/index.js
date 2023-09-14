@@ -21,12 +21,17 @@ import IconShowTreeList from "../../components/IconShowTreeList";
 import callApi from "../../ConText/api";
 import MyMotorWatch from "./MyMotorWatch";
 import * as generalService from "../../apiServices/generalService";
+import {
+  setDataTree,
+  setHeightHeaderNavigation,
+  setSelectedIDTree,
+} from "../../Redux/appSlice";
 
 const Home = ({ navigation }) => {
   const headerHeightNavigation = useHeaderHeight();
   const dispatch = useDispatch();
 
-  const userInfo = useSelector((state) => state.userInfo);
+  const userInfo = useSelector((state) => state.app.userInfo);
 
   // lấy ra node cuối cùng của tree có check = true
   const getLastNodesWithCheck = (items) => {
@@ -55,21 +60,15 @@ const Home = ({ navigation }) => {
         dispatch
       );
 
-      if (result.status === 200) {
-        const listID_DC = getLastNodesWithCheck(result.data);
+      const listID_DC = getLastNodesWithCheck(result);
 
-        const listResult = listID_DC.length > 0 ? listID_DC.join(",") : "";
-        dispatch({ type: "SET_DATA_TREE", payload: result.data });
-
-        dispatch({ type: "SET_ID_TREE", payload: listResult });
-      }
+      const listResult = listID_DC.length > 0 ? listID_DC.join(",") : "";
+      dispatch(setDataTree(result));
+      dispatch(setSelectedIDTree(listResult));
     };
     getDataTreeNM();
 
-    dispatch({
-      type: "SET_HEIGHT_HEADER_NAVIGATION",
-      payload: headerHeightNavigation,
-    });
+    dispatch(setHeightHeaderNavigation(headerHeightNavigation));
   }, []);
 
   return (

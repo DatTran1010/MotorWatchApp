@@ -17,18 +17,24 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import colors from "../Common/colors";
 import TextInput from "./TextInput";
 import theme from "../Common/theme";
+import {
+  setBaseURL,
+  setResultScanned,
+  setShowModalCamera,
+  setShowToast,
+} from "../Redux/appSlice";
 
 const ModalCamera = ({ content = "", valueScan = "" }) => {
   const dispatch = useDispatch();
-  const isShowModalCamera = useSelector((state) => state.showResultCamera);
-  const resultScanned = useSelector((state) => state.resultScanned);
-  const baseURL = useSelector((state) => state.baseURL);
+  const isShowModalCamera = useSelector((state) => state.app.showResultCamera);
+  const resultScanned = useSelector((state) => state.app.resultScanned);
+  const baseURL = useSelector((state) => state.app.baseURL);
 
   //Handle
 
   const closeModal = () => {
-    dispatch({ type: "SET_SHOW_MODAL_CAMERA", payload: false });
-    dispatch({ type: "SET_RESULT_SCANNED", payload: "" });
+    dispatch(setShowModalCamera(false));
+    dispatch(setResultScanned(""));
   };
 
   const handleBlur = (event) => {
@@ -46,32 +52,29 @@ const ModalCamera = ({ content = "", valueScan = "" }) => {
   const storeData = async (value) => {
     try {
       await AsyncStorage.setItem("URL", value);
-      dispatch({
-        type: "SET_SHOW_TOAST",
-        payload: {
+      dispatch(
+        setShowToast({
           showToast: true,
           title: "Thông báo",
           body: "Thiết lập URL thành công",
           type: "success",
-        },
-      });
+        })
+      );
     } catch (e) {
       // saving error
-      dispatch({
-        type: "SET_SHOW_TOAST",
-        payload: {
+      dispatch(
+        setShowToast({
           showToast: true,
           title: "Thông báo",
           body: "Nhập URL thất bại",
           type: "error",
-        },
-      });
+        })
+      );
     }
   };
   const handleConfirmURL = (values) => {
     storeData(values.valueURL.trim());
-    dispatch({ type: "SET_BASE_URL", payload: values.valueURL.trim() });
-
+    dispatch(setBaseURL(values.valueURL.trim()));
     closeModal();
   };
 

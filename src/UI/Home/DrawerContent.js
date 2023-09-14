@@ -16,7 +16,7 @@ import colors from "../../Common/colors";
 import theme from "../../Common/theme";
 
 const DrawerContent = (props) => {
-  const userInfo = useSelector((state) => state.userInfo);
+  const userInfo = useSelector((state) => state.app.userInfo);
 
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const hanldeDarkTheme = () => {

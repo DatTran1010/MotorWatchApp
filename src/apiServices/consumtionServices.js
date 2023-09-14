@@ -1,16 +1,16 @@
 import { unwrapResult } from "@reduxjs/toolkit";
-import callApi from "../ConText/api";
 import { fetchApiData } from "../Redux/apiSlice";
 
-export const getDataWorkPlan = async (startDate, endDate, msmay, dispatch) => {
+export const getData = async (dispatch, dTngay, dDngay, sdk) => {
   try {
-    const endpoint = "/api/motorwatch/loadkhlv";
+    const endpoint = "/api/motorwatch/bieudo1";
     const method = "GET";
     const params = {
-      dTNgay: startDate,
-      dDNgay: endDate,
-      msmay: msmay,
+      dTngay: dTngay,
+      dDngay: dDngay,
+      sdk: sdk,
     };
+
     const data = null;
     const token = "";
 
@@ -26,15 +26,16 @@ export const getDataWorkPlan = async (startDate, endDate, msmay, dispatch) => {
   }
 };
 
-export const postSaveDataWorkPlan = async (msmay, datasave, dispatch) => {
+export const getDetailData = async (dispatch, dNgay, sdk) => {
   try {
-    const endpoint = "/api/motorwatch/savekhlv";
-    const method = "POST";
+    const endpoint = "/api/motorwatch/databieudo1";
+    const method = "GET";
     const params = {
-      msMay: msmay,
+      dNgay: dNgay,
+      sdk: sdk,
     };
 
-    const data = datasave;
+    const data = null;
     const token = "";
 
     // Gọi API và xử lý kết quả

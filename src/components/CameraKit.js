@@ -21,10 +21,11 @@ import { useDispatch, useSelector } from "react-redux";
 import IconButton from "./IconButton";
 import colors from "../Common/colors";
 import { windowHeight, windowWidth } from "../Common/dimentions";
+import { setShowCamera } from "../Redux/appSlice";
 
 const CameraKit = ({}) => {
   const dispatch = useDispatch();
-  const isShowCamera = useSelector((state) => state.showCamera);
+  const isShowCamera = useSelector((state) => state.app.showCamera);
 
   const [toggleFlash, setToggleFlash] = useState(false);
   const valueScaned = useRef({ value: "" });
@@ -62,7 +63,7 @@ const CameraKit = ({}) => {
   };
 
   const handleCloseCamera = () => {
-    dispatch({ type: "SET_SHOW_CAMERA", payload: false });
+    dispatch(setShowCamera(false));
   };
 
   // When the components mounts

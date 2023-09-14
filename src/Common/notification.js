@@ -76,7 +76,6 @@ export async function onDisplayNotification({ title = "", body = "" }) {
       pressAction: {
         id: "default",
       },
-
       style: { type: AndroidStyle.BIGTEXT, text: body },
     },
   });

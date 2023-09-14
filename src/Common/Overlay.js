@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 const Overlay = () => {
   // const { overLay } = useContext(MainConText);
 
-  const overLay = useSelector((state) => state.overlay);
+  const overLay = useSelector((state) => state.api.isLoading);
 
   return (
     overLay && (

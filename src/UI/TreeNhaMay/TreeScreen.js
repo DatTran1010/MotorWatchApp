@@ -15,11 +15,16 @@ import callApi from "../../ConText/api";
 import LinearGradient from "react-native-linear-gradient";
 import theme from "../../Common/theme";
 import IconButton from "../../components/IconButton";
+import {
+  setDataTree,
+  setSelectedIDTree,
+  setShowTree,
+} from "../../Redux/appSlice";
 
 const TreeScreen = () => {
   const disPatch = useDispatch();
 
-  const dataTreeNM = useSelector((state) => state.dataTreeNM);
+  const dataTreeNM = useSelector((state) => state.app.dataTreeNM);
 
   //#region  state Tree
   // ref
@@ -134,7 +139,7 @@ const TreeScreen = () => {
       updateCheckedData(draftData, result, item.check);
     });
 
-    disPatch({ type: "SET_DATA_TREE", payload: [...newData] });
+    disPatch(setDataTree([...newData]));
   };
 
   // lấy các lastNode có check = true
@@ -159,12 +164,12 @@ const TreeScreen = () => {
   // callbacks
   const handleSheetChanges = (index) => {
     if (index === -1) {
-      disPatch({ type: "SET_SHOW_TREE", payload: false });
+      disPatch(setShowTree(false));
 
       const listID_DC = getLastNodesWithCheck(dataTreeNM);
       const result = listID_DC.length > 0 ? listID_DC.join(",") : "";
 
-      disPatch({ type: "SET_ID_TREE", payload: result });
+      disPatch(setSelectedIDTree(result));
     }
   };
 

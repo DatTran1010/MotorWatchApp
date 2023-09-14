@@ -3,22 +3,16 @@ import Toast from "react-native-toast-message";
 import * as asyncStorageItem from "../Common/asyncStorageItem";
 
 const callApi = async (
-  dispatch,
   endpoint,
   method,
   data = null,
   token = "",
   params = null
 ) => {
+  const CancelToken = axios.CancelToken;
+  const source = CancelToken.source();
   try {
-    const source = CancelToken.source();
-
-    // Đặt thời gian chờ là 5 giây
-    const timeout = setTimeout(() => {
-      source.cancel("Request canceled due to timeout");
-    }, 5000);
-
-    dispatch({ type: "SET_OVERLAY", payload: true });
+    // dispatch({ type: "SET_OVERLAY", payload: true });
 
     const baseURL = await asyncStorageItem.baseURL();
 
@@ -35,58 +29,51 @@ const callApi = async (
     });
 
     console.log("URL là", response.request.responseURL);
-    clearTimeout(timeout); // Xóa timeout khi request thành công
+
     if (response.status == 200) {
-      dispatch({ type: "SET_OVERLAY", payload: false });
       return response;
     } else if (response.status == 204) {
       console.log("Log 204", response);
 
-      dispatch({ type: "SET_OVERLAY", payload: false });
-      // dispatch({
-      //   type: "SET_SHOW_TOAST",
-      //   payload: {
-      //     showToast: true,
-      //     title: "Thông báo",
-      //     body: "Không có dữ liệu",
-      //     type: "error",
-      //   },
-      // });
-
-      return [];
+      return new Error("204");
     } else {
-      dispatch({ type: "SET_OVERLAY", payload: false });
-
-      dispatch({
-        type: "SET_SHOW_TOAST",
-        payload: {
-          showToast: true,
-          title: "Thông báo",
-          body: "Error",
-          type: "error",
-        },
-      });
       return [];
     }
   } catch (error) {
-    console.log("Log error", error.response.data.errors);
-    try {
-      const errorFields = error.response.data.errors;
-      const errorMessage = errorFields[Object.keys(errorFields)[0]][0];
+    if (axios.isCancel(error)) {
+      console.log("Request canceled", error.message);
+    } else {
+      console.log("Lỗi", error.response.data.errors);
+    }
 
-      dispatch({
-        type: "SET_SHOW_TOAST",
-        payload: {
-          showToast: true,
-          title: "Thông báo",
-          body: errorMessage,
-          type: "error",
-        },
-      });
-    } catch {}
+    source.cancel("Request canceled due to timeout");
+    const errorFields = error.response.data.errors;
+    if (errorFields === undefined) {
+      throw error.message;
+    } else {
+      const errorMessage = errorFields[Object.keys(errorFields)[0]][0];
+      throw errorMessage;
+    }
+
+    // console.log("Log error", error.response.data.errors);
+
+    // try {
+    //   const errorFields = error.response.data.errors;
+    //   const errorMessage = errorFields[Object.keys(errorFields)[0]][0];
+    //   return errorMessage;
+    //   // dispatch({
+    //   //   type: "SET_SHOW_TOAST",
+    //   //   payload: {
+    //   //     showToast: true,
+    //   //     title: "Thông báo",
+    //   //     body: errorMessage,
+    //   //     type: "error",
+    //   //   },
+    //   // });
+    // } catch {}
     // console.log(error.response.data.errors);
 
-    dispatch({ type: "SET_OVERLAY", payload: false });
+    // dispatch({ type: "SET_OVERLAY", payload: false });
     // throw new Error(error.message);
     return [];
   }

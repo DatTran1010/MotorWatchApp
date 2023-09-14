@@ -1,4 +1,4 @@
-import { View, Text, Platform } from "react-native";
+import { View, Text, Platform, ImageBackground } from "react-native";
 import React, { memo } from "react";
 import { useSelector } from "react-redux";
 import HeaderApp from "./HeaderApp";

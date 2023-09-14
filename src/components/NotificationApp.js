@@ -7,16 +7,14 @@ import colors from "../Common/colors";
 import { windowHeight, windowWidth } from "../Common/dimentions";
 import theme from "../Common/theme";
 import FormButton from "./button";
+import { setNotiferWarning } from "../Redux/appSlice";
 const NotificationApp = ({ content = "Thông báo" }) => {
   const dispatch = useDispatch();
-  const showModalWarning = useSelector((state) => state.notiferWarning);
+  const showModalWarning = useSelector((state) => state.app.notiferWarning);
 
   // handle
   const handleConfirmModal = () => {
-    dispatch({
-      type: "SET_NOTIFER_WARNING",
-      payload: { showNotifer: false, label: "" },
-    });
+    dispatch(setNotiferWarning({ showNotifer: false, label: "" }));
   };
   return (
     <Modal

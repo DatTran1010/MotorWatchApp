@@ -16,10 +16,11 @@ import DropDown from "../../../components/DropDown";
 import callApi from "../../../ConText/api";
 import { useEffect } from "react";
 import ContainerApp from "../ContainerApp";
+import * as oeeServices from "../../../apiServices/oeeServices";
 
 const DetailsOEE = ({ navigation }) => {
   const dispatch = useDispatch();
-  const selectedID_DC = useSelector((state) => state.selectedIDTree);
+  const selectedID_DC = useSelector((state) => state.app.selectedIDTree);
 
   const [dateTNgay, setDateTNgay] = useState(
     moment(new Date()).format("YYYY-MM-DD")
@@ -56,26 +57,12 @@ const DetailsOEE = ({ navigation }) => {
 
   //#region  get Data Combo TinhTrang\
 
-  const getDataDropdownTinhTrang = async () => {
-    const endpoint = "/api/motorwatch/tinhtrangdc";
-    const method = "GET";
-    const params = null;
-
-    const response = await callApi(
-      dispatch,
-      endpoint,
-      method,
-      null,
-      "",
-      params
-    );
-
-    if (response.status === 200) {
-      setDataTinhTrang(response.data);
-    }
-  };
-
   useEffect(() => {
+    const getDataDropdownTinhTrang = async () => {
+      const result = await oeeServices.getCboTinhTrangDC(dispatch);
+      setDataTinhTrang(result);
+    };
+
     getDataDropdownTinhTrang();
   }, []);
   //#endregion
@@ -85,29 +72,18 @@ const DetailsOEE = ({ navigation }) => {
   //state
   const [selectedTinhTrang, setSelectedTinhTrang] = useState("-1");
 
-  const getDataDetails = async () => {
-    const endpoint = "/api/motorwatch/databieudo3";
-    const method = "GET";
-    const params = {
-      dNgay: dateTNgay,
-      iITOEE: selectedTinhTrang,
-      sdk: selectedID_DC,
+  useEffect(() => {
+    const getDataDetails = async () => {
+      const result = await oeeServices.getDataDetails(
+        dispatch,
+        dateTNgay,
+        selectedTinhTrang,
+        selectedID_DC
+      );
+      console.log("DATA BIỂU ĐỒ 3", result);
+      setData(result);
     };
 
-    const response = await callApi(
-      dispatch,
-      endpoint,
-      method,
-      null,
-      "",
-      params
-    );
-
-    console.log("DATA BIỂU ĐỒ 3", response.data);
-    setData(response.data);
-  };
-
-  useEffect(() => {
     getDataDetails();
   }, [dateTNgay, selectedTinhTrang, selectedID_DC, refeshing]);
 

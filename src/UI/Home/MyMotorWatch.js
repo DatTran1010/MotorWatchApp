@@ -9,8 +9,7 @@ import EngineState from "./EngineState";
 import OEEMain from "./OEE";
 
 const MyMotorWatch = ({ navigation }) => {
-  console.log("renderr lai");
-  const selectedID_DC = useSelector((state) => state.selectedIDTree);
+  const selectedID_DC = useSelector((state) => state.app.selectedIDTree);
   const [refeshing, setRefeshing] = useState(false);
   const handleRefreshing = () => {
     setRefeshing(!refeshing);

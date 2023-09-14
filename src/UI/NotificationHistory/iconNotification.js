@@ -4,10 +4,11 @@ import { useSelector, useDispatch } from "react-redux";
 import colors from "../../Common/colors";
 import IconButton from "../../components/IconButton";
 import theme from "../../Common/theme";
+import { setShowListNotification } from "../../Redux/appSlice";
 
 const IconNotification = () => {
   const dispatch = useDispatch();
-  const dataNotifer = useSelector((state) => state.notiferApp);
+  const dataNotifer = useSelector((state) => state.app.notiferApp);
   console.log("render ICocnnotificaiton");
   return (
     <View style={{ marginRight: 15 }}>
@@ -16,7 +17,7 @@ const IconNotification = () => {
         size={30}
         colorIcon={colors.white}
         onPress={() => {
-          dispatch({ type: "SET_SHOW_LIST_NOTIFI", payload: true });
+          dispatch(setShowListNotification(true));
         }}
       />
       {dataNotifer.filter((item) => item.seen === false).length > 0 && (

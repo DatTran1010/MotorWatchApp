@@ -5,7 +5,7 @@ import SplashScreen from "./Splash";
 import LoginScreen from "./LoginScreen";
 
 const Login = ({ navigation }) => {
-  const showSplash = useSelector((state) => state.showSplash);
+  const showSplash = useSelector((state) => state.app.showSplash);
 
   return showSplash ? (
     <SplashScreen />

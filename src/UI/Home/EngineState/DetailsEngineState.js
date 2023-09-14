@@ -21,7 +21,7 @@ import * as engineService from "../../../apiServices/engineStateServices";
 
 const DetailsEngineState = ({ navigation, route }) => {
   const dispatch = useDispatch();
-  const selectedID_DC = useSelector((state) => state.selectedIDTree);
+  const selectedID_DC = useSelector((state) => state.app.selectedIDTree);
 
   const [dateTNgay, setDateTNgay] = useState(
     moment(new Date()).format("YYYY-MM-DD")
@@ -34,8 +34,8 @@ const DetailsEngineState = ({ navigation, route }) => {
     { id: 3, COLNAME: "Tình trạng" },
     { id: 4, COLNAME: "Lỗi" },
   ]);
-  const [dataTinhTrangOEE, setDataTinhTrangOEE] = useState([{}]);
-  const [dataTinhTrangLoi, setDataTinhTrangLoi] = useState([{}]);
+  const [dataTinhTrangOEE, setDataTinhTrangOEE] = useState([]);
+  const [dataTinhTrangLoi, setDataTinhTrangLoi] = useState([]);
 
   const [selectedError, setSelectedError] = useState("-1");
   const [selectedTinhTrang, setSelectedTinhTrang] = useState(
@@ -65,27 +65,13 @@ const DetailsEngineState = ({ navigation, route }) => {
   //state
 
   const getDataDetails = async () => {
-    const endpoint = "/api/motorwatch/databieudo2";
-    const method = "GET";
-    const params = {
-      iTT: selectedTinhTrang,
-      sLOI: selectedError,
-      sdk: selectedID_DC,
-    };
-
-    const response = await callApi(
+    const result = await engineService.getDataDetails(
       dispatch,
-      endpoint,
-      method,
-      null,
-      "",
-      params
+      selectedTinhTrang,
+      selectedError,
+      selectedID_DC
     );
-
-    console.log(response.data);
-    console.log("=======================");
-    console.log(selectedTinhTrang);
-    setData(response.data);
+    setData(result);
   };
 
   useEffect(() => {
@@ -195,5 +181,6 @@ const styles = StyleSheet.create({
   },
   fillTinhTrang: {
     flex: 1,
+    zIndex: -1,
   },
 });

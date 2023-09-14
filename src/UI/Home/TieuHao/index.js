@@ -1,21 +1,16 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  LayoutAnimation,
-} from "react-native";
-import React, { useEffect, useRef, useState, useCallback, memo } from "react";
+import { View, Text, StyleSheet, LayoutAnimation } from "react-native";
+import React, { useEffect, useState, memo } from "react";
 import moment from "moment";
-import { useDispatch, useSelector } from "react-redux";
-import Animated, { BounceInUp } from "react-native-reanimated";
+import { useDispatch } from "react-redux";
 
 import colors from "../../../Common/colors";
 import IconButton from "../../../components/IconButton";
 import ConsumtionChart from "./ConsumtionChart";
 import CalendarComponent from "../../../components/CalendarComponent";
-import callApi from "../../../ConText/api";
 import theme from "../../../Common/theme";
+
+import * as consumtionServices from "../../../apiServices/consumtionServices";
+
 const Consumption = ({ navigation, selectedID_DC, refeshing }) => {
   //#region  State
 
@@ -23,7 +18,6 @@ const Consumption = ({ navigation, selectedID_DC, refeshing }) => {
 
   const dispatch = useDispatch();
 
-  const [showCalendar, setShowCalendar] = useState(false);
   const [dateToFrom, setDateToFrom] = useState({
     startDate: moment(new Date()).add(-6, "days").format("YYYY-MM-DD"),
     endDate: moment(new Date()).format("YYYY-MM-DD"),
@@ -32,48 +26,24 @@ const Consumption = ({ navigation, selectedID_DC, refeshing }) => {
   //#endregion
   //#region  callAPI
 
-  const getData = async () => {
-    const endpoint = "/api/motorwatch/bieudo1";
-    const method = "GET";
-    const params = {
-      dTngay: dateToFrom.startDate,
-      dDngay: dateToFrom.endDate,
-      sdk: selectedID_DC,
+  useEffect(() => {
+    const getData = async () => {
+      const result = await consumtionServices.getData(
+        dispatch,
+        dateToFrom.startDate,
+        dateToFrom.endDate,
+        selectedID_DC
+      );
+      setData(result);
     };
 
-    const response = await callApi(
-      dispatch,
-      endpoint,
-      method,
-      null,
-      "",
-      params
-    );
-
-    setData(response.data);
-  };
-  //#endregion
-
-  const handleShowCaledar = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-
-    setShowCalendar(!showCalendar);
-  };
-
-  const handleDoneDateCalendar = (date) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setDateToFrom(date);
-    setShowCalendar(false);
-  };
-
-  const handlCancelDateCalendar = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setShowCalendar(false);
-  };
-
-  useEffect(() => {
     getData();
   }, [dateToFrom.startDate, dateToFrom.endDate, selectedID_DC, refeshing]);
+  //#endregion
+
+  const handleDoneDateCalendar = (date) => {
+    setDateToFrom(date);
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -108,7 +78,6 @@ const Consumption = ({ navigation, selectedID_DC, refeshing }) => {
             startDate={dateToFrom.startDate}
             endDate={dateToFrom.endDate}
             onClickDone={handleDoneDateCalendar}
-            onClickCancel={handlCancelDateCalendar}
           />
         </View>
         {data && data.some((item) => Object.keys(item).length > 0) && (

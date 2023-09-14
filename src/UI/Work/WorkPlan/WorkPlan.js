@@ -29,10 +29,11 @@ import CalendarComponent from "../../../components/CalendarComponent";
 import HeaderApp from "../../Home/HeaderApp";
 import theme from "../../../Common/theme";
 import FormButton from "../../../components/button";
+import { setShowToast } from "../../../Redux/appSlice";
 
 const WorkPlan = ({ navigation }) => {
   const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.userInfo);
+  const userInfo = useSelector((state) => state.app.userInfo);
 
   //#region  state
   const [dataWorkPlan, setDataWorkPlan] = useState([]);
@@ -154,15 +155,14 @@ const WorkPlan = ({ navigation }) => {
       (value) => value == 0 || value == ""
     );
     if (allValuesEmpty) {
-      dispatch({
-        type: "SET_SHOW_TOAST",
-        payload: {
+      dispatch(
+        setShowToast({
           showToast: true,
           title: "Thông báo",
           body: "Vui lòng nhập dữ liệu",
           type: "warning",
-        },
-      });
+        })
+      );
     } else {
       setShowModalSave(true);
       setDataForm(values);
@@ -186,26 +186,24 @@ const WorkPlan = ({ navigation }) => {
         dispatch
       );
 
-      if (result === 200) {
-        dispatch({
-          type: "SET_SHOW_TOAST",
-          payload: {
+      if (result === 1) {
+        dispatch(
+          setShowToast({
             showToast: true,
             title: "Thông báo",
             body: "Lưu thành công",
             type: "success",
-          },
-        });
+          })
+        );
       } else {
-        dispatch({
-          type: "SET_SHOW_TOAST",
-          payload: {
+        dispatch(
+          setShowToast({
             showToast: true,
             title: "Thông báo",
             body: "Lưu không thành công",
             type: "error",
-          },
-        });
+          })
+        );
       }
     };
 

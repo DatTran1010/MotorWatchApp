@@ -7,6 +7,7 @@ import colors from "../../../Common/colors";
 import { windowHeight, windowWidth } from "../../../Common/dimentions";
 import callApi from "../../../ConText/api";
 import theme from "../../../Common/theme";
+import { getDataBieuDo } from "../../../apiServices/engineStateServices";
 const EngineState = ({ navigation, selectedID_DC, refeshing }) => {
   const dispatch = useDispatch();
 
@@ -14,25 +15,12 @@ const EngineState = ({ navigation, selectedID_DC, refeshing }) => {
 
   const [selectedNamePie, setSelectedNamePie] = useState("");
 
-  const getData = async () => {
-    const endpoint = "/api/motorwatch/bieudo2";
-    const method = "GET";
-    const params = {
-      sdk: selectedID_DC,
+  useEffect(() => {
+    const getData = async () => {
+      const result = await getDataBieuDo(dispatch, selectedID_DC);
+      setData(result);
     };
 
-    const response = await callApi(
-      dispatch,
-      endpoint,
-      method,
-      null,
-      "",
-      params
-    );
-    setData(response.data);
-  };
-
-  useEffect(() => {
     getData();
   }, [selectedID_DC, refeshing]);
 
@@ -56,98 +44,108 @@ const EngineState = ({ navigation, selectedID_DC, refeshing }) => {
           }}
         >
           <Text style={styles.textTitle}>Tình trạng động cơ</Text>
-          <Text style={(styles.textTitle, { fontSize: theme.fontSize + 2 })}>
-            Tổng động cơ:{" "}
-            {data.length > 0
-              ? data.reduce((accumulator, currentValue) => {
-                  return accumulator + currentValue.value;
-                }, 0)
-              : 0}
-          </Text>
         </View>
       </View>
       <View style={styles.chartPie}>
         {data && data.some((item) => Object.keys(item).length > 0) && (
-          <VictoryPie
-            //   padAngle={10}
-            innerRadius={100}
-            theme={VictoryTheme.material}
-            width={windowHeight / 2 + 20}
-            height={windowHeight / 2 + 20}
-            data={data}
-            radius={({ datum }) =>
-              selectedNamePie === datum.teN_TT
-                ? windowWidth * 0.4
-                : windowWidth * 0.4 - 10
-            }
-            x="id"
-            y="value"
-            animate={{
-              easing: "bounce",
-              duration: 2000,
-            }}
-            events={[
-              {
-                target: "data",
-                eventHandlers: {
-                  // onPress: () => {
-                  //   return [
-                  //     {
-                  //       target: "labels",
-                  //       mutation: (props) => {
-                  //         let categoryName = data[props.index].teN_TT;
+          <>
+            <VictoryPie
+              //   padAngle={10}
+              innerRadius={100}
+              theme={VictoryTheme.material}
+              width={windowHeight / 2 + 20}
+              height={windowHeight / 2 + 20}
+              data={data}
+              radius={({ datum }) =>
+                selectedNamePie === datum.teN_TT
+                  ? windowWidth * 0.4
+                  : windowWidth * 0.4 - 10
+              }
+              x="id"
+              y="value"
+              animate={{
+                easing: "bounce",
+                duration: 2000,
+              }}
+              events={[
+                {
+                  target: "data",
+                  eventHandlers: {
+                    // onPress: () => {
+                    //   return [
+                    //     {
+                    //       target: "labels",
+                    //       mutation: (props) => {
+                    //         let categoryName = data[props.index].teN_TT;
 
-                  //         setSelectedNamePie(categoryName);
-                  //       },
-                  //     },
-                  //   ];
-                  // },
-                  onPressIn: () => {
-                    return [
-                      {
-                        target: "labels",
-                        mutation: (props) => {
-                          // let categoryName =
-                          //     data[props.index]
-                          //         .teN_TT;
+                    //         setSelectedNamePie(categoryName);
+                    //       },
+                    //     },
+                    //   ];
+                    // },
+                    onPressIn: () => {
+                      return [
+                        {
+                          target: "labels",
+                          mutation: (props) => {
+                            // let categoryName =
+                            //     data[props.index]
+                            //         .teN_TT;
 
-                          // console.log(
-                          //     data[props.index.id]
-                          // );
-                          // // setSelectedNamePie(
-                          // //     categoryName
-                          // // );
+                            // console.log(
+                            //     data[props.index.id]
+                            // );
+                            // // setSelectedNamePie(
+                            // //     categoryName
+                            // // );
 
-                          handleState(data[props.index].id);
+                            handleState(data[props.index].id);
+                          },
                         },
-                      },
-                    ];
+                      ];
+                    },
                   },
                 },
-              },
-            ]}
-            // colorScale={[
-            //     colors.primary,
-            //     colors.primarySecond,
-            //     colors.gray,
-            // ]}
-            labelRadius={({ innerRadius }) => innerRadius + windowWidth / 6}
-            style={{
-              labels: {
-                fill: colors.black,
-                fontSize: 20,
-                fontWeight: "600",
-              },
-              data: {
-                fill: ({ datum }) => datum.color,
-              },
-              parent: { ...styles.shadowContainer },
-            }}
-            labels={({ datum }) =>
-              datum.value == 0 ? "" : String(Math.round(datum.value))
-            }
-            // labels={() => ""}
-          />
+              ]}
+              // colorScale={[
+              //     colors.primary,
+              //     colors.primarySecond,
+              //     colors.gray,
+              // ]}
+
+              // labelRadius={({ innerRadius }) => innerRadius + windowWidth / 6}
+              style={{
+                labels: {
+                  fill: colors.black,
+                  fontSize: 20,
+                  fontWeight: "600",
+                },
+                data: {
+                  fill: ({ datum }) => datum.color,
+                },
+                parent: { ...styles.shadowContainer },
+              }}
+              labels={({ datum }) =>
+                datum.value == 0 ? "" : String(Math.round(datum.value))
+              }
+              // labels={() => ""}
+            />
+            <Text
+              style={
+                (styles.textTitle,
+                {
+                  fontSize: theme.fontSize + 2,
+                  textAlign: "center",
+                  position: "absolute",
+                })
+              }
+            >
+              Tổng động cơ:{" "}
+              {data.reduce((accumulator, currentValue) => {
+                return accumulator + currentValue.value;
+              }, 0)}
+            </Text>
+          </>
         )}
       </View>
       <View style={styles.fotter}>

@@ -16,6 +16,7 @@ import OEEChart from "./OEEChart";
 import CalendarComponent from "../../../components/CalendarComponent";
 import callApi from "../../../ConText/api";
 import theme from "../../../Common/theme";
+import { getDataBieuDo } from "../../../apiServices/oeeServices";
 
 const OEEMain = ({ navigation, selectedID_DC, refeshing }) => {
   const dispatch = useDispatch();
@@ -23,7 +24,6 @@ const OEEMain = ({ navigation, selectedID_DC, refeshing }) => {
   //#region  State
 
   const [data, setData] = useState([{}]);
-  const [showCalendar, setShowCalendar] = useState(false);
   const [dateToFrom, setDateToFrom] = useState({
     startDate: moment(new Date()).add(-6, "days").format("YYYY-MM-DD"),
     endDate: moment(new Date()).format("YYYY-MM-DD"),
@@ -32,47 +32,24 @@ const OEEMain = ({ navigation, selectedID_DC, refeshing }) => {
   //#endregion
 
   //#region  xử lý handle Calendar
-  const handleShowCaledar = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-
-    setShowCalendar(!showCalendar);
-  };
-
   const handleDoneDateCalendar = (date) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setDateToFrom(date);
-    setShowCalendar(false);
   };
 
-  const handlCancelDateCalendar = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setShowCalendar(false);
-  };
   //#endregion
 
   //#region  get data
-
-  const getData = async () => {
-    const endpoint = "/api/motorwatch/bieudo3";
-    const method = "GET";
-    const params = {
-      dTngay: dateToFrom.startDate,
-      dDngay: dateToFrom.endDate,
-      sdk: selectedID_DC,
+  useEffect(() => {
+    const getData = async () => {
+      const result = await getDataBieuDo(
+        dispatch,
+        dateToFrom.startDate,
+        dateToFrom.endDate,
+        selectedID_DC
+      );
+      setData(result);
     };
 
-    const response = await callApi(
-      dispatch,
-      endpoint,
-      method,
-      null,
-      "",
-      params
-    );
-    setData(response.data);
-  };
-
-  useEffect(() => {
     getData();
   }, [dateToFrom.startDate, dateToFrom.endDate, selectedID_DC, refeshing]);
 
@@ -112,7 +89,6 @@ const OEEMain = ({ navigation, selectedID_DC, refeshing }) => {
         <View style={styles.fillControl}>
           <CalendarComponent
             onClickDone={handleDoneDateCalendar}
-            onClickCancel={handlCancelDateCalendar}
             startDate={dateToFrom.startDate}
             endDate={dateToFrom.endDate}
           />
