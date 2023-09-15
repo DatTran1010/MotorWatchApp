@@ -20,6 +20,7 @@ import colors from "../../Common/colors";
 import { windowHeight, windowWidth } from "../../Common/dimentions";
 import theme from "../../Common/theme";
 import { setNotiferApp, setShowListNotification } from "../../Redux/appSlice";
+import Line from "../../components/Line";
 
 const NotifiHistory = () => {
   const statusBarHeight = StatusBar.currentHeight || 0;
@@ -118,6 +119,7 @@ const NotifiHistory = () => {
               <Text style={[theme.font]}>Đọc tất cả</Text>
             </TouchableOpacity>
           </View>
+          <Line />
           <View style={styles.bodyContent}>
             <FlatList
               data={dataNotifer}

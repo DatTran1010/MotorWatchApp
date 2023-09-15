@@ -20,12 +20,13 @@ const ConsumtionChart = ({ data }) => {
       entering={FadeInUp.duration(1000)}
       style={{
         flex: 1,
-        zIndex: -1,
       }}
     >
       <VictoryChart
         theme={VictoryTheme.material}
         domainPadding={5}
+        width={windowWidth + 10}
+        height={windowHeight / 2}
         // containerComponent={
         //   <VictoryZoomContainer
         //     responsive={false}

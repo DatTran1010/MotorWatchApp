@@ -84,6 +84,7 @@ const Consumption = ({ navigation, selectedID_DC, refeshing }) => {
         <View
           style={{
             flex: 1,
+            zIndex: -1,
             width: windowWidth + 10, // Tùy chỉnh chiều rộng của biểu đồ
             height: windowHeight / 2, // Tùy chỉnh chiều cao của biểu đồ
           }}
