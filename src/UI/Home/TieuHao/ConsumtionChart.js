@@ -9,13 +9,15 @@ import {
   VictoryLabel,
 } from "victory-native";
 
+import Animated, { FadeInUp } from "react-native-reanimated";
 import { windowHeight, windowWidth } from "../../../Common/dimentions";
 import theme from "../../../Common/theme";
 import colors from "../../../Common/colors";
 
 const ConsumtionChart = ({ data }) => {
   return (
-    <View
+    <Animated.View
+      entering={FadeInUp.duration(1000)}
       style={{
         flex: 1,
         zIndex: -1,
@@ -24,8 +26,6 @@ const ConsumtionChart = ({ data }) => {
       <VictoryChart
         theme={VictoryTheme.material}
         domainPadding={5}
-        width={windowWidth + 10} // Tùy chỉnh chiều rộng của biểu đồ
-        height={windowHeight / 2} // Tùy chỉnh chiều cao của biểu đồ
         // containerComponent={
         //   <VictoryZoomContainer
         //     responsive={false}
@@ -100,7 +100,7 @@ const ConsumtionChart = ({ data }) => {
         </VictoryGroup>
         <VictoryLabel text="Kwh" x={10} y={20} />
       </VictoryChart>
-    </View>
+    </Animated.View>
   );
 };
 

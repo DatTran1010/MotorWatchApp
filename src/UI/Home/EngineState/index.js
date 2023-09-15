@@ -113,7 +113,9 @@ const EngineState = ({ navigation, selectedID_DC, refeshing }) => {
               //     colors.gray,
               // ]}
 
-              // labelRadius={({ innerRadius }) => innerRadius + windowWidth / 6}
+              labelRadius={({ innerRadius }) =>
+                innerRadius * 2 - innerRadius / 2 + 10
+              }
               style={{
                 labels: {
                   fill: colors.black,

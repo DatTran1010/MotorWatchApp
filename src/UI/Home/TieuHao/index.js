@@ -10,6 +10,7 @@ import CalendarComponent from "../../../components/CalendarComponent";
 import theme from "../../../Common/theme";
 
 import * as consumtionServices from "../../../apiServices/consumtionServices";
+import { windowHeight, windowWidth } from "../../../Common/dimentions";
 
 const Consumption = ({ navigation, selectedID_DC, refeshing }) => {
   //#region  State
@@ -80,9 +81,17 @@ const Consumption = ({ navigation, selectedID_DC, refeshing }) => {
             onClickDone={handleDoneDateCalendar}
           />
         </View>
-        {data && data.some((item) => Object.keys(item).length > 0) && (
-          <ConsumtionChart data={data} />
-        )}
+        <View
+          style={{
+            flex: 1,
+            width: windowWidth + 10, // Tùy chỉnh chiều rộng của biểu đồ
+            height: windowHeight / 2, // Tùy chỉnh chiều cao của biểu đồ
+          }}
+        >
+          {data && data.some((item) => Object.keys(item).length > 0) && (
+            <ConsumtionChart data={data} />
+          )}
+        </View>
 
         {data && data.some((item) => Object.keys(item).length > 0) && (
           <View style={styles.legendContainer}>

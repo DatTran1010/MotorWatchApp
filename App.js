@@ -1,10 +1,9 @@
-import { Keyboard, View, Text } from "react-native";
-import React, { useEffect } from "react";
+import { View, Text } from "react-native";
+import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Provider } from "react-redux";
-import Toast from "react-native-toast-message";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import Login from "./src/UI/Login";
@@ -162,7 +161,7 @@ export default function App() {
                     close: { animation: "timing", config: { duration: 500 } }, // Cấu hình animation
                   },
                 }}
-                defaultScreenOptions={Home}
+                defaultScreenOptions={Login}
               >
                 <Stack.Screen
                   name="Login"
@@ -216,7 +215,6 @@ export default function App() {
             </NavigationContainer>
             {/* <ModalUser /> */}
             <Overlay />
-            <Toast />
             <QRCamera />
             <NotificationApp />
             <ToastNotification />

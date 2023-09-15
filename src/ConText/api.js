@@ -12,8 +12,6 @@ const callApi = async (
   const CancelToken = axios.CancelToken;
   const source = CancelToken.source();
   try {
-    // dispatch({ type: "SET_OVERLAY", payload: true });
-
     const baseURL = await asyncStorageItem.baseURL();
 
     const response = await axios.request({
@@ -43,7 +41,7 @@ const callApi = async (
     if (axios.isCancel(error)) {
       console.log("Request canceled", error.message);
     } else {
-      console.log("Lỗi", error.response.data.errors);
+      console.log("Lỗi", error.response);
     }
 
     source.cancel("Request canceled due to timeout");
@@ -54,28 +52,6 @@ const callApi = async (
       const errorMessage = errorFields[Object.keys(errorFields)[0]][0];
       throw errorMessage;
     }
-
-    // console.log("Log error", error.response.data.errors);
-
-    // try {
-    //   const errorFields = error.response.data.errors;
-    //   const errorMessage = errorFields[Object.keys(errorFields)[0]][0];
-    //   return errorMessage;
-    //   // dispatch({
-    //   //   type: "SET_SHOW_TOAST",
-    //   //   payload: {
-    //   //     showToast: true,
-    //   //     title: "Thông báo",
-    //   //     body: errorMessage,
-    //   //     type: "error",
-    //   //   },
-    //   // });
-    // } catch {}
-    // console.log(error.response.data.errors);
-
-    // dispatch({ type: "SET_OVERLAY", payload: false });
-    // throw new Error(error.message);
-    return [];
   }
 };
 

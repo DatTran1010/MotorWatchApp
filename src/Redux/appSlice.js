@@ -39,6 +39,13 @@ const initialState = {
   showListNotification: false,
   notiferApp: [],
   heightHeaderNav: 0,
+  dataSaveUser: [
+    {
+      check: false,
+      username: "",
+      password: "",
+    },
+  ],
 };
 
 const appSlice = createSlice({
@@ -90,6 +97,9 @@ const appSlice = createSlice({
     setHeightHeaderNavigation: (state, action) => {
       state.heightHeaderNav = action.payload;
     },
+    setDataSaveUser: (state, action) => {
+      state.dataSaveUser = action.payload;
+    },
   },
 });
 
@@ -109,6 +119,7 @@ export const {
   setShowListNotification,
   setNotiferApp,
   setHeightHeaderNavigation,
+  setDataSaveUser,
 } = appSlice.actions;
 
 export default appSlice.reducer;

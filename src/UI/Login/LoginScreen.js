@@ -4,15 +4,11 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
-  Keyboard,
   Image,
-  Alert,
-  Button,
 } from "react-native";
 import React, { useContext, useState, useEffect } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useDispatch } from "react-redux";
-import Toast from "react-native-toast-message";
+import { useDispatch, useSelector } from "react-redux";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import messaging from "@react-native-firebase/messaging";
 
@@ -25,7 +21,6 @@ import {
   windowHeight,
   heightTextInput,
 } from "../../Common/dimentions";
-import callApi from ".././../ConText/api.js";
 import { MainConText } from "../../ConText/MainContext";
 import {
   getToken,
@@ -45,15 +40,18 @@ import {
   setUserInfo,
 } from "../../Redux/appSlice";
 import * as authenServices from "../../apiServices/authenServices";
-import { fetchApiData } from "../../Redux/apiSlice";
 
 const LoginScreen = ({ navigation }) => {
+  const dataSaveUser = useSelector((state) => state.app.dataSaveUser);
+
   const { token, setToken } = useContext(MainConText);
-  const [checkSavePassword, setCheckSavePassword] = useState(0);
+  const [checkSavePassword, setCheckSavePassword] = useState(
+    dataSaveUser[0].check
+  );
 
   const [tokenDevies, setTokenDevies] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassWord] = useState("");
+  const [username, setUsername] = useState(dataSaveUser[0].username);
+  const [password, setPassWord] = useState(dataSaveUser[0].password);
 
   const handleCheckedSavePassword = () => {
     setCheckSavePassword(!checkSavePassword);
@@ -66,88 +64,7 @@ const LoginScreen = ({ navigation }) => {
     setTokenDevies(newTokenDevies);
   };
 
-  const handleLogin = async () => {
-    const baseURL = await asyncStorageItem.baseURL();
-    if (baseURL === "") {
-      dispatch(
-        setShowToast({
-          showToast: true,
-          title: "Chưa có URL",
-          body: "Chưa có mã URL. Vui lòng nhập mã URL để đăng nhập",
-          type: "warning",
-        })
-      );
-    } else {
-      console.log(username, password, "token ===== " + tokenDevies);
-
-      const response = await authenServices.login(
-        dispatch,
-        username,
-        password,
-        tokenDevies
-      );
-
-      console.log(response.responseData);
-      try {
-        if (response && response.statusCode == 200) {
-          setToken(response.responseData.token);
-
-          // save user info
-          const userInfo = {
-            EMAIL: response.responseData.email,
-            HO_TEN: response.responseData.hO_TEN,
-            MS_CN: response.responseData.mS_CONG_NHAN,
-            MS_TO: response.responseData.mS_TO,
-            NHOM_USER: response.responseData.nhoM_USER,
-            SO_DTDD: response.responseData.sO_DTDD,
-            TEN_DV: response.responseData.teN_DON_VI,
-            TEN_TO: response.responseData.teN_TO,
-            USER_NAME: response.responseData.userName,
-            TOKEN: response.responseData.token,
-            MS_DV: response.responseData.mS_DON_VI,
-          };
-          dispatch(setUserInfo(userInfo));
-
-          navigation.navigate("Home");
-          // Toast.show({
-          //   type: "success",
-          //   text1: "Thông báo",
-          //   text2: "Đăng nhập thành công",
-          // });
-
-          dispatch(
-            setShowToast({
-              showToast: true,
-              title: "Thông báo",
-              body: "Đăng nhập thành công",
-              type: "success",
-            })
-          );
-        } else {
-          dispatch(
-            setShowToast({
-              showToast: true,
-              title: "Thông báo",
-              body: response.data.message,
-              type: "error",
-            })
-          );
-        }
-      } catch {
-        dispatch(
-          setShowToast({
-            showToast: true,
-            title: "Thông báo",
-            body: "Đăng nhập không thành công",
-            type: "error",
-          })
-        );
-      }
-    }
-  };
-
-  // //#region  Notification
-
+  //#region  Notification
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
       // Alert.alert("A new FCM message arrived!", JSON.stringify(remoteMessage));
@@ -221,13 +138,98 @@ const LoginScreen = ({ navigation }) => {
     getTokenDevices();
   }, []);
 
-  // //#endregion
+  //#endregion
 
   //#region  xử lý sự kiện handle
 
   const handleShowCamera = () => {
     dispatch(setShowCamera(true));
   };
+
+  const handleLogin = async () => {
+    const baseURL = await asyncStorageItem.baseURL();
+    if (baseURL === "") {
+      dispatch(
+        setShowToast({
+          showToast: true,
+          title: "Chưa có URL",
+          body: "Chưa có mã URL. Vui lòng nhập mã URL để đăng nhập",
+          type: "warning",
+        })
+      );
+    } else {
+      console.log(username, password, "token ===== " + tokenDevies);
+
+      const response = await authenServices.login(
+        dispatch,
+        username,
+        password,
+        tokenDevies
+      );
+
+      console.log(response.responseData);
+      try {
+        if (response && response.statusCode == 200) {
+          setToken(response.responseData.token);
+
+          // save user info
+          const userInfo = {
+            EMAIL: response.responseData.email,
+            HO_TEN: response.responseData.hO_TEN,
+            MS_CN: response.responseData.mS_CONG_NHAN,
+            MS_TO: response.responseData.mS_TO,
+            NHOM_USER: response.responseData.nhoM_USER,
+            SO_DTDD: response.responseData.sO_DTDD,
+            TEN_DV: response.responseData.teN_DON_VI,
+            TEN_TO: response.responseData.teN_TO,
+            USER_NAME: response.responseData.userName,
+            TOKEN: response.responseData.token,
+            MS_DV: response.responseData.mS_DON_VI,
+          };
+          dispatch(setUserInfo(userInfo));
+
+          // NẾU ĐĂNG NHẬP THÀNH CÔNG VÀ CÓ CHECK LƯU MẬT KHẨU
+          if (checkSavePassword) {
+            const dataSavePassword = [
+              { check: true, username: username, password: password },
+            ];
+            const JData = JSON.stringify(dataSavePassword);
+            await asyncStorageItem.setItem("SAVE_USER", JData);
+          }
+
+          navigation.navigate("Home");
+
+          // dispatch(
+          //   setShowToast({
+          //     showToast: true,
+          //     title: "Thông báo",
+          //     body: "Đăng nhập thành công",
+          //     type: "success",
+          //   })
+          // );
+        } else {
+          dispatch(
+            setShowToast({
+              showToast: true,
+              title: "Thông báo",
+              body: response.data.message,
+              type: "error",
+            })
+          );
+        }
+      } catch {
+        dispatch(
+          setShowToast({
+            showToast: true,
+            title: "Thông báo",
+            body: "Đăng nhập không thành công",
+            type: "error",
+          })
+        );
+      }
+    }
+  };
+
   //#endregion
 
   return (
