@@ -1,5 +1,4 @@
 import axios, { CancelToken } from "axios";
-import Toast from "react-native-toast-message";
 import * as asyncStorageItem from "../Common/asyncStorageItem";
 
 const callApi = async (
