@@ -29,6 +29,7 @@ import HeaderApp from "../../Home/HeaderApp";
 import theme from "../../../Common/theme";
 import FormButton from "../../../components/button";
 import { setShowToast } from "../../../Redux/appSlice";
+import Animated, { FadeIn, FadeInDown } from "react-native-reanimated";
 
 const WorkPlan = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -221,53 +222,63 @@ const WorkPlan = ({ navigation }) => {
         headerLeftVisible={true}
         goBack={false}
       />
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" && "padding"}
-        keyboardVerticalOffset={86}
-      >
-        <View style={{ flex: 1 }}>
-          <View style={styles.filterControl}>
-            <View style={{ flex: 1 }}>
-              <DropDown
-                data={dataMay}
-                labelField="name"
-                valueField={"value"}
-                placeholder="Chọn máy"
-                handleValue={handleSelectedMay}
-                value={selectedMay}
-              />
-            </View>
-            <View style={{ flex: 1, marginLeft: 10 }}>
-              <CalendarComponent
-                startDate={dateFromTo.startDate}
-                endDate={dateFromTo.endDate}
-                onClickDone={handleDoneDateCalendar}
-                isRight={true}
-              />
-            </View>
-          </View>
 
-          <View style={{ flex: 5, zIndex: -1 }}>
-            {dataWorkPlan.length > 0 ? (
-              <Formik
-                key={keyResetFormik}
-                enableReinitialize={true}
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={(values) => handleSaveButton(values)}
-              >
-                {({ handleChange, handleSubmit, values, errors }) => (
+      <View style={{ flex: 1 }}>
+        <View style={styles.filterControl}>
+          <View style={{ flex: 1 }}>
+            <DropDown
+              data={dataMay}
+              labelField="name"
+              valueField={"value"}
+              placeholder="Chọn máy"
+              handleValue={handleSelectedMay}
+              value={selectedMay}
+            />
+          </View>
+          <View style={{ flex: 1, marginLeft: 10 }}>
+            <CalendarComponent
+              startDate={dateFromTo.startDate}
+              endDate={dateFromTo.endDate}
+              onClickDone={handleDoneDateCalendar}
+              isRight={true}
+            />
+          </View>
+        </View>
+
+        <View style={{ flex: 5, zIndex: -1 }}>
+          {dataWorkPlan.length > 0 ? (
+            <Formik
+              key={keyResetFormik}
+              enableReinitialize={true}
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={(values) => handleSaveButton(values)}
+            >
+              {({ handleChange, handleSubmit, values, errors }) => (
+                <KeyboardAvoidingView
+                  style={{ flex: 1 }}
+                  behavior={Platform.OS === "ios" && "padding"}
+                  keyboardVerticalOffset={80}
+                >
                   <View style={{ flex: 1 }}>
                     <ScrollView
                       style={{ flex: 4 }}
                       refreshControl={
-                        <RefreshControl onRefresh={handleRefeshing} />
+                        <RefreshControl
+                          refreshing={false}
+                          onRefresh={handleRefeshing}
+                        />
                       }
                     >
                       {dataWorkPlan.map((item, index) => {
                         return (
-                          <View key={index} style={styles.input}>
+                          <Animated.View
+                            entering={FadeInDown.delay(100 * index)
+                              .duration(1000)
+                              .springify()}
+                            key={index}
+                            style={styles.input}
+                          >
                             <CustomTextInput
                               placeholder={item.date}
                               keyboardType="numbers-and-punctuation"
@@ -284,10 +295,11 @@ const WorkPlan = ({ navigation }) => {
                                 {errors[item.date]}
                               </Text>
                             )}
-                          </View>
+                          </Animated.View>
                         );
                       })}
                     </ScrollView>
+
                     <View style={styles.button}>
                       <View
                         style={[
@@ -314,30 +326,30 @@ const WorkPlan = ({ navigation }) => {
                       </View>
                     </View>
                   </View>
-                )}
-              </Formik>
-            ) : (
-              <View
-                style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flex: 1,
-                }}
-              >
-                <Text style={theme.font}>Không có dữ liệu </Text>
-              </View>
-            )}
-          </View>
+                </KeyboardAvoidingView>
+              )}
+            </Formik>
+          ) : (
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                flex: 1,
+              }}
+            >
+              <Text style={theme.font}>Không có dữ liệu </Text>
+            </View>
+          )}
         </View>
-        {showModalSave && (
-          <ModalQuestion
-            onClose={handleCloseModal}
-            onConfirm={handleConfirmModal}
-            label="Bạn có chắc chắn muốn lưu dữ liệu ?"
-            content="Lưu dữ liệu"
-          />
-        )}
-      </KeyboardAvoidingView>
+      </View>
+      {showModalSave && (
+        <ModalQuestion
+          onClose={handleCloseModal}
+          onConfirm={handleConfirmModal}
+          label="Bạn có chắc chắn muốn lưu dữ liệu ?"
+          content="Lưu dữ liệu"
+        />
+      )}
     </View>
   );
 };

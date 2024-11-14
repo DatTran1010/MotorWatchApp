@@ -25,6 +25,7 @@ import HeaderApp from "../../Home/HeaderApp";
 import FormButton from "../../../components/button";
 import theme from "../../../Common/theme";
 import { setShowToast } from "../../../Redux/appSlice";
+import Animated, { FadeInDown } from "react-native-reanimated";
 
 const WorkingMode = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -215,12 +216,11 @@ const WorkingMode = ({ navigation }) => {
             onSubmit={(values) => handleSaveButton(values)}
           >
             {({ handleChange, handleSubmit, values, errors }) => (
-              <View style={{ flex: 5 }}>
-                <KeyboardAvoidingView
-                  style={{ flex: 1 }}
-                  behavior={Platform.OS === "ios" && "padding"}
-                  keyboardVerticalOffset={86}
-                >
+              <KeyboardAvoidingView
+                style={{ flex: 1 }}
+                behavior={Platform.OS === "ios" && "padding"}
+              >
+                <View style={{ flex: 5 }}>
                   <ScrollView
                     style={{ flex: 4 }}
                     refreshControl={
@@ -232,7 +232,12 @@ const WorkingMode = ({ navigation }) => {
                       />
                     }
                   >
-                    <View style={styles.input}>
+                    <Animated.View
+                      style={styles.input}
+                      entering={FadeInDown.delay(100)
+                        .duration(1000)
+                        .springify()}
+                    >
                       <CustomTextInput
                         placeholder={"Thứ 2"}
                         keyboardType="numbers-and-punctuation"
@@ -249,8 +254,13 @@ const WorkingMode = ({ navigation }) => {
                           {errors.valueT2}
                         </Text>
                       )}
-                    </View>
-                    <View style={styles.input}>
+                    </Animated.View>
+                    <Animated.View
+                      style={styles.input}
+                      entering={FadeInDown.delay(200)
+                        .duration(1000)
+                        .springify()}
+                    >
                       <CustomTextInput
                         placeholder={"Thứ 3"}
                         keyboardType="numbers-and-punctuation"
@@ -267,8 +277,13 @@ const WorkingMode = ({ navigation }) => {
                           {errors.valueT3}
                         </Text>
                       )}
-                    </View>
-                    <View style={styles.input}>
+                    </Animated.View>
+                    <Animated.View
+                      style={styles.input}
+                      entering={FadeInDown.delay(300)
+                        .duration(1000)
+                        .springify()}
+                    >
                       <CustomTextInput
                         placeholder={"Thứ 4"}
                         keyboardType="numbers-and-punctuation"
@@ -285,8 +300,13 @@ const WorkingMode = ({ navigation }) => {
                           {errors.valueT4}
                         </Text>
                       )}
-                    </View>
-                    <View style={styles.input}>
+                    </Animated.View>
+                    <Animated.View
+                      style={styles.input}
+                      entering={FadeInDown.delay(400)
+                        .duration(1000)
+                        .springify()}
+                    >
                       <CustomTextInput
                         placeholder={"Thứ 5"}
                         keyboardType="numbers-and-punctuation"
@@ -303,8 +323,13 @@ const WorkingMode = ({ navigation }) => {
                           {errors.valueT5}
                         </Text>
                       )}
-                    </View>
-                    <View style={styles.input}>
+                    </Animated.View>
+                    <Animated.View
+                      style={styles.input}
+                      entering={FadeInDown.delay(500)
+                        .duration(1000)
+                        .springify()}
+                    >
                       <CustomTextInput
                         placeholder={"Thứ 6"}
                         keyboardType="numbers-and-punctuation"
@@ -321,8 +346,13 @@ const WorkingMode = ({ navigation }) => {
                           {errors.valueT6}
                         </Text>
                       )}
-                    </View>
-                    <View style={styles.input}>
+                    </Animated.View>
+                    <Animated.View
+                      style={styles.input}
+                      entering={FadeInDown.delay(600)
+                        .duration(1000)
+                        .springify()}
+                    >
                       <CustomTextInput
                         placeholder={"Thứ 7"}
                         keyboardType="numbers-and-punctuation"
@@ -339,8 +369,13 @@ const WorkingMode = ({ navigation }) => {
                           {errors.valueT7}
                         </Text>
                       )}
-                    </View>
-                    <View style={styles.input}>
+                    </Animated.View>
+                    <Animated.View
+                      style={styles.input}
+                      entering={FadeInDown.delay(700)
+                        .duration(1000)
+                        .springify()}
+                    >
                       <CustomTextInput
                         placeholder={"Chủ nhật"}
                         keyboardType="numbers-and-punctuation"
@@ -357,8 +392,13 @@ const WorkingMode = ({ navigation }) => {
                           {errors.valueCN}
                         </Text>
                       )}
-                    </View>
-                    <View style={styles.input}>
+                    </Animated.View>
+                    <Animated.View
+                      style={styles.input}
+                      entering={FadeInDown.delay(800)
+                        .duration(1000)
+                        .springify()}
+                    >
                       <CustomTextInput
                         placeholder={"OEE mục tiêu (%)"}
                         keyboardType="numbers-and-punctuation"
@@ -375,32 +415,32 @@ const WorkingMode = ({ navigation }) => {
                           {errors.valueOEE}
                         </Text>
                       )}
-                    </View>
+                    </Animated.View>
                   </ScrollView>
-                </KeyboardAvoidingView>
-                <View style={styles.button}>
-                  <View
-                    style={[styles.buttonView, { justifyContent: "center" }]}
-                  >
-                    <FormButton
-                      buttonTitle={"LƯU"}
-                      activeOpacity={0.7}
-                      onPress={handleSubmit}
-                    />
-                  </View>
-                  <View style={styles.buttonView}>
-                    <FormButton
-                      buttonTitle={"KHÔNG LƯU"}
-                      colorButton={colors.colorHeader}
-                      activeOpacity={0.6}
-                      onPress={() => {
-                        Keyboard.dismiss();
-                        setRefeshing(!refeshing);
-                      }}
-                    />
+                  <View style={styles.button}>
+                    <View
+                      style={[styles.buttonView, { justifyContent: "center" }]}
+                    >
+                      <FormButton
+                        buttonTitle={"LƯU"}
+                        activeOpacity={0.7}
+                        onPress={handleSubmit}
+                      />
+                    </View>
+                    <View style={styles.buttonView}>
+                      <FormButton
+                        buttonTitle={"KHÔNG LƯU"}
+                        colorButton={colors.colorHeader}
+                        activeOpacity={0.6}
+                        onPress={() => {
+                          Keyboard.dismiss();
+                          setRefeshing(!refeshing);
+                        }}
+                      />
+                    </View>
                   </View>
                 </View>
-              </View>
+              </KeyboardAvoidingView>
             )}
           </Formik>
         ) : (

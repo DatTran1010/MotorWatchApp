@@ -27,6 +27,7 @@ import NotificationApp from "./src/components/NotificationApp";
 import RequestReport from "./src/UI/RequestReport/RequestReport";
 import ToastNotification from "./src/components/toast";
 import NotifiHistory from "./src/UI/NotificationHistory/notificationHistory";
+import TestUI from "./src/TestUI";
 // import CameraComponent from "./src/components/CameraComponent";
 
 export default function App() {
@@ -150,7 +151,7 @@ export default function App() {
               flex: 1,
             }}
             // onStartShouldSetResponder={() => {
-            //     Keyboard.dismiss();
+            //   console.log("hehe");
             // }}
           >
             <NavigationContainer>
@@ -163,7 +164,7 @@ export default function App() {
                 }}
                 defaultScreenOptions={Login}
               >
-                <Stack.Screen
+                {/* <Stack.Screen
                   name="Login"
                   component={Login}
                   options={{
@@ -210,7 +211,8 @@ export default function App() {
                       <Text style={theme.fontTitle}>CHI TIẾT OEE</Text>
                     ),
                   }}
-                />
+                /> */}
+                <Stack.Screen name="TestUI" component={TestUI} />
               </Stack.Navigator>
             </NavigationContainer>
             {/* <ModalUser /> */}

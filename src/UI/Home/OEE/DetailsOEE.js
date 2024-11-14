@@ -40,14 +40,14 @@ const DetailsOEE = ({ navigation }) => {
 
   const [dataTinhTrang, setDataTinhTrang] = useState([{}]);
 
-  const handleSort = () => {
-    const columnToSortBy = "DAT";
+  const handleSort = (item) => {
+    if (item != "% đạt") return;
 
     const newData = [...data].sort((a, b) => {
       if (isAscending) {
-        return a.DAT - b.DAT; // Sort ascending
+        return a.dat - b.dat; // Sort ascending
       } else {
-        return b.DAT - a.DAT; // Sort descending
+        return b.dat - a.dat; // Sort descending
       }
     });
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);

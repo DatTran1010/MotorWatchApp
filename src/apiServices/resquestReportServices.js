@@ -50,7 +50,6 @@ export const sendEmail = async (data, dispatch) => {
     const endpoint = "/api/motorwatch/bcdongco";
     const method = "POST";
     const params = null;
-    const data = null;
     const token = "";
 
     // Gọi API và xử lý kết quả

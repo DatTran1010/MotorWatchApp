@@ -24,7 +24,7 @@ const ConsumtionChart = ({ data }) => {
     >
       <VictoryChart
         theme={VictoryTheme.material}
-        domainPadding={5}
+        // padding={40}
         width={windowWidth + 10}
         height={windowHeight / 2}
         // containerComponent={
@@ -57,7 +57,7 @@ const ConsumtionChart = ({ data }) => {
           tickLabelComponent={<VictoryLabel textAnchor="end" />}
         ></VictoryAxis>
         <VictoryGroup
-          offset={20}
+          offset={windowWidth / 20}
           style={{
             data: { stroke: "rgba(0,0,0,0.5)", strokeWidth: 1 },
           }}
@@ -69,7 +69,7 @@ const ConsumtionChart = ({ data }) => {
             // animate={{ duration: 2000, easing: "bounce" }}
             style={{
               data: {
-                width: 20,
+                width: windowWidth / 20,
                 fill: data[0].colorTONG_TH,
               },
             }}
@@ -82,7 +82,7 @@ const ConsumtionChart = ({ data }) => {
             // animate={{ duration: 2000, easing: "bounce" }}
             style={{
               data: {
-                width: 20,
+                width: windowWidth / 20,
                 fill: data[0].colorTONG_CX,
               },
             }}

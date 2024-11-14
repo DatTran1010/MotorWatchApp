@@ -99,7 +99,7 @@ const RequestReport = ({ navigation }) => {
         dispatch(
           setNotiferWarning({
             showNotifer: true,
-            label: `Báo cáo ${selectedValueReport.name} đã được gửi đến cho Mr/Ms ${userInfo.HO_TEN} theo địa chỉ email: ${userInfo.EMAIL} `,
+            label: `${selectedValueReport.name} đã được gửi đến cho Mr/Ms ${userInfo.HO_TEN} theo địa chỉ email: ${userInfo.EMAIL} `,
             label2: "Vui lòng kiểm tra email để xem báo cáo. ",
           })
         );

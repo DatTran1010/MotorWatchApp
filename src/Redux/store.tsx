@@ -4,6 +4,7 @@ import reducer from "./reducers";
 import apiSlice from "./apiSlice";
 import appReducer from "./appSlice";
 
+
 const rootReducer = {
   app: appReducer,
   api: apiSlice,

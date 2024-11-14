@@ -9,15 +9,18 @@ import React from "react";
 import { windowHeight, windowWidth } from "../Common/dimentions";
 import colors from "../Common/colors";
 import theme from "../Common/theme";
+import Animated, { FadeInDown } from "react-native-reanimated";
 
 const GridRow = ({ data, index, columnRemove = "" }) => {
   //xóa cột nào đó trên lưới (trong data ví dụ cột id)
 
   const filteredColumns = Object.keys(data).filter((key) => !columnRemove[key]);
-  console.log("filteredColumns", filteredColumns);
   return (
     <TouchableNativeFeedback style={{ flex: 1 }}>
-      <View
+      <Animated.View
+        entering={FadeInDown.delay(100 * index)
+          .duration(1000)
+          .springify()}
         style={{
           flexDirection: "row",
           justifyContent: "center",
@@ -55,7 +58,7 @@ const GridRow = ({ data, index, columnRemove = "" }) => {
             </View>
           );
         })}
-      </View>
+      </Animated.View>
     </TouchableNativeFeedback>
   );
 };

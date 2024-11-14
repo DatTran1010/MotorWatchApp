@@ -5,6 +5,10 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Image,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  Keyboard,
 } from "react-native";
 import React, { useContext, useState, useEffect } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -31,7 +35,11 @@ import {
 import theme from "../../Common/theme";
 import IconButton from "../../components/IconButton";
 import FormButton from "../../components/button";
-import Animated, { FadeIn } from "react-native-reanimated";
+import Animated, {
+  FadeIn,
+  FadeInDown,
+  FadeInUp,
+} from "react-native-reanimated";
 import * as asyncStorageItem from "../../Common/asyncStorageItem";
 import {
   setNotiferApp,
@@ -44,6 +52,7 @@ import * as authenServices from "../../apiServices/authenServices";
 const LoginScreen = ({ navigation }) => {
   const dataSaveUser = useSelector((state) => state.app.dataSaveUser);
 
+  console.log("renrender - LOGIN SCREEN");
   const { token, setToken } = useContext(MainConText);
   const [checkSavePassword, setCheckSavePassword] = useState(
     dataSaveUser[0].check
@@ -222,7 +231,7 @@ const LoginScreen = ({ navigation }) => {
           setShowToast({
             showToast: true,
             title: "Thông báo",
-            body: "Đăng nhập không thành công",
+            body: "Tài khoản hoặc mật khẩu không chính xác",
             type: "error",
           })
         );
@@ -233,53 +242,58 @@ const LoginScreen = ({ navigation }) => {
   //#endregion
 
   return (
-    <KeyboardAwareScrollView
-      contentContainerStyle={{ flexGrow: 1 }}
-      extraScrollHeight={35}
+    <SafeAreaView
+      style={globalstyle.droidSafeArea}
+      onStartShouldSetResponder={() => {
+        Keyboard.dismiss();
+      }}
     >
-      <SafeAreaView
-        style={globalstyle.droidSafeArea}
-        onStartShouldSetResponder={() => {
-          //   Keyboard.dismiss();
-        }}
-      >
-        <Animated.View style={styles.container} entering={FadeIn}>
-          <View
+      <View style={styles.container}>
+        <View
+          style={{
+            alignItems: "flex-end",
+            flex: 1,
+          }}
+        >
+          {/* <Ionicons name="scan-outline" size={40} color="#4867aa" /> */}
+          <IconButton
+            nameicon={"scan-outline"}
+            size={30}
+            onPress={handleShowCamera}
+          />
+        </View>
+        <Animated.View
+          style={styles.textLoginView}
+          entering={FadeInUp.delay(200).duration(2000).springify()}
+        >
+          <Image
             style={{
-              alignItems: "flex-end",
-              flex: 1,
+              width: windowWidth / 1.3,
+              height: windowHeight / 8,
             }}
-          >
-            {/* <Ionicons name="scan-outline" size={40} color="#4867aa" /> */}
-            <IconButton
-              nameicon={"scan-outline"}
-              size={30}
-              onPress={handleShowCamera}
-            />
-          </View>
-          <View style={styles.textLoginView}>
-            <Image
-              style={{
-                width: windowWidth / 1.3,
-                height: windowHeight / 8,
-              }}
-              source={require("../../../assets/LogoApp.png")}
-            />
-          </View>
-          <View style={styles.containerLogin}>
-            <View style={styles.loginCenter}>
-              <View style={{ paddingHorizontal: 10, flex: 2 }}>
+            source={require("../../../assets/LogoMotorWatch.jpg")}
+          />
+        </Animated.View>
+        <View style={styles.containerLogin}>
+          <View style={styles.loginCenter}>
+            <View style={{ paddingHorizontal: 10, flex: 2 }}>
+              <TextInput
+                placeholder={"Tên đăng nhập"}
+                keyboardType="email-address"
+                value={username}
+                height={heightTextInput}
+                onChangeText={(value) => {
+                  setUsername(value);
+                }}
+              />
+              <Animated.View
+                entering={
+                  Platform.OS === "ios" &&
+                  FadeInDown.delay(200).duration(1000).springify()
+                }
+              >
                 <TextInput
-                  placeholder={"Email"}
-                  keyboardType="email-address"
-                  value={username}
-                  height={heightTextInput}
-                  onChangeText={(value) => {
-                    setUsername(value);
-                  }}
-                />
-                <TextInput
-                  placeholder={"Password"}
+                  placeholder={"Mật khẩu"}
                   secureTextEntry
                   height={heightTextInput}
                   onChangeText={(value) => {
@@ -287,34 +301,53 @@ const LoginScreen = ({ navigation }) => {
                   }}
                   value={password}
                 />
-                <View style={styles.forgotPassword}>
-                  <Checkbox
-                    label="Lưu mật khẩu"
-                    value={checkSavePassword}
-                    onPress={handleCheckedSavePassword}
-                  />
-                  <TouchableOpacity>
-                    <Text style={theme.font}>Quên mật khẩu ?</Text>
-                  </TouchableOpacity>
-                </View>
+              </Animated.View>
+              <Animated.View
+                style={styles.forgotPassword}
+                entering={
+                  Platform.OS === "ios" &&
+                  FadeInDown.delay(400).duration(1000).springify()
+                }
+              >
+                <Checkbox
+                  label="Lưu mật khẩu"
+                  value={checkSavePassword}
+                  onPress={handleCheckedSavePassword}
+                />
+                <TouchableOpacity>
+                  <Text style={theme.font}>Quên mật khẩu ?</Text>
+                </TouchableOpacity>
+              </Animated.View>
+              <Animated.View
+                entering={
+                  Platform.OS === "ios" &&
+                  FadeInDown.delay(600).duration(1000).springify()
+                }
+              >
                 <FormButton buttonTitle={"ĐĂNG NHẬP"} onPress={handleLogin} />
-              </View>
-              <View style={styles.moreLogin}>
-                <Text style={theme.font}>Or Login with social account</Text>
-                <View style={styles.social}>
-                  <TouchableOpacity style={styles.iconSoial}>
-                    <Ionicons name="logo-google" size={40} color="#de4d41" />
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.iconSoial}>
-                    <Ionicons name="logo-facebook" size={40} color="#4867aa" />
-                  </TouchableOpacity>
-                </View>
-              </View>
+              </Animated.View>
             </View>
+            {/* <Animated.View
+              style={styles.moreLogin}
+              entering={
+                Platform.OS === "ios" &&
+                FadeInDown.springify().delay(700).duration()
+              }
+            >
+              <Text style={theme.font}>Or Login with social account</Text>
+              <View style={styles.social}>
+                <TouchableOpacity style={styles.iconSoial}>
+                  <Ionicons name="logo-google" size={40} color="#de4d41" />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.iconSoial}>
+                  <Ionicons name="logo-facebook" size={40} color="#4867aa" />
+                </TouchableOpacity>
+              </View>
+            </Animated.View> */}
           </View>
-        </Animated.View>
-      </SafeAreaView>
-    </KeyboardAwareScrollView>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -370,7 +403,6 @@ const styles = StyleSheet.create({
     fontFamily: theme.fontFamily,
   },
   moreLogin: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
   },

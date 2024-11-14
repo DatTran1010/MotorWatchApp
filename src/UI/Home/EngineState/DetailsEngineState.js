@@ -139,6 +139,7 @@ const DetailsEngineState = ({ navigation, route }) => {
             dataHeader={dataHeader}
             columnRemove={{ id: true, color: true }}
             onRefreshShing={handleRefeshing}
+            onSortTable={() => {}}
           />
         </View>
 

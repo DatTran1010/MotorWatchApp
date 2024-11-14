@@ -52,7 +52,7 @@ const GridViewComponent = ({
                     alignItems: "center",
                   },
                 ]}
-                onPress={() => onSortTable()}
+                onPress={() => onSortTable(item.COLNAME)}
               >
                 <Text style={styles.columnHeaderTxt}>{item.COLNAME}</Text>
               </TouchableOpacity>

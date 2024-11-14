@@ -1,6 +1,56 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+
+interface InitialState {
+  baseURL : string,
+  showSplash:boolean,
+  overlay: boolean,
+  toastContainer : {
+    showToast : boolean,
+    type: string,
+    title : string,
+    body : string
+  }
+  showTree : boolean,
+  dataTreeNM: [],
+  selectedIDTree: number | string,
+  showCamera: boolean,
+  showResultCamera: boolean,
+  resultScanned: string,
+  userInfo: [
+    {
+      EMAIL: string,
+      HO_TEN: string,
+      MS_CN: string,
+      MS_TO: string,
+      NHOM_USER: string,
+      SO_DTDD: string,
+      TEN_DV: string,
+      TEN_TO: string,
+      USER_NAME: string,
+      TOKEN: string,
+      MS_DV: string,
+    },
+  ],
+  notiferWarning: {
+    showNotifer: boolean,
+    label: string,
+    label2: string,
+  },
+  showListNotification: boolean,
+  notiferApp: [],
+  heightHeaderNav: number,
+  dataSaveUser: [
+    {
+      check: boolean,
+      username: string,
+      password: string,
+    },
+  ],
+}
+
+
+const initialState : InitialState = {
   baseURL: "",
   showSplash: true,
   overlay: false,
@@ -11,7 +61,7 @@ const initialState = {
     body: "",
   },
   showTree: false,
-  dataTreeNM: [{}],
+  dataTreeNM: [],
   selectedIDTree: "-1",
   showCamera: false,
   showResultCamera: false,

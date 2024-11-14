@@ -45,6 +45,7 @@ const CustomTextInput = ({
         )}
 
         <TextInput
+          autoCapitalize="none"
           placeholder={placeholder}
           style={styles.text}
           placeholderTextColor="gray"

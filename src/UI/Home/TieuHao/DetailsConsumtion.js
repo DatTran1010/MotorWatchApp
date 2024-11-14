@@ -180,6 +180,7 @@ const DetailsConsumtion = ({ navigation }) => {
             data={data}
             dataHeader={dataHeader}
             onRefreshShing={handleRefeshing}
+            onSortTable={() => {}}
             // columnRemove={{ id: true }}
           />
         </View>

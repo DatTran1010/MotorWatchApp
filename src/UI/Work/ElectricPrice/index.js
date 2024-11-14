@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Toast from "react-native-toast-message";
 import { useFocusEffect } from "@react-navigation/native";
 
 import colors from "../../../Common/colors";

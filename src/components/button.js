@@ -19,7 +19,7 @@ const FormButton = ({
         start={{ x: 0, y: 0 }}
         end={{ x: 2, y: 0 }}
         colors={colorButton}
-        style={[styles.buttonContainer, theme.shadow]}
+        style={[styles.buttonContainer]}
       >
         <Text style={styles.buttonText}>{buttonTitle}</Text>
       </LinearGradient>
